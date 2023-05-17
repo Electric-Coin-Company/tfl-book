@@ -24,9 +24,9 @@ digraph ValidLocalView {
     subgraph cluster_winning_branch {
         label = "T=1"
 
-        h1 [ label = "h" ]
-        g1 [ label = "g" ]
-        f1 [ label = "f" ]
+        h1 [ label = "h'" ]
+        g1 [ label = "g'" ]
+        f1 [ label = "f'" ]
 
         h1 -> g1
         g1 -> f1

@@ -22,7 +22,7 @@ At a later time, `T=1`, this same node may see a longer PoW chain which invalida
 {{#include diagrams/pow-rollback.dot}}
 ```
 
-The original block `f` at `T=0` has been replaced by a new block at `T=1` which no longer contains the payment to our barista.
+The original block `f` at `T=0` has been replaced by a new block `f'` at `T=1` which no longer contains the payment to our barista.
 
 
 [^1]: Throughout this book, when we say `finality` or `final` without other qualifiers, we specifically are referring to `guaranteed finality` or a `guaranteed final` block. Where we call out `probabalistic finality` we always use that qualifier.
