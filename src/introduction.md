@@ -24,7 +24,7 @@ At a later time, `T=1`, this same node may see a longer PoW chain which invalida
 
 The original block `f` at `T=0` has been replaced by a new block `f'` at `T=1` which no longer contains the deposit to the bridging system. Meanwhile, however, the associated proxy tokens may have already been used in a complex chain of Defi applications or deposited onto an exchange and sold.
 
-This example demonstrates how a lack of `guaranteed finality` can impede many useful real-world scenarios. In practice, systems and services which need greater assurances wait for more block confirmations. This has two drawbacks: first, this introduces a delay which inhibits many useful applications, but second and perhaps worse, it _doesn't remove the vulnerability_, it only reduces the liklihood.
+This example demonstrates how a lack of `guaranteed finality` can impede many useful real-world scenarios. In practice, systems and services which need greater assurances wait for more block confirmations. This has two drawbacks: first, this introduces a delay which inhibits many useful applications, but second and perhaps worse, it _doesn't remove the vulnerability_, it only reduces the likelihood.
 
 ## Visualizing Trailing Finality
 
