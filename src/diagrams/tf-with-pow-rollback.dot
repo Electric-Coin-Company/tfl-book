@@ -6,21 +6,32 @@ digraph BlockHistory {
         label = "Unfinalized PoW Blocks"
         node [ shape=square ]
 
-        # unforked PoW suffix:
-        e -> d
 
-        subgraph rollback_branch {
+        subgraph cluster_rollback_branch {
+            label = "T=0"
             node [ style = "dotted" ]
-            g1 -> f1
-            f1 -> e
+
+            g0 [ label = "g"]
+            f0 [ label = "f"]
+
+            g0 -> f0
         }
 
-        subgraph winning_branch {
-            h2 -> g2
-            g2 -> f2
-            f2 -> e
+        subgraph cluster_winning_branch {
+            label = "T=1"
+            h1 [ label = "h'"]
+            g1 [ label = "g'"]
+            f1 [ label = "f'"]
+
+            h1 -> g1
+            g1 -> f1
         }
+
+        f0 -> e
+        f1 -> e
+        e -> d # unforked PoW suffix
     }
+
 
     subgraph cluster_final {
         label = "Finalized Blocks"
