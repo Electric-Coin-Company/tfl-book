@@ -1,4 +1,4 @@
-digraph ValidLocalView {
+digraph BlockHistory {
     rankdir = RL
     color = "lightgrey"
 

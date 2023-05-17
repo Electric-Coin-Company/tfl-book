@@ -1,4 +1,4 @@
-digraph PowSingleBranch {
+digraph BlockHistory {
     rankdir = RL
 
     node [ shape=square ]
