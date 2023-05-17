@@ -4,3 +4,8 @@ language = "en"
 multilingual = false
 src = "src"
 title = "Zcash Trailing Finality Layer"
+
+[preprocessor.graphviz]
+command = "mdbook-graphviz"
+after = ["links"]
+output-to-file = true

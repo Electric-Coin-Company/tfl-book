@@ -1,0 +1,21 @@
+digraph ValidLocalView {
+    node [ shape=box ];
+    rankdir = RL;
+    
+    # Simple finalized prefix:
+    c -> b
+    b -> a
+
+    # unforked PoW suffix:
+    d -> c
+    e -> d
+
+    # forked PoW suffix 1:
+    h1 -> g1
+    g1 -> f1
+    f1 -> e
+
+    # forked PoW suffix 2:
+    g2 -> f2
+    f2 -> e
+}
