@@ -1,21 +1,33 @@
 digraph ValidLocalView {
-    node [ shape=box ];
-    rankdir = RL;
-    
-    # Simple finalized prefix:
-    c -> b
-    b -> a
+    rankdir = RL
+    color = "lightgrey"
 
-    # unforked PoW suffix:
-    d -> c
-    e -> d
+    subgraph cluster_pow {
+        label = "Unfinalized PoW Blocks"
+        node [ shape=square ]
 
-    # forked PoW suffix 1:
-    h1 -> g1
-    g1 -> f1
-    f1 -> e
+        # unforked PoW suffix:
+        e -> d
 
-    # forked PoW suffix 2:
-    g2 -> f2
-    f2 -> e
+        subgraph rollback_branch {
+            node [ style = "dotted" ]
+            g1 -> f1
+            f1 -> e
+        }
+
+        subgraph winning_branch {
+            h2 -> g2
+            g2 -> f2
+            f2 -> e
+        }
+    }
+
+    subgraph cluster_final {
+        label = "Finalized Blocks"
+        node [ shape=Msquare ]
+
+        d -> c
+        c -> b
+        b -> a
+    }
 }
