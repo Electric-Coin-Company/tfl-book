@@ -1,0 +1,38 @@
+digraph ValidLocalView {
+    rankdir = RL
+    color = "lightgrey"
+
+    node [ shape=square ]
+
+    subgraph common_prefix {
+        e -> d
+        d -> c
+        c -> b
+        b -> a
+    }
+
+    subgraph cluster_rollback_branch {
+        label = "T=0"
+        node [ style = "dotted" ]
+
+        g0 [ label = "g" ]
+        f0 [ label = "f" ]
+
+        g0 -> f0
+    }
+
+    subgraph cluster_winning_branch {
+        label = "T=1"
+
+        h1 [ label = "h" ]
+        g1 [ label = "g" ]
+        f1 [ label = "f" ]
+
+        h1 -> g1
+        g1 -> f1
+    }
+
+    f0 -> e
+    f1 -> e
+}
+

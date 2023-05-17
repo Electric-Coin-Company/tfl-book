@@ -1,0 +1,13 @@
+digraph PowSingleBranch {
+    rankdir = RL
+
+    node [ shape=square ]
+
+    g -> f
+    f -> e
+    e -> d
+    d -> c
+    c -> b
+    b -> a
+}
+
