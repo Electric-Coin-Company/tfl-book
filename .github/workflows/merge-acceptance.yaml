@@ -1,5 +1,7 @@
 name: 'Check Rendering'
-on: [push, pull_request]
+on:
+  pull_request:
+    types: [opened, synchronize]
 jobs:
   check-render:
     runs-on: 'ubuntu-latest'
