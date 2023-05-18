@@ -4,17 +4,20 @@ jobs:
   check-render:
     runs-on: 'ubuntu-latest'
     steps:
-    - name: Setup mdBook
-      uses: peaceiris/actions-mdbook@v1
-      with:
-        mdbook-version: 'latest'
-    - name: cache mdbook-graphviz
-      id: cache-mdbook-graphviz
+    - name: cache rendering tools
+      id: cache-mdbook-graphviz-components
       uses: actions/cache@v3
       with:
-        path: ~/.cargo/bin/mdbook-graphviz
-        key: ${{ runner.os }}-mdbook-graphviz
-    - if: ${{ steps.cache-mdbook-graphviz.outputs.cache-hit != 'true' }}
+        path: |
+          /usr/bin/dot
+          ~/.cargo/bin/mdbook
+          ~/.cargo/bin/mdbook-graphviz
+        key: ${{ runner.os }}-${{ runner.arch }}-mdbook-graphviz-components
+    - if: ${{ steps.cache-mdbook-graphviz-components.outputs.cache-hit != 'true' }}
+      run: apt-get install graphviz
+    - if: ${{ steps.cache-mdbook-graphviz-components.outputs.cache-hit != 'true' }}
+      run: cargo install mdbook
+    - if: ${{ steps.cache-mdbook-graphviz-components.outputs.cache-hit != 'true' }}
       run: cargo install mdbook-graphviz
     - uses: actions/checkout@v3
     - run: mdbook build
