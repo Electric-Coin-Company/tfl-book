@@ -14,7 +14,7 @@ jobs:
           ~/.cargo/bin/mdbook-graphviz
         key: ${{ runner.os }}-${{ runner.arch }}-mdbook-graphviz-components
     - if: ${{ steps.cache-mdbook-graphviz-components.outputs.cache-hit != 'true' }}
-      run: apt-get install graphviz
+      run: sudo apt-get install graphviz
     - if: ${{ steps.cache-mdbook-graphviz-components.outputs.cache-hit != 'true' }}
       run: cargo install mdbook
     - if: ${{ steps.cache-mdbook-graphviz-components.outputs.cache-hit != 'true' }}
