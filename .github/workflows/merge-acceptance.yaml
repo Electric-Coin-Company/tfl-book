@@ -8,7 +8,14 @@ jobs:
       uses: peaceiris/actions-mdbook@v1
       with:
         mdbook-version: 'latest'
-    - run: cargo install mdbook-graphviz
+    - name: cache mdbook-graphviz
+      id: cache-mdbook-graphviz
+      uses: actions/cache@v3
+      with:
+        path: ~/.cargo/bin/mdbook-graphviz
+        key: ${{ runner.os }}-mdbook-graphviz
+    - if: ${{ steps.cache-mdbook-graphviz.outputs.cache-hit != 'true' }}
+      run: cargo install mdbook-graphviz
     - uses: actions/checkout@v3
     - run: mdbook build
 
