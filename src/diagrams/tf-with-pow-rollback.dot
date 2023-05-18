@@ -29,7 +29,6 @@ digraph BlockHistory {
 
         f0 -> e
         f1 -> e
-        e -> d # unforked PoW suffix
     }
 
 
@@ -37,6 +36,7 @@ digraph BlockHistory {
         label = "Finalized Blocks"
         node [ shape=Msquare ]
 
+        e -> d
         d -> c
         c -> b
         b -> a

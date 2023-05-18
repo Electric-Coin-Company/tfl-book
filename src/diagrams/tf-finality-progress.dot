@@ -1,4 +1,3 @@
-
 digraph BlockHistory {
     rankdir = RL
     color = "lightgrey"
@@ -7,8 +6,6 @@ digraph BlockHistory {
         label = "Unfinalized PoW Blocks"
         node [ shape=square ]
 
-        # unforked PoW suffix:
-        e -> d
         g -> f
         f -> e
     }
@@ -17,8 +14,10 @@ digraph BlockHistory {
         label = "Finalized Blocks"
         node [ shape=Msquare ]
 
+        e -> d
         d -> c
         c -> b
         b -> a
     }
 }
+
