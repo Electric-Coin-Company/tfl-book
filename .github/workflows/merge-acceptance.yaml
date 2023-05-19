@@ -6,21 +6,16 @@ jobs:
   check-render:
     runs-on: 'ubuntu-latest'
     steps:
-    - name: cache rendering tools
-      id: cache-mdbook-graphviz-components
-      uses: actions/cache@v3
+    - uses: awalsh128/cache-apt-pkgs-action@latest
       with:
-        path: |
-          /usr/bin/dot
-          ~/.cargo/bin/mdbook
-          ~/.cargo/bin/mdbook-graphviz
-        key: ${{ runner.os }}-${{ runner.arch }}-mdbook-graphviz-components
-    - if: ${{ steps.cache-mdbook-graphviz-components.outputs.cache-hit != 'true' }}
-      run: sudo apt-get install graphviz
-    - if: ${{ steps.cache-mdbook-graphviz-components.outputs.cache-hit != 'true' }}
-      run: cargo install mdbook
-    - if: ${{ steps.cache-mdbook-graphviz-components.outputs.cache-hit != 'true' }}
-      run: cargo install mdbook-graphviz
+        packages: graphviz
+        version: 1.0
+    - uses: taiki-e/cache-cargo-install-action@latest
+      with:
+        tool: mdbook
+    - uses: taiki-e/cache-cargo-install-action@latest
+      with:
+        tool: mdbook-graphviz
     - uses: actions/checkout@v3
     - run: mdbook build
 
