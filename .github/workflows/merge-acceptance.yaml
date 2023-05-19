@@ -6,14 +6,14 @@ jobs:
   check-render:
     runs-on: 'ubuntu-latest'
     steps:
-    - uses: awalsh128/cache-apt-pkgs-action@latest
+    - uses: awalsh128/cache-apt-pkgs-action@v1
       with:
         packages: graphviz
         version: 1.0
-    - uses: taiki-e/cache-cargo-install-action@latest
+    - uses: taiki-e/cache-cargo-install-action@v1
       with:
         tool: mdbook
-    - uses: taiki-e/cache-cargo-install-action@latest
+    - uses: taiki-e/cache-cargo-install-action@v1
       with:
         tool: mdbook-graphviz
     - uses: actions/checkout@v3
