@@ -8,10 +8,8 @@ jobs:
     steps:
     - name: Rust Toolchain Version Diagnostics
       run: cargo --version --verbose && rustup --version
-    - uses: awalsh128/cache-apt-pkgs-action@v1
-      with:
-        packages: graphviz
-        version: 1.0
+    - name: Setup Graphviz
+      uses: ts-graphviz/setup-graphviz@v1
     - uses: taiki-e/cache-cargo-install-action@v1
       with:
         tool: mdbook@0.4.29
