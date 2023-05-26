@@ -6,6 +6,7 @@ jobs:
   check-render:
     runs-on: 'ubuntu-latest'
     steps:
+    - run: cargo --version --verbose
     - uses: awalsh128/cache-apt-pkgs-action@v1
       with:
         packages: graphviz
