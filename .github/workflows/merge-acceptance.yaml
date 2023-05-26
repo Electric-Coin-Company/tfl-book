@@ -6,8 +6,6 @@ jobs:
   check-render:
     runs-on: 'ubuntu-latest'
     steps:
-    - name: Select rust stable
-      run: rustup default stable
     - name: Rust Toolchain Version Diagnostics
       run: cargo --version --verbose && rustup --version
     - uses: awalsh128/cache-apt-pkgs-action@v1
@@ -16,7 +14,7 @@ jobs:
         version: 1.0
     - uses: taiki-e/cache-cargo-install-action@v1
       with:
-        tool: mdbook@0.4.19
+        tool: mdbook@0.4.29
     - uses: taiki-e/cache-cargo-install-action@v1
       with:
         tool: mdbook-graphviz@0.1.6
