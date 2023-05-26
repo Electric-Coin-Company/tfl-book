@@ -6,7 +6,10 @@ jobs:
   check-render:
     runs-on: 'ubuntu-latest'
     steps:
-    - run: cargo --version --verbose
+    - name: Rust Toolchain Version Diagnostics
+      run: cargo --version --verbose && rustup --version
+    - name: Select rust stable
+      run: rustup default stable
     - uses: awalsh128/cache-apt-pkgs-action@v1
       with:
         packages: graphviz
