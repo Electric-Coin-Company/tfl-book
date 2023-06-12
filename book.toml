@@ -5,6 +5,10 @@ multilingual = false
 src = "src"
 title = "Zcash Trailing Finality Layer"
 
+[build]
+# Follow gh pages convention; see https://nathan-at-least.github.io/auto-deploy-howto.html
+build-dir = "./docs"
+
 [preprocessor.graphviz]
 command = "mdbook-graphviz"
 after = ["links"]
