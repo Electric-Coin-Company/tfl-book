@@ -55,8 +55,10 @@ jobs:
         git merge --ff-only "$TMP"
         git branch -d "$TMP"
     - run: mdbook build
+    - name: Rendered manifest
+      run: find ./docs -type f -exec ls -ld '{}' \;
     - name: Unignore docs
-      run: sed -i 's|^docs/$||' .gitignore
+      run: sed -i 's|^docs/$||' .gitignore ; cat .gitignore
     - name: Disable jekyll
       run: touch .nojekyll
     - name: Commit and Push render to gh-pages
