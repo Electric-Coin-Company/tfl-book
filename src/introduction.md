@@ -2,11 +2,23 @@
 
 This book introduces and specifies a *Trailing Finality Layer* for the Zcash network.
 
-This design augments the existing Zcash Proof-of-Work (PoW) network with a new consensus layer which provides *trailing finality*. This layer enables blocks produced via PoW to become *final* which ensures they may never be rolled back. This enables safer and simpler wallets and other infrastructure, and aids trust-minimized cross-chain bridges. This consensus layer uses Proof-of-Stake consensus, and enables ZEC holders to earn protocol rewards for contributing to the security of the Zcash network.
+This design augments the existing Zcash Proof-of-Work (PoW) network with a new consensus layer which provides *trailing finality*. This layer enables blocks produced via PoW to become *final* which ensures they may never be rolled back. This enables safer and simpler wallets and other infrastructure, and aids trust-minimized cross-chain bridges. This consensus layer uses Proof-of-Stake consensus, and enables ZEC holders to earn protocol rewards for contributing to the security of the Zcash network. By integrating a PoS layer with the current PoW Zcash protocol, this design specifies a *hybrid consensus protocol*.
 
 ## Status
 
 This is an early and very incomplete protocol design proposal. It has not been well vetted for feasibility and safety. It has not had broad review from the Zcash community, so it's status on any Zcash roadmap is undetermined.
+
+### Major Missing Elements
+
+This design is at a very early stage and lacks substantial clarity around essential details. These details must be clarified before this proposal would be ready for the [Zcash Improvement Proposals](https://zips.z.cash) process. They include:
+
+- PoS protocol selection,
+- Issuance and supply mechanics, such as how much ZEC stakers may earn,
+- A transition plan from current Zcash mainnet to this protocol design,
+- The specifics of how PoW and PoS safely integrate,
+- Security and safety analysis,
+- Economic analysis,
+- and more.
 
 ## Next Steps
 
