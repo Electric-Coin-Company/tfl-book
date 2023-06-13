@@ -6,7 +6,7 @@ This design augments the existing Zcash Proof-of-Work (PoW) network with a new c
 
 ## Status
 
-This is an early and very incomplete protocol design proposal. It has not been well vetted for feasibility and safety. It has not had broad review from the Zcash community, so it's status on any Zcash roadmap is undetermined.
+This is an early and very incomplete protocol design proposal. It has not been well vetted for feasibility and safety. It has not had broad review from the Zcash community, so its status on any Zcash roadmap is undetermined.
 
 ### Major Missing Elements
 
@@ -32,4 +32,4 @@ This design proposal is being developed by [ElecticCoin Co](https://electriccoin
 6. Follow the general Zcash process for proposal/review/refinement.
 7. Follow the general Zcash governance process for proposal acceptance.
 8. If accepted, productionize the proposal in ECC products and collaborate with other implementors who implement the proposal.
-9. Celebrate when the proposal is activated on Mainnet.
+9. Celebrate when the proposal is activated on Mainnet. 🎉
