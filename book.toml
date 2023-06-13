@@ -9,6 +9,9 @@ title = "Zcash Trailing Finality Layer"
 # Follow gh pages convention; see https://nathan-at-least.github.io/auto-deploy-howto.html
 build-dir = "./docs"
 
+[output.html]
+default-theme = "light"
+
 [preprocessor.graphviz]
 command = "mdbook-graphviz"
 after = ["links"]
