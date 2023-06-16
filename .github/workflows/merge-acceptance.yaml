@@ -1,7 +1,5 @@
 name: 'Check Rendering'
-on:
-  pull_request:
-    types: [opened, synchronize]
+on: pull_request
 jobs:
   check-render:
     runs-on: 'ubuntu-latest'
@@ -18,5 +16,5 @@ jobs:
         tool: mdbook-graphviz@0.1.6
     - uses: actions/checkout@v3
     - run: mdbook build
-
-
+    - name: Check for Orphaned Files
+      run: ./util/find-orphaned-files.sh
