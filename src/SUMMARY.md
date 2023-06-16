@@ -11,7 +11,7 @@
   - [Design at a Glance](./overview/design-at-a-glance.md)
   - [Subprotocol Interface](./overview/subprotocol-interface.md)
   - [Model Code Architecture](./overview/model-code-architecture.md)
-  - [Network Architecture](./overview/network-architecture.md)
+  - [Network Architecture (TBD)](./overview/network-architecture.md)
 - [Protocol Specification (TBD)](./protocol-specification.md)
   - [Abstract Protocol (TBD)](./protocol-specification/abstract-protocol.md)
     - [Token Dynamics (TBD)](./protocol-specification/abstract-protocol/token-dynamics.md)

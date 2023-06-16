@@ -12,7 +12,7 @@ DATADIR="$(mktemp --directory)"
 TBD_PATHS="${DATADIR}/tbds"
 INCOMPLETE_PATHS="${DATADIR}/incompletes"
 
-grep '(TBD)' ./SUMMARY.md | sed 's|^.*(\./||; s|)$||' > "$TBD_PATHS"
-grep -Hr 'Incomplete Placeholder' | sed 's|:.*$||' > "$INCOMPLETE_PATHS"
+grep '(TBD)' ./SUMMARY.md | sed 's|^.*(\./||; s|)$||' | sort > "$TBD_PATHS"
+grep -Hr 'Incomplete Placeholder' | sed 's|:.*$||' | sort > "$INCOMPLETE_PATHS"
 
 exec diff -u "$TBD_PATHS" "$INCOMPLETE_PATHS"
