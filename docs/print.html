@@ -1,0 +1,384 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Zcash Trailing Finality Layer</title>
+        <meta name="robots" content="noindex" />
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="introduction/tfl-in-zcashs-evolution.html"><strong aria-hidden="true">1.1.</strong> TFL in Zcash's Evolution (TBD)</a></li><li class="chapter-item expanded "><a href="introduction/motivating-finality.html"><strong aria-hidden="true">1.2.</strong> Motivating Finality</a></li><li class="chapter-item expanded "><a href="introduction/visualizing-trailing-finality.html"><strong aria-hidden="true">1.3.</strong> Visualizing Trailing Finality</a></li></ol></li><li class="chapter-item expanded "><a href="overview.html"><strong aria-hidden="true">2.</strong> Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overview/design-at-a-glance.html"><strong aria-hidden="true">2.1.</strong> Design at a Glance</a></li><li class="chapter-item expanded "><a href="overview/subprotocol-interface.html"><strong aria-hidden="true">2.2.</strong> Subprotocol Interface</a></li><li class="chapter-item expanded "><a href="overview/model-code-architecture.html"><strong aria-hidden="true">2.3.</strong> Model Code Architecture</a></li><li class="chapter-item expanded "><a href="overview/network-architecture.html"><strong aria-hidden="true">2.4.</strong> Network Architecture</a></li></ol></li><li class="chapter-item expanded "><a href="protocol-specification.html"><strong aria-hidden="true">3.</strong> Protocol Specification (TBD)</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="protocol-specification/abstract-protocol.html"><strong aria-hidden="true">3.1.</strong> Abstract Protocol (TBD)</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="protocol-specification/abstract-protocol/token-dynamics.html"><strong aria-hidden="true">3.1.1.</strong> Token Dynamics (TBD)</a></li></ol></li><li class="chapter-item expanded "><a href="protocol-specification/concrete-protocol.html"><strong aria-hidden="true">3.2.</strong> Concrete Protocol (TBD)</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="protocol-specification/concrete-protocol/token-dynamics.html"><strong aria-hidden="true">3.2.1.</strong> Token Dynamics (TBD)</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="security.html"><strong aria-hidden="true">4.</strong> Security (TBD)</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="security/abstract-analysis.html"><strong aria-hidden="true">4.1.</strong> Abstract Analysis (TBD)</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="security/abstract-analysis/ebb-and-flow-analysis.html"><strong aria-hidden="true">4.1.1.</strong> Ebb-and-Flow analysis (TBD)</a></li><li class="chapter-item expanded "><a href="security/abstract-analysis/subprotocol-compromise-analysis.html"><strong aria-hidden="true">4.1.2.</strong> Subprotocol Compromise Analysis (TBD)</a></li><li class="chapter-item expanded "><a href="security/abstract-analysis/model-code-architecture-analysis.html"><strong aria-hidden="true">4.1.3.</strong> Model Code Architecture Analysis (TBD)</a></li><li class="chapter-item expanded "><a href="security/abstract-analysis/network-architecture-analysis.html"><strong aria-hidden="true">4.1.4.</strong> Network Architecture Analysis (TBD)</a></li></ol></li><li class="chapter-item expanded "><a href="security/concrete-analysis.html"><strong aria-hidden="true">4.2.</strong> Concrete Analysis (TBD)</a></li></ol></li><li class="chapter-item expanded "><a href="references.html"><strong aria-hidden="true">5.</strong> References</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Zcash Trailing Finality Layer</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="a-trailing-finality-layer-for-zcash"><a class="header" href="#a-trailing-finality-layer-for-zcash">A Trailing Finality Layer for Zcash</a></h1>
+<p>This book introduces and specifies a <em>Trailing Finality Layer</em> for the Zcash network.</p>
+<p>This design augments the existing Zcash Proof-of-Work (PoW) network with a new consensus layer which provides <em>trailing finality</em>. This layer enables blocks produced via PoW to become <em>final</em> which ensures they may never be rolled back. This enables safer and simpler wallets and other infrastructure, and aids trust-minimized cross-chain bridges. This consensus layer uses Proof-of-Stake consensus, and enables ZEC holders to earn protocol rewards for contributing to the security of the Zcash network. By integrating a PoS layer with the current PoW Zcash protocol, this design specifies a <em>hybrid consensus protocol</em>.</p>
+<h2 id="status"><a class="header" href="#status">Status</a></h2>
+<p>This is an early and very incomplete protocol design proposal. It has not been well vetted for feasibility and safety. It has not had broad review from the Zcash community, so its status on any Zcash roadmap is undetermined.</p>
+<h3 id="major-missing-elements"><a class="header" href="#major-missing-elements">Major Missing Elements</a></h3>
+<p>This design is at a very early stage and lacks substantial clarity around essential details. These details must be clarified before this proposal would be ready for the <a href="https://zips.z.cash">Zcash Improvement Proposals</a> process. They include:</p>
+<ul>
+<li>PoS protocol selection,</li>
+<li>Issuance and supply mechanics, such as how much ZEC stakers may earn,</li>
+<li>A transition plan from current Zcash mainnet to this protocol design,</li>
+<li>The specifics of how PoW and PoS safely integrate,</li>
+<li>Security and safety analysis,</li>
+<li>Economic analysis,</li>
+<li>and more.</li>
+</ul>
+<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
+<p>This design proposal is being developed by <a href="https://electriccoin.co/">ElecticCoin Co</a> as the first major milestone in our focus of deploying Proof-of-Stake to the Zcash protocol. Our rough near term plan for this proposal is as follows:</p>
+<ol>
+<li>Write a very high-level design overview which lacks many details but clarifies the general approach.</li>
+<li>Get early feedback from Zcash community and consensus protocol experts on this high level overview.</li>
+<li>If there are flaws so substantial that we decide the approach is infeasible, start over with a different PoS transition design.</li>
+<li>Otherwise, refine the high-level &quot;overview&quot; into a concrete, comprehensive proposal through multiple milestones with wide review.</li>
+<li>As the concrete proposal approaches maturity, draft one or more <a href="https://zips.z.cash">Zcash Improvement Proposals</a>.</li>
+<li>Follow the general Zcash process for proposal/review/refinement.</li>
+<li>Follow the general Zcash governance process for proposal acceptance.</li>
+<li>If accepted, productionize the proposal in ECC products and collaborate with other implementors who implement the proposal.</li>
+<li>Celebrate when the proposal is activated on Mainnet. 🎉</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="tfl-in-zcashs-evolution-tbd"><a class="header" href="#tfl-in-zcashs-evolution-tbd">TFL in Zcash's Evolution (TBD)</a></h1>
+<p><strong>[Incomplete Placeholder]</strong></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="motivating-finality"><a class="header" href="#motivating-finality">Motivating Finality</a></h1>
+<p>In Zcash currently, consensus relies solely on PoW, which only provides <em>probabilistic finality</em>, rather than <em>guaranteed finality</em>.<sup class="footnote-reference"><a href="#finality-qualifiers">1</a></sup> This style of consensus does not offer a guarantee that any given block may not be <em>rolled back</em> which may invalidate the transactions it contains. Instead, the probability that a block may be rolled back decreases as more blocks are mined subsquently on top of it.<sup class="footnote-reference"><a href="#pow-rollback-security-assumptions">2</a></sup></p>
+<p>Let's walk through an example of how Zcash's current PoW with probabilistic finality can impede important use cases. Consider a PoW node which sees this block sequence at time <code>T=0</code>:</p>
+<p><img src="introduction/motivating_finality_0.generated.svg" alt="" /></p>
+<p>When should a user, wallet, or other system choose to act based on a transaction in a block?</p>
+<p>For this example, let's assume a bridging system may have received a deposit for <code>ZEC</code> in block <code>f</code> and issued a corresponding number of proxy tokens on a different network.</p>
+<p>At a later time, <code>T=1</code>, this same node may see a longer PoW chain which invalidates some previously seen blocks:</p>
+<p><img src="introduction/motivating_finality_1.generated.svg" alt="" /></p>
+<p>The node has observed a longer chain ending at block <code>h'</code>, so PoW consensus calls for that new sequence to be treated as consensus. The previously seen blocks <code>f</code> and <code>g</code> are no longer part of the consensus history, and have been rolled back.</p>
+<h2 id="impact-of-the-rollback"><a class="header" href="#impact-of-the-rollback">Impact of the Rollback</a></h2>
+<p>In our example, the bridging system acted in response to a transaction in the original block <code>f</code> at <code>T=0</code>. If the new sequence ending at <code>h'</code> no longer contains the deposit to the bridging system, the integrity of the bridge has been violated<sup class="footnote-reference"><a href="#txn-rollback">3</a></sup>; the associated proxy tokens may have already been used in a complex chain of Defi applications or deposited onto an exchange and sold, which would make any recovery impossible. The proxy tokens on the other network no longer correspond to the correct amount of <code>ZEC</code> on the Zcash network.</p>
+<h2 id="rollback-complications"><a class="header" href="#rollback-complications">Rollback Complications</a></h2>
+<p>This example demonstrates how a lack of guaranteed finality can impede many useful real-world scenarios. In practice, systems and services which need greater assurances wait for more block confirmations.</p>
+<p>This has several drawbacks:</p>
+<ul>
+<li>it <em>doesn't remove the vulnerability</em>, it only reduces the likelihood,</li>
+<li>different applications/services may require different block depths making it difficult to compose or chain together different applications/services,</li>
+<li>different block depth policies potentially confuse users, i.e. &quot;why do I have to wait one hour for my deposit in this exchange, but only 30 minutes on that exchange?&quot;, and</li>
+<li>it introduces a delay which inhibits many useful applications.</li>
+</ul>
+<p>In addition to these user-facing and economic drawbacks, correctly handling rollbacks makes the code for nodes, wallets, and other infrastructure more complex. Worse still, many systems may not have correct behavior for rollbacks at different depths, and since large rollbacks are rarer, these implementation flaws may not surface until there is a large rollback. While a large rollback would be disruptive all by itself, it becomes even worse when previously undiscovered bugs exacerbate the situation.</p>
+<h2 id="trailing-finality-benefits"><a class="header" href="#trailing-finality-benefits">Trailing Finality Benefits</a></h2>
+<p>Trailing finality extends the existing PoW consensus so that older blocks become final, ensuring they <em>cannot</em> be rolled back, and by extension neither can any of the transactions they contain.</p>
+<p>This directly addresses the first two flaws above: it completely removes the vulnerability and it ensures all systems which need finality behave consistently with each other.</p>
+<p>As for delay, tailing finality also introduces delay since final blocks &quot;trail behind&quot; the most recent PoW blocks. This can be an improvement for some applications, but not others. For example, if the delay to finality averages around 10 minutes, then this would enable an improvement for an exchange which requires 60 minutes of PoW blocks for a deposit. On the other hand, it would not be an improvement for an application that needs finality faster than 10 minutes.</p>
+<p>Finally, implementations can be simplified by relying on the guarantee of finality. For example, a wallet can describe any transaction as pending or final, and does not need to provide difficult and potentially confusing UX (and the supporting database sophistication) for handling rollbacks.</p>
+<h1 id="footnotes"><a class="header" href="#footnotes">Footnotes</a></h1>
+<div class="footnote-definition" id="finality-qualifiers"><sup class="footnote-definition-label">1</sup>
+<p>Throughout this book, when we say <em>finality</em> or <em>final</em> without other qualifiers, we specifically are referring to <em>guaranteed finality</em> or a <em>guaranteed final</em> block. Where we call out <em>probabalistic finality</em> we always use that qualifier.</p>
+</div>
+<div class="footnote-definition" id="pow-rollback-security-assumptions"><sup class="footnote-definition-label">2</sup>
+<p>The estimated probability of a rollback relies on a variety of PoW security assumptions, and can be violated in various conditions, such as in mining efficiency breakthroughs, compromises of the PoW challenge algorithm (e.g. hash function collision resistance failure), difficulty-adjustment-algorithm failures, sudden/surprise mining capacity increases, and so on. So the estimated probability can be violated in potential &quot;black swan&quot; events.</p>
+</div>
+<div class="footnote-definition" id="txn-rollback"><sup class="footnote-definition-label">3</sup>
+<p>This discussion simplifies consideration of <em>transaction rollback</em> vs <em>block rollback</em>. When a block is rolled back, it is possible for some of the transactions contained in it to appear in new canonical blocks. The conditions when this can occur vs when it cannot are multifaceted and also subject to malicious influence, so for simplicity we assume all transactions within a rolled-back block are also rolled back.</p>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="visualizing-trailing-finality"><a class="header" href="#visualizing-trailing-finality">Visualizing Trailing Finality</a></h1>
+<p>In the <a href="introduction/./motivating-finality.html">previous chapter</a> we visualized a node's view of consensus in PoW and a valid rollback transition. When we consider a protocol combinging PoW with trailing finality, there are multiple possible transitions:</p>
+<ul>
+<li>PoW can make progress on discovering a new block,</li>
+<li>finality can make progress on finalizing a previously found block, and</li>
+<li>finality-constrained PoW rollbacks can occur.</li>
+</ul>
+<p>However, unbounded PoW rollbacks may <em>not</em> occur, although they are valid in pure PoW.</p>
+<p>Let's visualize a node's view of consensus through each of these kinds of transition to gain an intuition of the intended protocol's behavior.</p>
+<h2 id="starting-state"><a class="header" href="#starting-state">Starting State</a></h2>
+<p>Let's begin at <code>T=0</code> with a known-valid starting state:</p>
+<p><img src="introduction/visualizing_trailing_finality_0.generated.svg" alt="" /></p>
+<p>This represents a sequence of blocks, similar to the first diagram in the <a href="introduction/./motivating-finality.html">previous chapter</a>, except now we distinguish between <em>finalized blocks</em> (which have corner markings) and <em>unfinalized PoW blocks</em>.</p>
+<p>In the intended protocol design, both <em>PoW mining</em> and <em>finalization</em> processes are concurrently making progress, so from this starting state we can observe <em>either</em> valid PoW mining progress <em>or</em> valid finaliztion progress.</p>
+<p>Let's examine PoW progress first:</p>
+<h2 id="pow-progress"><a class="header" href="#pow-progress">PoW Progress</a></h2>
+<p>At <code>T=1</code> a new valid PoW block <code>g</code> has arrived:</p>
+<p><img src="introduction/visualizing_trailing_finality_1.generated.svg" alt="" /></p>
+<p>Again, from this state <em>either</em> PoW or finality may make progress. For this example, let's assume finality makes progress next:</p>
+<h2 id="finality-progress"><a class="header" href="#finality-progress">Finality Progress</a></h2>
+<p>At <code>T=2</code> block <code>d</code> has become <code>final</code>:</p>
+<p><img src="introduction/visualizing_trailing_finality_2.generated.svg" alt="" /></p>
+<h2 id="pow-rollback"><a class="header" href="#pow-rollback">PoW Rollback</a></h2>
+<p>Just as in vanilla PoW, rollbacks are possible so long as they involve <em>no finalized blocks</em>. To illustrate, we envision at <code>T=3</code> the node discovers a new best PoW sequence endeing at <code>h'</code>:</p>
+<p><img src="introduction/visualizing_trailing_finality_3.generated.svg" alt="" /></p>
+<p>The blocks <code>f</code> and <code>g</code> from <code>T=2</code> have been rolled back in favor of the sequence of <code>f' → g' → h'</code>. Because no final blocks are rolled back, this is a valid transition, just as for vanilla PoW.</p>
+<p>Now let's consider an invalid attempt to rollback a final block:</p>
+<h2 id="an-invalid-finality-rollback"><a class="header" href="#an-invalid-finality-rollback">An Invalid Finality Rollback</a></h2>
+<p>At <code>T=4</code> the node learns of a new sequence ending in <code>i''</code> where each header in the Proof-of-Work sequence is valid and demonstrates sufficient work accoring to pure PoW consensus:</p>
+<p><img src="introduction/visualizing_trailing_finality_4.generated.svg" alt="" /></p>
+<p>The sequence <code>d'' → e'' → f'' → g'' → h'' → i''</code> is invalid and rejected by the node because although it meets all PoW requirements, it does not extend from the most recent final block <code>d</code> and attempts to roll it back via <code>d''</code>.</p>
+<h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
+<p>Visualizing these possible transitions of a PoW-with-Trailing-Finality protocol helps provide an intuition about the intended protocols behavior.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="overview"><a class="header" href="#overview">overview</a></h1>
+<p>overview text</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="design-at-a-glance"><a class="header" href="#design-at-a-glance">Design at a Glance</a></h1>
+<p>The TFL is logically an extension of the Zcash consensus rules to introduce <em>trailing finality</em>. This page is a quick and (currently) hand-wavy summary of TFL from multiple lenses.</p>
+<p>Trailing finality depends on a finalizing Proof-of-Stake subprotocol, so the resulting protocol is hybrid PoW+PoS consensus with two <em>subprotocols</em>.</p>
+<h2 id="protocol-terminology"><a class="header" href="#protocol-terminology">Protocol Terminology</a></h2>
+<p>Because we analyze changes from the current protocol to a new hybrid PoW+PoS protocol, and furthermore the new protocol consists of subprotocols, we use the following terminology for distinctions:</p>
+<ul>
+<li><em>PoW+TFL</em>: the overall complete, integrated consensus protocol specified in this book.</li>
+<li><em>NU5</em>: the consensus protocol as of NU5.<sup class="footnote-reference"><a href="#new-mainnet-precursors">1</a></sup></li>
+<li><em>PoW</em>: the PoW subprotocol within PoW+TFL. Note that this is a different consensus protocol from NU5.</li>
+<li><em>TFL</em>: the TFL subprotocol within PoW+TFL.</li>
+</ul>
+<h2 id="subprotocols"><a class="header" href="#subprotocols">Subprotocols</a></h2>
+<p>The PoW+TFL hybrid consensus consists of two interacting subprotocols:</p>
+<ol>
+<li>PoW: this subprotocol is very similar to current Zcash mainnet consensus. It is a design goal of the TFL design to minimize changes to this subprotocol. Note: the shorthand &quot;PoW&quot; is potentially misleading, because this subprotocol is also responsible for the bulk of all supply and transaction semantic consensus rules.</li>
+<li>TFL: this is a new subprotocol which provides trailing finality via a finalizing PoS protocol.</li>
+</ol>
+<p>Fully validating nodes must operate both subprotocols in an integrated manner. These subprotocols follow the design layed out in <a href="overview/../references.html#ebb-and-flow-protocols">Ebb-and-Flow design</a>.</p>
+<h2 id="design-analysis-focus-areas"><a class="header" href="#design-analysis-focus-areas">Design Analysis Focus Areas</a></h2>
+<p>Analyzing this design focuses on four areas:</p>
+<ul>
+<li>The design of each subprotocol independently,</li>
+<li>The interaction between the two subprotocols idealized as an interface between subcomponents, and</li>
+<li>The whole as an integrated system.</li>
+</ul>
+<h2 id="consensus"><a class="header" href="#consensus">Consensus</a></h2>
+<p>Consensus is specified in terms of the sub-consensus of each of the two subprotocols, PoW &amp; TFL, along with the interface between the two, and finally in terms of system-wide / integrated consensus rules.</p>
+<p>We also explicitly define design goals about which areas of consensus <em>must not</em> be impacted by a transition from NU5 to PoW+TFL.</p>
+<h3 id="trailing-finality"><a class="header" href="#trailing-finality">Trailing Finality</a></h3>
+<p>The TFL extends the Zcash consensus protocol with <em>Trailing Finality</em>: TFL <em>finalizes</em> blocks that have been produced by PoW. See <a href="overview/../introduction/visualizing-trailing-finality.html">Visualizing Trailing Finality</a> for an informal description of this.</p>
+<p>When focusing on the PoW subprotocol, Trailing Finality introduces minimal changes to the subprotocol consensus: PoW has a mechanism for discovering block finality from TFL, and then it introduces a single new PoW subprotocol consensus rule constraint:</p>
+<blockquote>
+<p>Rollbacks must not include any final blocks; equivalently: the best PoW chain must include all known final blocks.</p>
+</blockquote>
+<p>There are no other changes to PoW subprotocol consensus specific to trailing finality, including no changes to any ledger rules about balances, transaction semantics, etc…</p>
+<h3 id="proof-of-stake"><a class="header" href="#proof-of-stake">Proof-of-Stake</a></h3>
+<p>In order to achieve consensus on finality, the TFL uses a PoS protocol which provides absolute finality.</p>
+<p>The PoS consensus area is where the bulk of complexity lies in terms of the interface between the PoW and PoS subprotocols because PoW, which is generally responsible for supply and transaction semantics. See <a href="overview/design-at-a-glance.html#the-subprotocol-interface">The Subprotocol Interface</a> below for more detail.</p>
+<h1 id="footnotes-1"><a class="header" href="#footnotes-1">Footnotes</a></h1>
+<div class="footnote-definition" id="new-mainnet-precursors"><sup class="footnote-definition-label">1</sup>
+<p>If new consensus changes are deployed to Zcash mainnet prior to PoW+TFL design finalization, this design must be updated to refer to the new delta (e.g. by reanalyzing all changes against NU6 or NU7, etc…)</p>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="subprotocol-interface"><a class="header" href="#subprotocol-interface">Subprotocol Interface</a></h1>
+<p>The interaction between the two subprotocols is modeled as a message-passing interface with each subprotocol notifying the other of state changes. The sending subprotocol of a notification is authoritative so each notification enables the recipient to update necessary local state with the assumption that it is already validated according to the peer subprotocol's consensus rules.</p>
+<h2 id="message-ordering"><a class="header" href="#message-ordering">Message Ordering</a></h2>
+<p>The ordering of notifications is strict in the sender-perspective only: if one subprotocol sends notifications <code>A</code> then <code>B</code>, then the recipient subprotocol must see <code>A</code> then <code>B</code> in that order.</p>
+<p>However, the notifications have arbitrary ordering across subprotocols. For example if one subprotocol sends <code>A</code> then <code>B</code> and the other subprotocol sends <code>X</code> then <code>Y</code>, the first subprotocol may observe the ordering <code>A</code>, <code>X</code>, <code>B</code>, <code>Y</code>, while the other subprotocol may observe the ordering <code>A</code>, <code>B</code>, <code>X</code>, <code>Y</code>.</p>
+<h2 id="pow--tfl-new_pow_blockblockhash-pos_actions"><a class="header" href="#pow--tfl-new_pow_blockblockhash-pos_actions">PoW → TFL: <code>new_pow_block(blockhash, pos_actions)</code></a></h2>
+<p>Here PoW notifies TFL of a newly discovered PoW block, along with <em>PoS Actions</em> initiated by transactions within that block.</p>
+<p>Caution: the block identified by <code>blockhash</code> may be known to <em>NOT</em> be a descendent of the <em>Most Recent Final Block</em> (MRFB) due to a race condition. While the TFL may have sent a notice of a new MRFB, the PoW may send a <code>new_pow_block</code> prior to receiving that notification. This is a consequence of <a href="overview/subprotocol-interface.html#message-ordering">Message Ordering</a> above.</p>
+<p>If TFL receives a <code>blockhash</code> which does not descend from the TFL's local view of MRFB, then TFL must ignore the notification. OTOH, if it <em>does</em> descend from TFL's local MRFB, it must store <code>(blockhash, pos_actions)</code>.</p>
+<h2 id="tfl--pow-new_final_blockblockhash-pos_results"><a class="header" href="#tfl--pow-new_final_blockblockhash-pos_results">TFL → PoW: <code>new_final_block(blockhash, pos_results)</code></a></h2>
+<p>This notifies PoW that a previously discovered PoW block is now final. <code>blockhash</code> is guaranteed by TFL to meet these conditions:</p>
+<ul>
+<li>It was previously transmitted to TFL via a <code>new_pow_block</code> message.</li>
+<li>It is a direct descendent of the previous Most Recent Final Block.</li>
+</ul>
+<p>When PoW receives this message, it must replace its previous MRFB with this new MRFB (which is a direct descendent).</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="model-code-architecture"><a class="header" href="#model-code-architecture">Model Code Architecture</a></h1>
+<p>The two consensus subprotocols are analyzed in a <em>model code architecture</em> which reifies each consensus subprotocol as a distinct code component: one for PoW and one for PoS. While implementations are not required to follow this code architecture, so long as they are equivalent by consensus, we also believe this code architecture will be a practical approach for implementations.</p>
+<p>The network topology introduces a new network for TFL: the TFL subprotocol components of a fully validating node connect to other such components on other nodes using a TFL-specific networking protocol.</p>
+<p><img src="overview/model_code_architecture_0.generated.svg" alt="" /></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="network-architecture"><a class="header" href="#network-architecture">Network Architecture</a></h1>
+<p><strong>[Incomplete Placeholder]</strong></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="protocol-specification"><a class="header" href="#protocol-specification">Protocol Specification</a></h1>
+<p><strong>[Incomplete Placeholder]</strong></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="abstract-protocol"><a class="header" href="#abstract-protocol">Abstract Protocol</a></h1>
+<p><strong>[Incomplete Placeholder]</strong></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="token-dynamics"><a class="header" href="#token-dynamics">Token Dynamics</a></h1>
+<p><strong>[Incomplete Placeholder]</strong></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="concrete-protocol"><a class="header" href="#concrete-protocol">Concrete Protocol</a></h1>
+<p><strong>[Incomplete Placeholder]</strong></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="token-dynamics-1"><a class="header" href="#token-dynamics-1">Token Dynamics</a></h1>
+<p><strong>[Incomplete Placeholder]</strong></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="security"><a class="header" href="#security">Security</a></h1>
+<p><strong>[Incomplete Placeholder]</strong></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="abstract-analysis"><a class="header" href="#abstract-analysis">Abstract Analysis</a></h1>
+<p><strong>[Incomplete Placeholder]</strong></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="subprotocol-compromise-analysis"><a class="header" href="#subprotocol-compromise-analysis">Subprotocol Compromise Analysis</a></h1>
+<p><strong>[Incomplete Placeholder]</strong></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="subprotocol-compromise-analysis-tbd"><a class="header" href="#subprotocol-compromise-analysis-tbd">Subprotocol Compromise Analysis (TBD)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="model-code-architecture-analysis"><a class="header" href="#model-code-architecture-analysis">Model Code Architecture Analysis</a></h1>
+<p><strong>[Incomplete Placeholder]</strong></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="network-architecture-analysis"><a class="header" href="#network-architecture-analysis">Network Architecture Analysis</a></h1>
+<p><strong>[Incomplete Placeholder]</strong></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="concrete-analysis"><a class="header" href="#concrete-analysis">Concrete Analysis</a></h1>
+<p><strong>[Incomplete Placeholder]</strong></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="references"><a class="header" href="#references">References</a></h1>
+<h2 id="ebb-and-flow-protocols"><a class="header" href="#ebb-and-flow-protocols">Ebb-and-Flow Protocols</a></h2>
+<p><a href="https://arxiv.org/abs/2009.04987">Ebb-and-Flow Protocols: A Resolution of the Availability-Finality Dilemma</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>
