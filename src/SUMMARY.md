@@ -4,6 +4,7 @@
   - [TFL in Zcash's Evolution (TBD)](./introduction/tfl-in-zcashs-evolution.md)
   - [Motivating Finality](./introduction/motivating-finality.md)
   - [Visualizing Trailing Finality](./introduction/visualizing-trailing-finality.md)
+  - [Get Involved](./introduction/get-involved.md)
 - [Overview](./overview.md)
   - [Design at a Glance](./overview/design-at-a-glance.md)
   - [Subprotocol Interface](./overview/subprotocol-interface.md)
