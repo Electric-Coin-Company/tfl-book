@@ -2,7 +2,7 @@
 
 We welcome contributions!
 
-There are a variety of ways to contribute to this project: 
+There are a variety of ways to contribute to this project:
 
 ## Github
 
