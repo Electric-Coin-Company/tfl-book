@@ -17,7 +17,7 @@
 - [Security (TBD)](./security.md)
   - [Abstract Analysis (TBD)](./security/abstract-analysis.md)
     - [Ebb-and-Flow analysis (TBD)](./security/abstract-analysis/ebb-and-flow-analysis.md)
-    - [Subprotocol Compromise Analysis (TBD)](./security/abstract-analysis/ebb-and-flow-analysis.md)
+    - [Subprotocol Compromise Analysis (TBD)](./security/abstract-analysis/subprotocol-compromise-analysis.md)
     - [Model Code Architecture Analysis (TBD)](./security/abstract-analysis/model-code-architecture-analysis.md)
     - [Network Architecture Analysis (TBD)](./security/abstract-analysis/network-architecture-analysis.md)
   - [Concrete Analysis (TBD)](./security/concrete-analysis.md)
