@@ -1,7 +1,7 @@
 # Summary
 
 - [Introduction](./introduction.md)
-  - [TFL in the Zcash Roadmap (TBD)](./introduction/tfl-in-the-zcash-roadmap.md)
+  - [TFL in Zcash's Evolution (TBD)](./introduction/tfl-in-zcashs-evolution.md)
   - [Motivating Finality](./introduction/motivating-finality.md)
   - [Visualizing Trailing Finality](./introduction/visualizing-trailing-finality.md)
 - [Overview](./overview.md)
