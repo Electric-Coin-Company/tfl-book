@@ -2,6 +2,7 @@
 
 - [Introduction](./introduction.md)
   - [TFL in Zcash's Evolution (TBD)](./introduction/tfl-in-zcashs-evolution.md)
+  - [Status and Next Steps](./introduction/status-and-next-steps.md)
   - [Motivating Finality](./introduction/motivating-finality.md)
   - [Visualizing Trailing Finality](./introduction/visualizing-trailing-finality.md)
   - [Get Involved](./introduction/get-involved.md)
