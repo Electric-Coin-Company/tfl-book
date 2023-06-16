@@ -1,6 +1,6 @@
 # Design at a Glance
 
-The PoW+TFL consenus protocol is logically an extension of the Zcash consensus rules to introduce *trailing finality*. This is achieved by compartmentalizing the top-level PoW+TFL protocol into two *subprotocols*, one embodying most of the current consensus logic of Zcash and the TFL. These subprotocols interace through a strictly defined message-passing system called the *Subprotocol Interface*. (Remember to refer to [Terminology](../terminology.md) to clarify terms.) 
+The PoW+TFL consenus protocol is logically an extension of the Zcash consensus rules to introduce *trailing finality*. This is achieved by compartmentalizing the top-level PoW+TFL protocol into two *subprotocols*, one embodying most of the current consensus logic of Zcash and the TFL. These subprotocols interace through a strictly defined message-passing system called the *Subprotocol Interface*. (Remember to refer to [Terminology](../terminology.md) to clarify terms.)
 
 **TODO:** Add consensus subprotocol diagram.
 
