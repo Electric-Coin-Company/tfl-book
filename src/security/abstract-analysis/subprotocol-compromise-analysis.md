@@ -1,1 +1,3 @@
-# Subprotocol Compromise Analysis (TBD)
+# Subprotocol Compromise Analysis
+
+**\[Incomplete Placeholder\]**

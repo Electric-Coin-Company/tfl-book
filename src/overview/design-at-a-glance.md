@@ -1,26 +1,17 @@
 # Design at a Glance
 
-The TFL is logically an extension of the Zcash consensus rules to introduce *trailing finality*. This page is a quick and (currently) hand-wavy summary of TFL from multiple lenses.
+The PoW+TFL consenus protocol is logically an extension of the Zcash consensus rules to introduce *trailing finality*. This is achieved by compartmentalizing the top-level PoW+TFL protocol into two *subprotocols*, one embodying most of the current consensus logic of Zcash and the TFL. These subprotocols interace through a strictly defined message-passing system called the *Subprotocol Interface*. (Remember to refer to [Terminology](../terminology.md) to clarify terms.)
 
-Trailing finality depends on a finalizing Proof-of-Stake subprotocol, so the resulting protocol is hybrid PoW+PoS consensus with two *subprotocols*.
-
-## Protocol Terminology
-
-Because we analyze changes from the current protocol to a new hybrid PoW+PoS protocol, and furthermore the new protocol consists of subprotocols, we use the following terminology for distinctions:
-
-- *PoW+TFL*: the overall complete, integrated consensus protocol specified in this book.
-- *NU5*: the consensus protocol as of NU5.[^new-mainnet-precursors]
-- *PoW*: the PoW subprotocol within PoW+TFL. Note that this is a different consensus protocol from NU5.
-- *TFL*: the TFL subprotocol within PoW+TFL.
+**TODO:** Add consensus subprotocol diagram.
 
 ## Subprotocols
 
 The PoW+TFL hybrid consensus consists of two interacting subprotocols:
 
-1. PoW: this subprotocol is very similar to current Zcash mainnet consensus. It is a design goal of the TFL design to minimize changes to this subprotocol. Note: the shorthand "PoW" is potentially misleading, because this subprotocol is also responsible for the bulk of all supply and transaction semantic consensus rules.
-2. TFL: this is a new subprotocol which provides trailing finality via a finalizing PoS protocol.
+1. *PoW Subprotocol*: this subprotocol is very similar to NU5 consensus. It is a design goal of the TFL design to minimize changes to this subprotocol. Note: the shorthand "PoW" is potentially misleading, because this subprotocol is also responsible for the bulk of all supply and transaction semantic consensus rules.
+2. *TFL Subprotocol*: this is a new subprotocol which provides trailing finality via a finalizing PoS protocol.
 
-Fully validating nodes must operate both subprotocols in an integrated manner. These subprotocols follow the design layed out in [Ebb-and-Flow design](../references.md#ebb-and-flow-protocols).
+Validators must operate both subprotocols in an integrated manner. These subprotocols follow the design layed out in [Ebb-and-Flow design](../references.md#ebb-and-flow-protocols).
 
 ## Design Analysis Focus Areas
 
