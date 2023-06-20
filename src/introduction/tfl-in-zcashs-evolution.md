@@ -18,4 +18,4 @@ For changes to the Zcash protocol to be deployed, a critical mass of users must 
 
 This proposal is early in this process, so it's not a given that it will be adopted or when. Our goal is to get early feedback on this incomplete proposal from the broad population of Zcash users as well as protocol development teams so that we're confident as it approaches maturity it has a good chance to be adopted.
 
-Once this design is sufficiently mature and if we believe it has significant support, we will begin drafting one or more [Zcash Improvement Proposals](https://z.cash/network/?funding=#funding) to begin more focused coordination across the Zcash development community.
+Once this design is sufficiently mature and if we believe it has significant support, we will begin drafting one or more [Zcash Improvement Proposals](https://z.cash/network/?zips=#zips) to begin more focused coordination across the Zcash development community.
