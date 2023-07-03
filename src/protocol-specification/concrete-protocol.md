@@ -1,3 +1,0 @@
-# Concrete Protocol
-
-**\[Incomplete Placeholder\]**

@@ -1,3 +1,0 @@
-# Abstract Protocol
-
-**\[Incomplete Placeholder\]**

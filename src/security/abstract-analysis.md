@@ -1,3 +1,0 @@
-# Abstract Analysis
-
-**\[Incomplete Placeholder\]**
