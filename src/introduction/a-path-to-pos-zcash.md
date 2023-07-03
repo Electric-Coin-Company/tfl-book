@@ -17,7 +17,7 @@ Given that context, we envision a "path" within the Zcash Tech-Tree for transiti
 
 Our primary motivation for proposing (at least) two steps is to minimize usability, safety, security, and ecosystem distruption during each step.
 
-### Design Goals for a Hybrid PoW/PoS System
+## Design Goals for a Hybrid PoW/PoS System
 
 We are refining the design of TFL with several design goals in mind:
 
@@ -28,6 +28,8 @@ We are refining the design of TFL with several design goals in mind:
 - We want to improve the _modularity_ of the consensus protocol, which has several loosely defined and related meanings, e.g.: it's possible to understand some consensus properties only given knowledge of a "component" of the protocol, and it's possible to implement consensus rules in modular code components with clean interfaces.
 
 We will be refining these goals and potentially adding more as we continue to develop this proposal.
+
+With the motivation and goals for a first-step hybrid PoW/PoS protocol in mind, we introduce the specifics of TFL in the next subchapter.
 
 ---
 
