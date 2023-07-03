@@ -1,7 +1,7 @@
 # Summary
 
 - [Introduction](./introduction.md)
-  - [TFL in Zcash's Evolution](./introduction/tfl-in-zcashs-evolution.md)
+  - [A Path to Proof-of-Stake Zcash](./introduction/a-path-to-pos-zcash.md)
   - [Status and Next Steps](./introduction/status-and-next-steps.md)
   - [Motivating Finality](./introduction/motivating-finality.md)
   - [Visualizing Trailing Finality](./introduction/visualizing-trailing-finality.md)
