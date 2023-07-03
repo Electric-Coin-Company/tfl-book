@@ -1,3 +1,0 @@
-# Protocol Specification
-
-**\[Incomplete Placeholder\]**

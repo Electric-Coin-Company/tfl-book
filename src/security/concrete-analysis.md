@@ -1,3 +1,0 @@
-# Concrete Analysis
-
-**\[Incomplete Placeholder\]**
