@@ -2,6 +2,7 @@
 
 - [Introduction](./introduction.md)
   - [A Path to Proof-of-Stake Zcash](./introduction/a-path-to-pos-zcash.md)
+  - [Trailing Finality Layer in a Nutshell](./introduction/trailing-finality-layer-in-a-nutshell.md)
   - [Status and Next Steps](./introduction/status-and-next-steps.md)
   - [Motivating Finality](./introduction/motivating-finality.md)
   - [Visualizing Trailing Finality](./introduction/visualizing-trailing-finality.md)
