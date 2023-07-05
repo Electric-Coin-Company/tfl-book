@@ -57,3 +57,7 @@ Finally, since one subprotocol is very similar to the existing Zcash NU5 protoco
 In addition to the other benefits of protocol design modularity, we anticipate actual implementations can realize this modularity in code. This can help makes implementations more robust, easier to maintain, and more interoperable.
 
  For example, we can envision a standardized interface between PoW & TFL consensus components, enabling different development teams to provide these different components and for "full node" packagers to mix and match them. This is somewhat reminiscent of Ethereum's execution/consensus layer separation which we believe has shown great success in implementation team and product diversity.
+
+## Cracking the Nutshell
+
+In the rest of the introductory section of this book, we describe the status and next steps for the TFL proposal, provide a motivation for finality, a way to visualize and reason about trailing finality, and suggestions for getting involved.
