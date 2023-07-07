@@ -1,8 +1,8 @@
+# Design Goals
+
 Here we strive to lay out our high level TFL design goals.
 
-This section is incomplete and will be refined.
-
-# User Experience and Use Case Goals
+## User Experience and Use Case Goals
 
 We strive to start our protocol design process from user experience (UX) and use case considerations foremost, since at the end of the day all that matters in a protocol is what user needs it meets and how well.
 
@@ -14,14 +14,14 @@ We strive to start our protocol design process from user experience (UX) and use
 - Block explorers and other network metrics sites may require UX changes with respect to mining rewards and issuance calculations.
 - Network metrics sites may require UX changes with respect to the p2p protocol or other network-specific information.
 
-# Developer Experience Goals
+## Developer Experience Goals
 
 For a full PoS transition, ecosystem developers for products such as consensus nodes, wallets, mining services, chain analytics, and more will certainly need to update their code to support transitions. However, we carve out a few goals as an exception to this for this category of users:
 
 - Wallet developers should not be required to make any changes through protocol transitions as long as they rely solely on the lightwalletd protocol or a full node API (such as the zcashd RPC interface).
 - For any hybrid PoW/PoS protocol (including PoW+TFL), mining pools and miners should not be required to make any software or protocol changes as long as they rely on zcashd-compatible GetBlockTemplate. One exception to this is software that bakes in assumptions about the block reward schedule, rather than relying on GetBlockTemplate solely.
 
-# Safety, Security, and Privacy Goals
+## Safety, Security, and Privacy Goals
 
 Zcash has always had exemplary safety, security, and privacy, and we aim to continue that tradition:
 
@@ -30,7 +30,7 @@ Zcash has always had exemplary safety, security, and privacy, and we aim to cont
 
 TODO: privacy, pure-PoS security goals.
 
-# Design Conservatism Goals
+## Design Conservatism Goals
 
 We want to follow some conservative design heuristics to minimize risk and mistakes:
 
