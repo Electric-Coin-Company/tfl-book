@@ -9,6 +9,7 @@
   - [Get Involved](./introduction/get-involved.md)
 - [Terminology](./terminology.md)
 - [Overview](./overview.md)
+  - [Design Goals](./overview/design-goals.md)
   - [Design at a Glance](./overview/design-at-a-glance.md)
   - [Subprotocol Interface](./overview/subprotocol-interface.md)
   - [Model Code Architecture](./overview/model-code-architecture.md)
