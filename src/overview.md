@@ -6,7 +6,7 @@ This layer enables blocks produced via PoW to become *final* which ensures they 
 
 This consensus layer uses a finalizing *Proof-of-Stake (PoS)* consensus protocol, and enables ZEC holders to earn protocol rewards for contributing to the security of the Zcash network. By integrating a PoS layer with the current PoW Zcash protocol, this design specifies a *hybrid consensus protocol*.
 
-The integration of the current PoW consensus with the TFL produces a new top-level consensus protocol referred to as *PoW+TFL*.
+The integration of the current PoW consensus with the TFL produces a new top-level consensus protocol referred to as [PoW+TFL](./terminology.md#definition-pow-tfl).
 
 In the following subchapters we introduce the [Design at a Glance](./overview/design-at-a-glance.md), then provide an overview of the major components of the design.
 

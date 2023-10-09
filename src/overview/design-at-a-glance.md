@@ -1,12 +1,12 @@
 # Design at a Glance
 
-The PoW+TFL consenus protocol is logically an extension of the Zcash consensus rules to introduce *trailing finality*. This is achieved by compartmentalizing the top-level PoW+TFL protocol into two *subprotocols*, one embodying most of the current consensus logic of Zcash and the TFL. These subprotocols interace through a strictly defined message-passing system called the *Subprotocol Interface*. (Remember to refer to [Terminology](../terminology.md) to clarify terms.)
+The [PoW+TFL](../terminology.md#definition-pow-tfl) consenus protocol is logically an extension of the Zcash consensus rules to introduce *trailing finality*. This is achieved by compartmentalizing the top-level [PoW+TFL](../terminology.md#definition-pow-tfl) protocol into two *subprotocols*, one embodying most of the current consensus logic of Zcash and the TFL. These subprotocols interace through a strictly defined message-passing system called the *Subprotocol Interface*. (Remember to refer to [Terminology](../terminology.md) to clarify terms.)
 
 **TODO:** Add consensus subprotocol diagram.
 
 ## Subprotocols
 
-The PoW+TFL hybrid consensus consists of two interacting subprotocols:
+The [PoW+TFL](../terminology.md#definition-pow-tfl) hybrid consensus consists of two interacting subprotocols:
 
 1. *PoW Subprotocol*: this subprotocol is very similar to NU5 consensus. It is a design goal of the TFL design to minimize changes to this subprotocol. Note: the shorthand "PoW" is potentially misleading, because this subprotocol is also responsible for the bulk of all supply and transaction semantic consensus rules.
 2. *TFL Subprotocol*: this is a new subprotocol which provides trailing finality via a finalizing PoS protocol.
@@ -25,7 +25,7 @@ Analyzing this design focuses on four areas:
 
 Consensus is specified in terms of the sub-consensus of each of the two subprotocols, PoW & TFL, along with the interface between the two, and finally in terms of system-wide / integrated consensus rules.
 
-We also explicitly define design goals about which areas of consensus _must not_ be impacted by a transition from NU5 to PoW+TFL.
+We also explicitly define design goals about which areas of consensus _must not_ be impacted by a transition from NU5 to [PoW+TFL](../terminology.md#definition-pow-tfl).
 
 ### Trailing Finality
 
@@ -45,4 +45,4 @@ The PoS consensus area is where the bulk of complexity lies in terms of the inte
 
 # Footnotes
 
-[^new-mainnet-precursors]: If new consensus changes are deployed to Zcash mainnet prior to PoW+TFL design finalization, this design must be updated to refer to the new delta (e.g. by reanalyzing all changes against NU6 or NU7, etc…)
+[^new-mainnet-precursors]: If new consensus changes are deployed to Zcash mainnet prior to [PoW+TFL](../terminology.md#definition-pow-tfl) design finalization, this design must be updated to refer to the new delta (e.g. by reanalyzing all changes against NU6 or NU7, etc…)
