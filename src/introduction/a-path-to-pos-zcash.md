@@ -24,7 +24,7 @@ We are refining the design of TFL with several design goals in mind:
 - We want minimal-to-no disruption for existing wallet use cases and UX. For example, nothing should change for the user flows for storing or transferring funds, the format of addresses, etc…
 - We want a security analysis of the proposed protocol to be as simple as possible _given_ existing security analyses of current Zcash.
 - We want to enable new use cases around PoS that allow mobile shielded wallet users to earn a return on delegated ZEC.
-- We want to enable trust-minimized bridges and other benefits by providing a protocol with _absolute finality_. 
+- We want to enable trust-minimized bridges and other benefits by providing a protocol with assured finality (see [Terminology: Protocol Concepts](../terminology.md#protocol_concepts)). 
 - We want to improve the _modularity_ of the consensus protocol, which has several loosely defined and related meanings, e.g.: it's possible to understand some consensus properties only given knowledge of a "component" of the protocol, and it's possible to implement consensus rules in modular code components with clean interfaces.
 
 We will be refining these goals and potentially adding more as we continue to develop this proposal.

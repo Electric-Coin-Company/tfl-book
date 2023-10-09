@@ -6,6 +6,12 @@ We rely on terms of art specific to this book. A word of caution that in some ca
 
 We group terms into related categories as follows:
 
+## Protocol Concepts
+
+- *Assured Finality*: A protocol property that guarantees that final transactions cannot be reverted by that protocol. As with all protocol guarantees, a protocol assumes certain conditions must be met.
+
+  Importantly, it is not feasible for any protocol to prevent reversing final transactions "out of band" from the protocol, such as if a sufficiently large and motivated group of users forks the network to include a specific new validity rule reverting transactions. For this reason, we forego the term "absolute finality" sometimes used in consensus protocol technical discussions.
+
 ## Protocol Components
 
 - *PoW+TFL*: the overall complete, integrated consensus protocol specified in this book.
