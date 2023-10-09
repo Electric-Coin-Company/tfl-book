@@ -14,6 +14,8 @@ Importantly, it is not feasible for any protocol to prevent reversing final tran
 
 ## Protocol Components
 
+*TODO*: Replace these terms as we integrate the Crosslink design work.
+
 <span id="definition-pow-tfl"></span>**PoW+TFL**: the overall complete, integrated consensus protocol specified in this book.
 
 <span id="definition-pow"></span>**PoW**: the PoW subprotocol within [PoW+TFL](#definition-pow-tfl). Note that this is a different consensus protocol from [NU5](#definition-nu5) and encompasses more than narrow Nakamoto PoW consensus, including transaction semantics such as for shielded transfers.
