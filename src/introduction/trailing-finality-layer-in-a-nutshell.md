@@ -1,6 +1,6 @@
 # Trailing Finality Layer in a Nutshell
 
-The hybrid PoW/PoS protocol proposed in this book is similar to today's Zcash NU5 protocol with the addition of a *Trailing Finality Layer*:
+The hybrid PoW/PoS protocol proposed in this book is similar to today's Zcash [NU5](../terminology.md#definition-nu5) protocol with the addition of a *Trailing Finality Layer*:
 
 **TODO**: Add graphic showing nodes connected to each other in the p2p protocol. Each node has two parts: PoW and TFL. Each part has a distinct connection to the neighbors of the same part, so node A's "PoW" connects to node B's "PoW", node A's "TFL" connects to node B's "TFL". Finally, we want some way to visualize that all of the PoW nodes and connections were "pre-existing" and that the TFL pieces are a "new layer".
 
@@ -54,11 +54,11 @@ We believe this presents a minimal change to consensus rules to enable PoS, and 
 
 ### Modular Design
 
-By conceptualizing the TFL as a distinct "layer" or subprotocol, the consensus rules can be described as the explicit interactions between two subprotocols, one similar to the existing Zcash protcol as of NU5, and the other as a finalizing PoS protocol.
+By conceptualizing the TFL as a distinct "layer" or subprotocol, the consensus rules can be described as the explicit interactions between two subprotocols, one similar to the existing Zcash protcol as of [NU5](../terminology.md#definition-nu5), and the other as a finalizing PoS protocol.
 
 This approach helps in reasoning about failure modes, and how global consensus properties are achieved by which subprotocols.
 
-Finally, since one subprotocol is very similar to the existing Zcash NU5 protocol, this lessens risk that the consensus properties within that subprotocol compromise current NU5 properties.
+Finally, since one subprotocol is very similar to the existing Zcash [NU5](../terminology.md#definition-nu5) protocol, this lessens risk that the consensus properties within that subprotocol compromise current [NU5](../terminology.md#definition-nu5) properties.
 
 ### Modular Implementation
 

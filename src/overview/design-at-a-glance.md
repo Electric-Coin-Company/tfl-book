@@ -8,7 +8,7 @@ The [PoW+TFL](../terminology.md#definition-pow-tfl) consenus protocol is logical
 
 The [PoW+TFL](../terminology.md#definition-pow-tfl) hybrid consensus consists of two interacting subprotocols:
 
-1. *PoW Subprotocol*: this subprotocol is very similar to NU5 consensus. It is a design goal of the TFL design to minimize changes to this subprotocol. Note: the shorthand "PoW" is potentially misleading, because this subprotocol is also responsible for the bulk of all supply and transaction semantic consensus rules.
+1. *PoW Subprotocol*: this subprotocol is very similar to [NU5](../terminology.md#definition-nu5) consensus. It is a design goal of the TFL design to minimize changes to this subprotocol. Note: the shorthand "PoW" is potentially misleading, because this subprotocol is also responsible for the bulk of all supply and transaction semantic consensus rules.
 2. *TFL Subprotocol*: this is a new subprotocol which provides trailing finality via a finalizing PoS protocol.
 
 Validators must operate both subprotocols in an integrated manner. These subprotocols follow the design layed out in [Ebb-and-Flow design](../references.md#ebb-and-flow-protocols).
@@ -25,7 +25,7 @@ Analyzing this design focuses on four areas:
 
 Consensus is specified in terms of the sub-consensus of each of the two subprotocols, PoW & TFL, along with the interface between the two, and finally in terms of system-wide / integrated consensus rules.
 
-We also explicitly define design goals about which areas of consensus _must not_ be impacted by a transition from NU5 to [PoW+TFL](../terminology.md#definition-pow-tfl).
+We also explicitly define design goals about which areas of consensus _must not_ be impacted by a transition from [NU5](../terminology.md#definition-nu5) to [PoW+TFL](../terminology.md#definition-pow-tfl).
 
 ### Trailing Finality
 
