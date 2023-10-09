@@ -39,7 +39,7 @@ There are no other changes to PoW subprotocol consensus specific to trailing fin
 
 ### Proof-of-Stake
 
-In order to achieve consensus on finality, the TFL uses a PoS protocol which provides assured finality (see [Terminology: Protocol Concepts](../terminology.md#protocol_concepts)).
+In order to achieve consensus on finality, the TFL uses a PoS protocol which provides [assured finality](../terminology.md#definition-assured-finality).
 
 The PoS consensus area is where the bulk of complexity lies in terms of the interface between the PoW and PoS subprotocols because PoW, which is generally responsible for supply and transaction semantics. See [The Subprotocol Interface](#the-subprotocol-interface) below for more detail.
 
