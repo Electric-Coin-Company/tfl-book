@@ -16,11 +16,11 @@ Importantly, it is not feasible for any protocol to prevent reversing final tran
 
 <span id="definition-pow-tfl"></span>**PoW+TFL**: the overall complete, integrated consensus protocol specified in this book.
 
-<span id="definition-nu5"></span>**NU5**: the Zcash consensus protocol as of NU5.[^new-mainnet-precursors]
-
 <span id="definition-pow"></span>**PoW**: the PoW subprotocol within [PoW+TFL](./terminology.md#definition-pow-tfl). Note that this is a different consensus protocol from NU5 and encompasses more than narrow Nakamoto PoW consensus, including transaction semantics such as for shielded transfers.
 
 <span id="definition-tfl"></span>**TFL**: the *Trailing Finality Layer* subprotocol within [PoW+TFL](./terminology.md#definition-pow-tfl).
+
+<span id="definition-nu5"></span>**NU5**: the Zcash consensus protocol as of NU5.[^new-mainnet-precursors]
 
 ## Infrastructure Roles
 
