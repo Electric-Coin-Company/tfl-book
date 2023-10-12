@@ -1,8 +1,6 @@
 # Terminology
 
-Prior to providing the [Overview](./overview.md), [Design Specification](./design-specification.md) and other sections, we present our terminology. If you prefer to learn terms in the conceptual flow, jump ahead to the [Overview](./overview.md) and refer back as necessary.
-
-We rely on terms of art specific to this book. A word of caution that in some cases we use similar terms from elsewhere in the blockchain consensus field with distinct meanings specific to this book and different from other uses, for example *validator*.
+This book relies on the following terminology. We strive to keep these definitions as precise as possible and their definitions may deviate from uses elsewhere.
 
 ## Terms
 
