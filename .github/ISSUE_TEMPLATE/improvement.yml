@@ -1,6 +1,6 @@
 name: Content Improvement
-description: A content improvement less substantial than a design suggestion
-labels: ["improvement"]
+description: A content improvement
+labels: ["content improvement"]
 assignees:
   - nathan-at-least
 body:
