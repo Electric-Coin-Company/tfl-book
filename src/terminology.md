@@ -31,5 +31,3 @@ Importantly, it is not feasible for any protocol to prevent reversing final tran
 # Footnotes
 
 [^new-mainnet-precursors]: If new consensus changes are deployed to Zcash mainnet prior to PoW+TFL design finalization, this design must be updated to refer to the new delta (e.g. by reanalyzing all changes against NU6 or NU7, etc…)
-
-[^validator-distinction]: Our use of the term "validator" deviates from common industry usage. Our usage focuses on literally validating consensus state, and does not imply any participation in maintaining the network or extending the ledger. This is distinct from widespread usage of "validator" to include the role or responsibility of proposing new blocks or achieving network consensus on ledger updates.
