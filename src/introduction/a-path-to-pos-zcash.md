@@ -1,12 +1,16 @@
 # A Path to Proof-of-Stake Zcash
 
-This Trailing Finality Layer (TFL) design provides a possible first step in transitioning [Zcash](https://z.cash) to a Proof-of-Stake (PoS) protocol. Here we describe how a transition to PoS relates to "the Zcash roadmap" and how TFL fits into one approach to a PoS transition.
+The [TFL](./terminology.md#definition-tfl) design provides a possible first step in transitioning [Zcash](https://z.cash) to a [PoS](./terminology.md#definition-pos) protocol. Here we describe how a transition to PoS relates to "the Zcash roadmap" and how TFL fits into one approach to a PoS transition.
 
 ## The Zcash Tech-Tree
 
 There are multiple developer orgs working on different proposed features for Zcash. Some of these involve multiple large distinct upgrade steps, and several of these steps depend on other such steps. This could be represented as a directed-acyclic graph. We have begun referring to this space of possible future improvements as the *Zcash Tech-Tree*, taking inspiration from an analogous concept in gaming.[^tech-tree-history]
 
-We envision a *proof-of-stake transition path* as one of the potential paths within this tech-tree which is the primary protocol focus of this proposal.
+We envision a *proof-of-stake transition path* as one of the potential paths within this tech-tree which is the primary protocol focus of this proposal. An example visualization of this Zcash Tech-Tree might look like this:
+
+```dot process
+{{#include ../diagrams/zcash-tech-tree-generic.dot}}
+```
 
 ## A Proof-of-Stake Transition Path
 
