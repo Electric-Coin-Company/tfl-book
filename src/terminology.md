@@ -16,7 +16,7 @@ Importantly, it is not feasible for any protocol to prevent reversing final tran
 
 <span id="definition-nu5"></span>**NU5**: The Zcash consensus protocol as of NU5.[^new-mainnet-precursors]
 
-<span id="definition-pos"></span>**Proof-of-Stake**: A PoS protocol achieves consensus on transaction status via taking into account the weighting of staking tokens. PoS protocols fall into a large umbrella and may or may not provide [assured finality](#definition-assured-finality) or other properties this design requires of [TFL](#definition-tfl).
+<span id="definition-pos"></span>**Proof-of-Stake**: A PoS protocol achieves consensus on transaction status by taking into account the weighting of staking tokens. PoS protocols exist under a large umbrella and may or may not provide [assured finality](#definition-assured-finality) or other properties this design requires of [TFL](#definition-tfl).
 
 <span id="definition-pow"></span>**Proof-of-Work**: A PoW protocol uses Nakamoto consensus pioneered by Bitcoin. The PoW subprotocol within PoW+TFL is a different consensus protocol from [NU5](#definition-nu5) and encompasses more than narrow Nakamoto PoW consensus, including transaction semantics such as for shielded transfers.
 
