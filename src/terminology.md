@@ -12,7 +12,7 @@ Importantly, it is not feasible for any protocol to prevent reversing final tran
 
 <span id="definition-final"></span>**Final**: A protocol property of transactions. In this book, this always implies [assured finality](#definition-assured-finality), in contrast to concepts like "probabilistic finality" provided by [PoW](#definition-pow).
 
-<span id="definition-hybrid-consensus"></span>**Hybrid Consensus**: A consensus protocol which integrates more than one consensus subprotocol. [PoW+TFL](#definition-pow-tfl) is an instance of a hybrid protocol integrating [PoW](#definition-pow) and [PoS](#definition-pos) protocols.
+<span id="definition-hybrid-consensus"></span>**Hybrid Consensus**: A consensus protocol that integrates more than one consensus subprotocol. [PoW+TFL](#definition-pow-tfl) is an instance of a hybrid protocol integrating [PoW](#definition-pow) and [PoS](#definition-pos) protocols.
 
 <span id="definition-nu5"></span>**NU5**: The Zcash consensus protocol as of NU5.[^new-mainnet-precursors]
 
