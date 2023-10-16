@@ -21,9 +21,15 @@ Given that context, we envision a "path" within the Zcash Tech-Tree for transiti
 
 Our primary motivation for proposing (at least) two steps is to minimize usability, safety, security, and ecosystem distruption during each step.
 
+With this approach, the Zcash Tech Tree with the [TFL](./terminology.md#definition-tfl) approach might look something like this:
+
+```dot process
+{{#include ../diagrams/zcash-tech-tree-tfl-steps.dot}}
+```
+
 ## Design Goals for a Hybrid PoW/PoS System
 
-We are refining the design of TFL with several design goals in mind:
+We are refining the design of TFL with several design goals. As we refine the design and make various trade-offs, we may not be able to achieve all of these goals.
 
 - We want minimal-to-no disruption for existing wallet use cases and UX. For example, nothing should change for the user flows for storing or transferring funds, the format of addresses, etc…
 - We want a security analysis of the proposed protocol to be as simple as possible _given_ existing security analyses of current Zcash.
