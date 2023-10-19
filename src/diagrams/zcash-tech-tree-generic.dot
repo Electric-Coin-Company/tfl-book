@@ -21,10 +21,7 @@ digraph ZcashTechTreeGeneric {
 
     e [ label = "Feature E"]
     e -> pos2
-    
-    f [ label = "Feature F"]
-    f -> e
-    f -> d
+    e -> d
 
     pos1 [ label = "PoS Step 1"]
     pos1 -> nu5
