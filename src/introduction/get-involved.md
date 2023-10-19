@@ -18,7 +18,7 @@ If you have a Github account, you can get hands on via [the github repository](h
 
 ## Zcash R&D Discord
 
-You can catch us on [the Zcash R&D Discord](https://discord.gg/U26xq3R2) in the `#proof-of-stake` channel.
+You can catch us on [the Zcash R&D Discord](https://discord.gg/U26xq3R2) in this [`#proof-of-stake` channel](https://discord.com/channels/809218587167293450/826162958027063377).
 
 ## Zcash Arborist Calls
 
