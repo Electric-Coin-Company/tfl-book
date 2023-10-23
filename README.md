@@ -12,6 +12,16 @@ There are two github CI workflows:
 - `render-site.yaml`: triggers on `push` to `main` to render the site to https://electric-coin-company.github.io/tfl-book/
   - **Warning:** this workflow relies on full read/write access to the `gh-pages` branch. Don't mess with that branch unless you're very confident in the impacts.
 
+## `git-hooks`
+
+There is a directory `git-hooks` that we advocate all contributors use.
+
+Use this command to enable it:
+
+```
+git config --local core.hooksPath git-hooks
+```
+
 ## Prerequisites
 
 ### Rust prerequisites
