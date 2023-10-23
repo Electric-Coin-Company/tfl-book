@@ -3,7 +3,7 @@
 # Usage: at the end of a repository-managed hook, simply do "source ~/util/run-local-hook.sh" which will introspect to find the hook name, check if the user has a local hook with that name, and then will execute it.
 
 set -x
-hookname="$0"
+hookname="$(basename "$0")"
 local_hook=".git/hooks/$hookname"
 
 if [ -f "$local_hook" ]
