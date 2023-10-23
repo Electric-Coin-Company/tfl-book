@@ -1,6 +1,6 @@
 # Visualizing Trailing Finality
 
-In the [previous chapter](./motivating-finality.md) we visualized a node's view of consensus in PoW and a valid rollback transition. When we consider a protocol combinging PoW with trailing finality, there are multiple possible transitions:
+In the [previous chapter](./motivating-finality.md) we visualized a node's view of consensus in PoW and a valid rollback transition. When we consider a protocol combining PoW with trailing finality, there are multiple possible transitions:
 
 - PoW can make progress on discovering a new block,
 - finality can make progress on finalizing a previously found block, and
@@ -56,7 +56,7 @@ Now let's consider an invalid attempt to rollback a final block:
 
 ## An Invalid Finality Rollback
 
-At `T=4` the node learns of a new sequence ending in `i''` where each header in the Proof-of-Work sequence is valid and demonstrates sufficient work accoring to pure PoW consensus:
+At `T=4` the node learns of a new sequence ending in `i''` where each header in the Proof-of-Work sequence is valid and demonstrates sufficient work according to pure PoW consensus:
 
 ```dot process
 {{#include ../diagrams/tf-with-invalid-finality-rollback.dot}}
@@ -66,4 +66,4 @@ The sequence `d'' → e'' → f'' → g'' → h'' → i''` is invalid and reject
 
 # Summary
 
-Visualizing these possible transitions of a PoW-with-Trailing-Finality protocol helps provide an intuition about the intended protocols behavior.
+Visualizing these possible transitions of a PoW-with-Trailing-Finality protocol helps provide an intuition about the intended protocol's behavior.
