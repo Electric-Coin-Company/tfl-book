@@ -14,7 +14,7 @@ We envision a *proof-of-stake transition path* as one of the potential paths wit
 
 ## A Proof-of-Stake Transition Path
 
-Given that context, we envision a "path" within the Zcash Tech-Tree for transitioning Zcash to PoS. At the top-level we propose this path contains at least two major milestones:
+Given that context, we envision a "path" within the Zcash Tech-Tree for transitioning Zcash to PoS. At the top level we propose that this path contain at least two major milestones:
 
 1. Transitioning from current Zcash PoW to a hybrid PoW/PoS system.
 2. Transitioning from a hybrid PoW/PoS system to pure PoS.
@@ -35,7 +35,7 @@ We are refining the design of TFL with several design goals. As we refine the de
 - We want a security analysis of the proposed protocol to be as simple as possible given existing security analyses of current Zcash.
 - We want to enable new use cases around PoS that allow mobile shielded wallet users to earn a return on delegated ZEC.
 - We want to enable trust-minimized bridges and other benefits by providing a protocol with [assured finality](../terminology.md#definition-assured-finality).
-- We want to improve the _modularity_ of the consensus protocol, which has several loosely defined and related meanings, e.g.: it's possible to understand some consensus properties only given knowledge of a "component" of the protocol, and it's possible to implement consensus rules in modular code components with clean interfaces.
+- We want to improve the _modularity_ of the consensus protocol. That is, it should be possible to understand some consensus properties only given knowledge of a "component" of the protocol, and it should be possible to implement consensus rules in modular code components with clean interfaces.
 
 We will be refining these goals and potentially adding more as we continue to develop this proposal.
 

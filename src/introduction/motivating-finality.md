@@ -30,10 +30,10 @@ This example demonstrates how a lack of guaranteed finality can impede many usef
 
 This has several drawbacks:
 
-- it _doesn't remove the vulnerability_, it only reduces the likelihood,
-- different applications/services may require different block depths making it difficult to compose or chain together different applications/services,
-- different block depth policies potentially confuse users, i.e. "why do I have to wait one hour for my deposit in this exchange, but only 30 minutes on that exchange?", and
-- it introduces a delay which inhibits many useful applications.
+- it _doesn't remove the vulnerability_, it only reduces the likelihood;
+- different applications/services may require different block depths, making it difficult to compose or chain together different applications/services;
+- different block depth policies potentially confuse users, i.e. "why do I have to wait one hour for my deposit in this exchange, but only 30 minutes on that exchange?"; and
+- it introduces a long delay which inhibits many useful applications.
 
 In addition to these user-facing and economic drawbacks, correctly handling rollbacks makes the code for nodes, wallets, and other infrastructure more complex. Worse still, many systems may not have correct behavior for rollbacks at different depths, and since large rollbacks are rarer, these implementation flaws may not surface until there is a large rollback. While a large rollback would be disruptive all by itself, it becomes even worse when previously undiscovered bugs exacerbate the situation.
 
@@ -41,9 +41,9 @@ In addition to these user-facing and economic drawbacks, correctly handling roll
 
 Trailing finality extends the existing PoW consensus so that older blocks become final, ensuring they _cannot_ be rolled back, and by extension neither can any of the transactions they contain.
 
-This directly addresses the first two flaws above: it completely removes the vulnerability and it ensures all systems which need finality behave consistently with each other.
+This directly addresses the first two flaws above: it completely removes the vulnerability, and it ensures all systems that need finality behave consistently with each other.
 
- As for delay, tailing finality also introduces delay since final blocks "trail behind" the most recent PoW blocks. This can be an improvement for some applications, but not others. For example, if the delay to finality averages around 10 minutes, then this would enable an improvement for an exchange which requires 60 minutes of PoW blocks for a deposit. On the other hand, it would not be an improvement for an application that needs finality faster than 10 minutes.
+As for delay, trailing finality also introduces delay since final blocks "trail behind" the most recent PoW blocks. This can be an improvement for some applications, depending on their latency requirements. For example, if the delay to finality averages around 10 minutes, then this would enable an improvement for an exchange that requires 60 minutes of PoW blocks for a deposit. On the other hand, it would not be an improvement for an application that needs finality faster than 10 minutes.
 
 Finally, implementations can be simplified by relying on the guarantee of finality. For example, a wallet can describe any transaction as pending or final, and does not need to provide difficult and potentially confusing UX (and the supporting database sophistication) for handling rollbacks.
 
