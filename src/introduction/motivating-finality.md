@@ -1,6 +1,6 @@
 # Motivating Finality
 
-In Zcash currently, consensus relies solely on PoW, which only provides *probabilistic finality*, rather than *guaranteed finality*.[^finality-qualifiers] This style of consensus does not offer a guarantee that any given block may not be *rolled back* which may invalidate the transactions it contains. Instead, the probability that a block may be rolled back decreases as more blocks are mined subsquently on top of it.[^pow-rollback-security-assumptions]
+In Zcash currently, consensus relies solely on PoW, which only provides *probabilistic finality*, rather than [*assured finality*](../terminology.md#definition-assured-finality).[^finality-qualifiers] This style of consensus does not offer a guarantee that any given block may not be *rolled back* which may invalidate the transactions it contains. Instead, the probability that a block may be rolled back decreases as more blocks are mined subsquently on top of it.[^pow-rollback-security-assumptions]
 
 Let's walk through an example of how Zcash's current PoW with probabilistic finality can impede important use cases. Consider a PoW node which sees this block sequence at time `T=0`:
 
@@ -26,7 +26,7 @@ In our example, the bridging system acted in response to a transaction in the or
 
 ## Rollback Complications
 
-This example demonstrates how a lack of guaranteed finality can impede many useful real-world scenarios. In practice, systems and services which need greater assurances wait for more block confirmations.
+This example demonstrates how a lack of assured finality can impede many useful real-world scenarios. In practice, systems and services which need greater assurances wait for more block confirmations.
 
 This has several drawbacks:
 
@@ -39,7 +39,7 @@ In addition to these user-facing and economic drawbacks, correctly handling roll
 
 ## Trailing Finality Benefits
 
-Trailing finality extends the existing PoW consensus so that older blocks become final, ensuring they _cannot_ be rolled back, and by extension neither can any of the transactions they contain.
+Trailing finality extends the existing PoW consensus so that older blocks become final, assuring they _cannot_ be rolled back, and by extension neither can any of the transactions they contain.
 
 This directly addresses the first two flaws above: it completely removes the vulnerability, and it ensures all systems that need finality behave consistently with each other.
 
@@ -49,7 +49,7 @@ Finally, implementations can be simplified by relying on the guarantee of finali
 
 # Footnotes
 
-[^finality-qualifiers]: Throughout this book, when we say *finality* or *final* without other qualifiers, we specifically are referring to *guaranteed finality* or a *guaranteed final* block. Where we call out *probabalistic finality* we always use that qualifier.
+[^finality-qualifiers]: Throughout this book, when we say *finality* or *final* without other qualifiers, we specifically are referring to *assured finality* or a *assured final* block. Where we call out *probabalistic finality* we always use that qualifier.
 
 [^pow-rollback-security-assumptions]: The estimated probability of a rollback relies on a variety of PoW security assumptions, and can be violated in various conditions, such as in mining efficiency breakthroughs, compromises of the PoW challenge algorithm (e.g. hash function collision resistance failure), difficulty-adjustment-algorithm failures, sudden/surprise mining capacity increases, and so on. So the estimated probability can be violated in potential "black swan" events.
 
