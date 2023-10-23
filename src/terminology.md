@@ -10,7 +10,7 @@ Definitions are sorted alphabetically.
 
 Importantly, it is not feasible for any protocol to prevent reversing final transactions "out of band" from the protocol, such as if a sufficiently large and motivated group of users forks the network to include a specific new validity rule reverting transactions. For this reason, we eschew the term "absolute finality" sometimes used in technical discussions about consensus protocols.
 
-<span id="definition-crosslink"></span>**Crosslink**: A hybrid consensus protocol construction striving to implement the [TFL](#definition-tfl) design goals. See [Status and Next Steps: Current Components](./introduction/status-and-next-steps.md#Current Components) for current status.
+<span id="definition-crosslink"></span>**Crosslink**: A hybrid consensus protocol construction striving to implement the [TFL](#definition-tfl) design goals. See [Status and Next Steps: Current Components](./introduction/status-and-next-steps.md#current-components) for current status.
 
 <span id="definition-final"></span>**Final**: A protocol property of transactions. In this book, this always implies [assured finality](#definition-assured-finality), in contrast to concepts like "probabilistic finality" provided by [PoW](#definition-pow).
 
@@ -28,7 +28,7 @@ Importantly, it is not feasible for any protocol to prevent reversing final tran
 
 <span id="definition-safety"></span>**Safety**: The property of a distributed protocol that guarantees a participant may safely rely on a consistent local state, provided safety requirements are met. **TODO:** Fix this definition.
 
-<span id="definition-simtfl"></span>**`simtfl`**: a protocol simulator for analyzing [TFL](#definition-tfl) security and abstract performance. Development lives at <https://github.com/zcash/simtfl>. See [Status and Next Steps: Current Components](./introduction/status-and-next-steps.md#Current Components) for current status.
+<span id="definition-simtfl"></span>**`simtfl`**: a protocol simulator for analyzing [TFL](#definition-tfl) security and abstract performance. Development lives at <https://github.com/zcash/simtfl>. See [Status and Next Steps: Current Components](./introduction/status-and-next-steps.md#current-components) for current status.
 
 <span id="definition-tfl"></span>**TFL**: The *Trailing Finality Layer* subprotocol within PoW+TFL. This is a new [PoS](#definition-pos) subprotocol which provides [assured finality](#definition-assured-finality) for Zcash.
 
@@ -41,3 +41,45 @@ Importantly, it is not feasible for any protocol to prevent reversing final tran
 # Footnotes
 
 [^new-mainnet-precursors]: If new consensus changes are deployed to Zcash mainnet prior to PoW+TFL design finalization, this design must be updated to refer to the new delta (e.g. by reanalyzing all changes against NU6 or NU7, etc…)
+
+<pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
