@@ -42,6 +42,7 @@ Importantly, it is not feasible for any protocol to prevent reversing final tran
 
 [^new-mainnet-precursors]: If new consensus changes are deployed to Zcash mainnet prior to PoW+TFL design finalization, this design must be updated to refer to the new delta (e.g. by reanalyzing all changes against NU6 or NU7, etc…)
 
+<!-- This trailing whitespace ensures that readers who follow a link to a definition will always see that term at the top of their view. -->
 <pre>
 
 
