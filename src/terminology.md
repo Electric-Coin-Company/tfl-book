@@ -6,6 +6,8 @@ Definitions are sorted alphabetically.
 
 ## Terms
 
+<!-- Unlike true html, it seems `mdbook` requires the span tags to be empty and immediately pre-fix the intended anchor target. -->
+
 <span id="definition-assured-finality"></span>**Assured Finality**: A protocol property that assures that transactions cannot be reverted by that protocol. As with all protocol guarantees, a protocol assumes certain conditions must be met. A transaction may either be final or not: transactions which are not final may not become final, whereas once transactions do achieve finality they retain that property indefinitely (so long as protocol requirements are met).
 
 Importantly, it is not feasible for any protocol to prevent reversing final transactions "out of band" from the protocol, such as if a sufficiently large and motivated group of users forks the network to include a specific new validity rule reverting transactions. In some cases this might be desirable, for example to mitigate exploitation of a security flaw. We are investigating the implications for governance and how to incorporate such situations into our security model. In any case, for this reason we eschew the term "absolute finality" sometimes used in technical discussions about consensus protocols.
