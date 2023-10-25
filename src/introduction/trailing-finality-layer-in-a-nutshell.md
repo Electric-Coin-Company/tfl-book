@@ -68,4 +68,4 @@ In addition to the other benefits of protocol design modularity, we anticipate a
 
 ## Cracking the Nutshell
 
-In the rest of the introductory section of this book, we describe the status and next steps for the TFL proposal, provide a motivation for finality, a way to visualize and reason about trailing finality, and suggestions for getting involved.
+In the rest of the introductory section of this book, we describe the status and next steps for the TFL proposal, provide a motivation for finality, and suggestions for getting involved.

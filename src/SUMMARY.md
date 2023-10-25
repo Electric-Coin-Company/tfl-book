@@ -5,7 +5,6 @@
   - [Trailing Finality Layer in a Nutshell](./introduction/trailing-finality-layer-in-a-nutshell.md)
   - [Status and Next Steps](./introduction/status-and-next-steps.md)
   - [Motivating Finality](./introduction/motivating-finality.md)
-  - [Visualizing Trailing Finality](./introduction/visualizing-trailing-finality.md)
   - [Get Involved](./introduction/get-involved.md)
 - [Terminology](./terminology.md)
 - [Overview](./overview.md)
