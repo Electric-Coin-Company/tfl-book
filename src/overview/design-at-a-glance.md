@@ -29,7 +29,7 @@ We also explicitly define design goals about which areas of consensus _must not_
 
 ### Trailing Finality
 
-The TFL extends the Zcash consensus protocol with *Trailing Finality*: TFL *finalizes* blocks that have been produced by PoW. See [Visualizing Trailing Finality](../introduction/visualizing-trailing-finality.md) for an informal description of this.
+The TFL extends the Zcash consensus protocol with *Trailing Finality*: TFL *finalizes* blocks that have been produced by PoW.
 
 When focusing on the PoW subprotocol, Trailing Finality introduces minimal changes to the subprotocol consensus: PoW has a mechanism for discovering block finality from TFL, and then it introduces a single new PoW subprotocol consensus rule constraint:
 
