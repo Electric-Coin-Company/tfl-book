@@ -19,6 +19,8 @@ Given that context, we envision a "path" within the Zcash Tech-Tree for transiti
 1. Transitioning from current Zcash PoW to a hybrid PoW/PoS system.
 2. Transitioning from a hybrid PoW/PoS system to pure PoS.
 
+After this transition to pure PoS, there are likely to be future improvements to the PoS protocol, or the consensus protocol more generally. This TFL book focuses almost exclusively on the first step in this sequence.
+
 Our primary motivation for proposing (at least) two steps is to minimize disruption to usability, safety, security, and the ecosystem during each step.
 
 With this approach, the Zcash Tech Tree with the [TFL](./terminology.md#definition-tfl) approach might look something like this:
