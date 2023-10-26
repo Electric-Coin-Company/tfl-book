@@ -1,0 +1,234 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Status and Next Steps - Zcash Trailing Finality Layer</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../introduction/a-path-to-pos-zcash.html"><strong aria-hidden="true">1.1.</strong> A Path to Proof-of-Stake Zcash</a></li><li class="chapter-item expanded "><a href="../introduction/trailing-finality-layer-in-a-nutshell.html"><strong aria-hidden="true">1.2.</strong> Trailing Finality Layer in a Nutshell</a></li><li class="chapter-item expanded "><a href="../introduction/status-and-next-steps.html" class="active"><strong aria-hidden="true">1.3.</strong> Status and Next Steps</a></li><li class="chapter-item expanded "><a href="../introduction/motivating-finality.html"><strong aria-hidden="true">1.4.</strong> Motivating Finality</a></li><li class="chapter-item expanded "><a href="../introduction/get-involved.html"><strong aria-hidden="true">1.5.</strong> Get Involved</a></li></ol></li><li class="chapter-item expanded "><a href="../terminology.html"><strong aria-hidden="true">2.</strong> Terminology</a></li><li class="chapter-item expanded "><a href="../overview.html"><strong aria-hidden="true">3.</strong> Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../overview/design-goals.html"><strong aria-hidden="true">3.1.</strong> Design Goals</a></li><li class="chapter-item expanded "><a href="../overview/design-at-a-glance.html"><strong aria-hidden="true">3.2.</strong> Design at a Glance</a></li><li class="chapter-item expanded "><a href="../overview/subprotocol-interface.html"><strong aria-hidden="true">3.3.</strong> Subprotocol Interface</a></li><li class="chapter-item expanded "><a href="../overview/model-code-architecture.html"><strong aria-hidden="true">3.4.</strong> Model Code Architecture</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.5.</strong> Network Architecture</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Protocol Specification</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Abstract Protocol</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.1.</strong> Token Dynamics</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Concrete Protocol</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.1.</strong> Token Dynamics</div></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Security</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Abstract Analysis</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.1.</strong> Ebb-and-Flow analysis</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.2.</strong> Subprotocol Compromise Analysis</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.3.</strong> Model Code Architecture Analysis</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.4.</strong> Network Architecture Analysis</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.2.</strong> Concrete Analysis</div></li></ol></li><li class="chapter-item expanded "><a href="../references.html"><strong aria-hidden="true">6.</strong> References</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Zcash Trailing Finality Layer</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="status-and-next-steps"><a class="header" href="#status-and-next-steps">Status and Next Steps</a></h1>
+<p>This is an early and incomplete protocol design proposal. It has not been well vetted for feasibility and safety. It has not had broad review from the Zcash community, so its status on any Zcash roadmap is undetermined.</p>
+<h2 id="current-components"><a class="header" href="#current-components">Current Components</a></h2>
+<h3 id="this-book"><a class="header" href="#this-book">This Book</a></h3>
+<p>This book is intended to become both a high-level overview and introduction to <a href="../terminology.html#definition-tfl">TFL</a>, and a full specification.</p>
+<h3 id="crosslink"><a class="header" href="#crosslink">Crosslink</a></h3>
+<p>The current heart of the design work is an in-progress hybrid consensus protocol construction called <a href="../terminology.html#definition-crosslink">Crosslink</a>. This is an in-development realization of the <a href="../terminology.html#definition-tfl">TFL</a> design goals. The essential design details are specified, along with a security argument for its <a href="../terminology.html#definition-liveness">liveness</a>. The security argument for its <a href="../terminology.html#definition-liveness">safety</a> is in progress.</p>
+<p>The draft specification and security arguments of Crosslink currently live on <a href="https://hackmd.io/JqENg--qSmyqRt_RqY7Whw?view">this hackmd</a>.</p>
+<h3 id="simtfl"><a class="header" href="#simtfl"><code>simtfl</code></a></h3>
+<p>We've begun creating a simulator called <a href="../terminology.html#definition-simtfl"><code>simtfl</code></a> which we will use to model security and abstract performance concerns. Its development is tracked at <a href="https://github.com/zcash/simtfl">https://github.com/zcash/simtfl</a>.</p>
+<h2 id="major-missing-components"><a class="header" href="#major-missing-components">Major Missing Components</a></h2>
+<ul>
+<li>PoS subprotocol selection,</li>
+<li>Issuance and supply mechanics, such as how much ZEC stakers may earn,</li>
+<li>Integrated Zcash transaction semantics,</li>
+<li>A transition plan from current Zcash mainnet to this protocol design,</li>
+<li><a href="../terminology.html#definition-zip">ZIP</a>s specifying the above to the level of specificity required by ZIPs,</li>
+<li>Security and safety analyses,</li>
+<li>Economic analyses.</li>
+</ul>
+<p>This list may be incomplete, and as the design matures the need for major new components may be revealed.</p>
+<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
+<p>This design proposal is being developed by <a href="https://electriccoin.co/">Electric Coin Company</a> as the first major milestone in our focus of deploying Proof-of-Stake to the Zcash protocol. Our rough near-term plan for this proposal is as follows:</p>
+<ol>
+<li>Complete the <a href="../terminology.html#definition-crosslink">Crosslink</a> description.</li>
+<li>Complete core security arguments for <a href="../terminology.html#definition-crosslink">Crosslink</a>.</li>
+<li>Define the <a href="#major-missing-components">Major Missing Components</a> above, including considerations such as issuance mechanics and Proof-of-Stake mechanisms.</li>
+<li>Complete auxillary security arguments and analyses, such as specific attack scenarios, game-theoretic security, and so forth.</li>
+<li>Mature <a href="../terminology.html#definition-simtfl"><code>simtfl</code></a> to analyze all cases of interest.</li>
+<li>Follow the general Zcash process for proposal/review/refinement, including proposing one or more <a href="../terminology.html#definition-zip">ZIP</a>s.</li>
+<li>Follow the general Zcash governance process for proposal review and refinement.</li>
+<li>If accepted, productionize the proposal in ECC products and collaborate with other implementors who implement the proposal.</li>
+<li>Celebrate when and if the proposal is activated on Mainnet. 🎉</li>
+</ol>
+<p>The fine-grained day-to-day goals and tasks for this project are present in <a href="https://zcash.github.io/developers">the Zcash Developers Hub</a> in the <a href="https://zcash.github.io/developers/zcash-tfl-dag">TFL-focused DAG</a>.</p>
+<p>Please also see <a href="./getting-involved.html">Getting Involved</a> if you are interested in tracking this progress more closely, or in contributing.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../introduction/trailing-finality-layer-in-a-nutshell.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../introduction/motivating-finality.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../introduction/trailing-finality-layer-in-a-nutshell.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../introduction/motivating-finality.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
