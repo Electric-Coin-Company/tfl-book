@@ -2,6 +2,12 @@
 
 Here we strive to lay out our high level TFL design goals.
 
+## Goals, Design, and Trade-offs
+
+Here we lay out _ideal_ goals. As we develop a complete design, we are likely to inevitably encounter trade-offs some of which may preclude achieving the full idealized goals. Wherever possible, we motivate design decisions by these goals, and when goals are impacted by trade-offs we describe that impact and the rationale for the trade-off decision.
+
+For example, one ideal user experience goal below is to avoid disruption to existing wallets. However, the [Crosslink](../terminology.md#definition-crosslink) construction may require wallets to to alter their context of valid transactions differently from the current [NU5](../terminology.md#definition-nu5) protocol.
+
 ## User Experience and Use Case Goals
 
 We strive to start our protocol design process from user experience (UX) and use case considerations foremost, since at the end of the day all that matters in a protocol is what user needs it meets and how well.
