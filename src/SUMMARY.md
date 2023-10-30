@@ -7,7 +7,7 @@
   - [Motivating Finality](./introduction/motivating-finality.md)
   - [Get Involved](./introduction/get-involved.md)
 - [Terminology](./terminology.md)
-- [Overview](./overview.md)
+- [Design Overview](./overview.md)
   - [Design Goals](./overview/design-goals.md)
   - [Design at a Glance](./overview/design-at-a-glance.md)
   - [Subprotocol Interface](./overview/subprotocol-interface.md)
