@@ -12,6 +12,8 @@ build-dir = "./docs"
 [output.html]
 default-theme = "light"
 
+[output.linkcheck]
+
 [preprocessor.graphviz]
 command = "mdbook-graphviz"
 after = ["links"]

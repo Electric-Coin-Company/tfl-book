@@ -46,4 +46,4 @@ This design proposal is being developed by [Electric Coin Company](https://elect
 
 The fine-grained day-to-day goals and tasks for this project are present in [the Zcash Developers Hub](https://zcash.github.io/developers) in the [TFL-focused DAG](https://zcash.github.io/developers/zcash-tfl-dag).
 
-Please also see [Getting Involved](./getting-involved.md) if you are interested in tracking this progress more closely, or in contributing.
+Please also see [Get Involved](./get-involved.md) if you are interested in tracking this progress more closely, or in contributing.

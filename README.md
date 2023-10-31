@@ -18,6 +18,7 @@ There are two github CI workflows:
 
 - `cargo install mdbook`
 - `cargo install mdbook-graphviz`
+- `cargo install mdbook-linkcheck`
 
 ### Other prerequisites
 

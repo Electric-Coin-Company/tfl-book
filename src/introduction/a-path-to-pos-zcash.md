@@ -1,6 +1,6 @@
 # A Path to Proof-of-Stake Zcash
 
-The [TFL](./terminology.md#definition-tfl) design provides a possible first step in transitioning [Zcash](https://z.cash) to a [PoS](./terminology.md#definition-pos) protocol. Here we describe how a transition to PoS relates to "the Zcash roadmap" and how TFL fits into one approach to a PoS transition.
+The [TFL](../terminology.md#definition-tfl) design provides a possible first step in transitioning [Zcash](https://z.cash) to a [PoS](../terminology.md#definition-pos) protocol. Here we describe how a transition to PoS relates to "the Zcash roadmap" and how TFL fits into one approach to a PoS transition.
 
 ## The Zcash Tech-Tree
 
@@ -23,7 +23,7 @@ After this transition to pure PoS, there are likely to be future improvements to
 
 Our primary motivation for proposing (at least) two steps is to minimize disruption to usability, safety, security, and the ecosystem during each step.
 
-With this approach, the Zcash Tech Tree with the [TFL](./terminology.md#definition-tfl) approach might look something like this:
+With this approach, the Zcash Tech Tree with the [TFL](../terminology.md#definition-tfl) approach might look something like this:
 
 ```dot process
 {{#include ../diagrams/zcash-tech-tree-tfl-steps.dot}}
