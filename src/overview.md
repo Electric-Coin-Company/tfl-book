@@ -10,5 +10,5 @@ The integration of the current PoW consensus with the TFL produces a new top-lev
 
 In the following subchapters we introduce the [Design at a Glance](./overview/design-at-a-glance.md), then provide an overview of the major components of the design.
 
-Following this overview chapter, we proceed into a detailed [Protocol Specification](./protocol-specification.md).
+Following this overview chapter, we proceed into a detailed [Protocol Specification (TODO)]().
 
