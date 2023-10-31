@@ -12,15 +12,21 @@ Definitions are sorted alphabetically.
 
 Importantly, it is not feasible for any protocol to prevent reversing final transactions "out of band" from the protocol, such as if a sufficiently large and motivated group of users forks the network to include a specific new validity rule reverting transactions. In some cases this might be desirable, for example to mitigate exploitation of a security flaw. We are investigating the implications for governance and how to incorporate such situations into our security model. In any case, for this reason we eschew the term "absolute finality" sometimes used in technical discussions about consensus protocols.
 
-<span id="definition-crosslink"></span>**Crosslink**: A hybrid consensus protocol construction striving to implement the [TFL](#definition-tfl) design goals. See [Status and Next Steps: Current Components](./introduction/status-and-next-steps.md#current-components) for current status.
+<span id="definition-consensus-subprotocols"></span>**Consensus Subprotocols**: The [PoW](#definition-pow) and [PoS](#defintion-pos) subprotocols in [PoW+TFL](#definition-pow-tfl) or other [hybrid protocols](#definition-hybrid-consensus).
+
+<span id="definition-crosslink"></span>**Crosslink**: A [hybrid construction](#definition-hybrid-construction) consensus protocol striving to implement the [TFL](#definition-tfl) design goals. See [Status and Next Steps: Current Components](./introduction/status-and-next-steps.md#current-components) for current status.
 
 <span id="definition-final"></span>**Final**: A protocol property of transactions. In this book, this always implies [assured finality](#definition-assured-finality), in contrast to concepts like "probabilistic finality" provided by [PoW](#definition-pow).
 
 <span id="definition-hybrid-consensus"></span>**Hybrid Consensus**: A consensus protocol that integrates more than one consensus subprotocol. [PoW+TFL](#definition-pow-tfl) is an instance of a hybrid protocol integrating [PoW](#definition-pow) and [PoS](#definition-pos) protocols.
 
+<span id="definition-hybrid-construction"></span>**Hybrid Construction**: The design component of a [hybrid consensus](#defintion-hybrid-consensus) which specifies how to integrate [subprotocols](#definition-consensus-subprotocols) and what modifications, if any, those subprotocols need to be safely integrated. Examples include [Crosslink](#definition-crosslink) and [Snap-and-Chat](#definition-snap-and-chat).
+
 <span id="definition-liveness"></span>**Liveness**: The property of a distributed protocol which ensures that the protocol may progress provided liveness requirements are met. **TODO:** Fix this definition, which begs the question by failing to define "progress".
 
 <span id="definition-nu5"></span>**NU5**: The Zcash consensus protocol as of NU5.[^new-mainnet-precursors]
+
+<span id="definition-objective-validity"></span>**Objective Validity**: A validity property of a protocol history (such as a ledger) which can be computed purely from that history with no other context.
 
 <span id="definition-pos"></span>**Proof-of-Stake**: A PoS protocol achieves consensus on transaction status by taking into account the weighting of staking tokens. PoS protocols exist under a large umbrella and may or may not provide [assured finality](#definition-assured-finality) or other properties this design requires of [TFL](#definition-tfl).
 
@@ -31,6 +37,8 @@ Importantly, it is not feasible for any protocol to prevent reversing final tran
 <span id="definition-safety"></span>**Safety**: The property of a distributed protocol that guarantees a participant may safely rely on a consistent local state, provided safety requirements are met. **TODO:** Fix this definition.
 
 <span id="definition-simtfl"></span>**`simtfl`**: a protocol simulator for analyzing [TFL](#definition-tfl) security and abstract performance. Development lives at <https://github.com/zcash/simtfl></span>. See [Status and Next Steps: Current Components](./introduction/status-and-next-steps.md#current-components) for current status.
+
+<span id="definition-snap-and-chat"></span>**Snap-and-Chat**: A [hybrid construction](#definition-hybrid-construction) consensus protocol introduced in [Ebb-and-Flow Protocols](./references.md#ebb-and-flow-protocols).
 
 <span id="definition-tfl"></span>**TFL**: The *Trailing Finality Layer* subprotocol within PoW+TFL. This is a new [PoS](#definition-pos) subprotocol which provides [assured finality](#definition-assured-finality) for Zcash.
 
