@@ -6,7 +6,9 @@ src = "src"
 title = "Zcash Trailing Finality Layer"
 
 [build]
-# Follow gh pages convention; see https://nathan-at-least.github.io/auto-deploy-howto.html
+# When there is more than one [output.*] section, the HTML will be generated under `html/`.
+# So, we set build-dir to the root directory of the repo and have a symlink from `docs/` to `html/`.
+# GitHub pages only renders content under `docs/`; see https://nathan-at-least.github.io/auto-deploy-howto.html
 build-dir = "."
 
 [output.html]
