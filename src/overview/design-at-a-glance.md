@@ -1,6 +1,6 @@
 # Design at a Glance
 
-The [PoW+TFL](../terminology.md#definition-pow-tfl) consensus protocol is logically an extension of the Zcash consensus rules to introduce [trailing finality](../terminology.md#definition-trailing-finality). This is achieved by compartmentalizing the top-level PoW+TFL protocol into two [consensus subprotocols](../terminology.md#definition-consensus-subprotocols), one embodying most of the current consensus logic of Zcash and another the TFL. These protocols interact through a [hybrid construction](../terminology.md#definition-hybrid-construction), which specifies how the protocols interact, and what changes from "off-the-shelf" behavior, if any, need to be imposed on the subprotocols. Each of these components (the two subprotocols and the hybrid construction) are somewhat modular: different subprotocols or hybrid constructions may be combined (with some modification) to product a candidate [PoW+TFL](../terminology.md#definition-pow-tfl) protocol.
+The [PoW+TFL](../terminology.md#definition-pow-tfl) consensus protocol is logically an extension of the Zcash consensus rules to introduce [trailing finality](../terminology.md#definition-trailing-finality). This is achieved by compartmentalizing the top-level PoW+TFL protocol into two [consensus subprotocols](../terminology.md#definition-consensus-subprotocols), one embodying most of the current consensus logic of Zcash and another the TFL. These protocols interact through a [hybrid construction](../terminology.md#definition-hybrid-construction), which specifies how the protocols interact, and what changes from "off-the-shelf" behavior, if any, need to be imposed on the subprotocols. Each of these components (the two subprotocols and the hybrid construction) are somewhat modular: different subprotocols or hybrid constructions may be combined (with some modification) to produce a candidate [PoW+TFL](../terminology.md#definition-pow-tfl) protocol.
 
 **TODO:** Add consensus subprotocol diagram.
 
@@ -8,8 +8,8 @@ The [PoW+TFL](../terminology.md#definition-pow-tfl) consensus protocol is logica
 
 The [hybrid construction](../terminology.md#definition-hybrid-construction) is a major design component of the full consensus protocol which specifies how the subprotocols integrate. So far we have considered three candidates:
 
-1. The implied/loosely defined hybrid construction presented at Zcon4. **TODO: Link**
-2. The [Snap-and-Chat](../terminology.md#definition-snap-and-chat) from the Ebb-and-Flow paper. **TODO: Add References and link.**
+1. The implied/loosely defined hybrid construction [presented at Zcon4](https://www.youtube.com/watch?v=qhMzMYeEPMM&list=PL40dyJ0UYTLII7oQRQmNOFf0d2iKT35tL&index=17).
+2. The [Snap-and-Chat](../terminology.md#definition-snap-and-chat) from the [Ebb-and-Flow paper](https://eprint.iacr.org/2020/1091).
 3. The [Crosslink](../terminology.md#definition-crosslink) construction.
 
 Currently we believe [Crosslink](../terminology.md#definition-crosslink) is the best candidate, due to security considerations.

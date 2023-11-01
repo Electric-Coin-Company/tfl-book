@@ -26,7 +26,7 @@ Importantly, it is not feasible for any protocol to prevent reversing final tran
 
 <span id="definition-nu5"></span>**NU5**: The Zcash consensus protocol as of NU5.[^new-mainnet-precursors]
 
-<span id="definition-objective-validity"></span>**Objective Validity**: A validity property of a protocol history (such as a ledger) which can be computed purely from that history with no other context.
+<span id="definition-objective-validity"></span>**Objective Validity**: A validity property of a protocol history (such as a ledger) which can be computed purely from that history with no other context. Objective validity is needed to define consensus rules that will lead to the same protocol state being eventually agreed on by all nodes.
 
 <span id="definition-pos"></span>**Proof-of-Stake**: A PoS protocol achieves consensus on transaction status by taking into account the weighting of staking tokens. PoS protocols exist under a large umbrella and may or may not provide [assured finality](#definition-assured-finality) or other properties this design requires of [TFL](#definition-tfl).
 
