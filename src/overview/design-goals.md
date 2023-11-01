@@ -19,6 +19,7 @@ We strive to start our protocol design process from user experience (UX) and use
 - The any hybrid PoW/PoS protocol (including PoW+TFL) block explorers will continue to function with the same UX through transitions in-so-far as displaying information about transactions, the mempool, and blocks.
 - Block explorers and other network metrics sites may require UX changes with respect to mining rewards and issuance calculations.
 - Network metrics sites may require UX changes with respect to the p2p protocol or other network-specific information.
+- Users can rely on [assured finality](../terminology.md#definition-assured-finality) with an expected time-to-finality of <30m.[^req-ttf-30m]
 
 ## Developer Experience Goals
 
@@ -43,3 +44,7 @@ We want to follow some conservative design heuristics to minimize risk and mista
 - Rely as much as possible on design components that are already proven in production environments.
 - Rely as much as possible on design components with adequate theoretical underpinnings and security analyses.
 - Minimize changes or variations on the above: strive to only alter existing work when necessary for overall design goals. For example, Zcash's privacy or issuance constraints are likely less common among existing PoS designs.
+
+# Footnotes
+
+[^req-ttf-30m]: This requirement comes from [a request from a DEX developer](https://github.com/Electric-Coin-Company/tfl-book/issues/38). While we have not yet surveyed DEX and Bridge designs, we're relying on this as a good starting point.
