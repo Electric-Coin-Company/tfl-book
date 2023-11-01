@@ -40,7 +40,7 @@ In a sense, we can think of this approach as enabling the Zcash community to "di
 
 ### Minimal Use-Case Disruption
 
-In many cases, existing products, services, and tools can continue using the mainnet chain with no changes to code assuming they rely on existingn consensus nodes. We view this as a major benefit which allows Zcash's existing user network effect to continue safely unperturbed.
+In many cases, existing products, services, and tools can continue using the mainnet chain with no changes to code assuming they rely on existing consensus nodes. We view this as a major benefit which allows Zcash's existing user network effect to continue safely unperturbed.
 
 There will be certain narrow exceptional areas if those products, services, or tools need to be precise in areas where the protocol has changed, such as mining/staking reward calculations, transaction formats (in particular any new PoS-related fields or logic), or chain rollback logic.
 
