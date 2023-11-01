@@ -7,7 +7,7 @@ title = "Zcash Trailing Finality Layer"
 
 [build]
 # Follow gh pages convention; see https://nathan-at-least.github.io/auto-deploy-howto.html
-build-dir = "./docs"
+build-dir = "."
 
 [output.html]
 default-theme = "light"

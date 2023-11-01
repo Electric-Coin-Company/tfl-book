@@ -60,8 +60,8 @@ jobs:
     - run: mdbook build
     - name: Rendered manifest
       run: find ./docs -type f -exec ls -ld '{}' \;
-    - name: Unignore docs and generated images
-      run: sed -i 's|^docs/$||; s|^\*\.generated\.svg$||' .gitignore ; cat .gitignore
+    - name: Unignore html and generated images
+      run: sed -i 's|^html/$||; s|^\*\.generated\.svg$||' .gitignore ; cat .gitignore
     - name: Disable jekyll
       run: touch .nojekyll
     - name: Commit and Push render to gh-pages
