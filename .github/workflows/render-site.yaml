@@ -58,10 +58,10 @@ jobs:
         git merge --ff-only "$TMP"
         git branch -d "$TMP"
     - run: mdbook build
+    - name: Move generated HTML to docs/
+      run: mv html/ docs/
     - name: Rendered manifest
       run: find ./docs -type f -exec ls -ld '{}' \;
-    - name: Unignore html and generated images
-      run: sed -i 's|^html/$||; s|^\*\.generated\.svg$||' .gitignore ; cat .gitignore
     - name: Disable jekyll
       run: touch .nojekyll
     - name: Commit and Push render to gh-pages
