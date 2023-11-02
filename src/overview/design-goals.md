@@ -57,6 +57,7 @@ While these desiderata may be common across the blockchain consensus design spac
 - Prioritizing minimal time-to-finality over other considerations (such as protocol simplicity, impact on existing use cases, or other goals above).
 - In-protocol liquid staking derivatives.
 - Maximizing the PoS staked-voter count ceiling. For example, [Tendermint BFT](https://github.com/tendermint/tendermint#research) has a relatively low ceiling of ~hundreds of staked voters, whereas Ethereum's [Gasper](https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/) supports hundreds of thousands of staked voters.
+- Reducing energy usage. While this would presumably be a goal of a pure PoS transition, it likely cannot be achieved for hybrid PoW/PoS without loss of security.
 
 ## Anti-Goals
 
