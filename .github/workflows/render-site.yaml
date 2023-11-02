@@ -59,7 +59,9 @@ jobs:
         git branch -d "$TMP"
     - run: mdbook build
     - name: Move generated HTML to docs/
-      run: mv html/ docs/
+      run: |
+        rm docs
+        mv build/html/ docs/
     - name: Rendered manifest
       run: find ./docs -type f -exec ls -ld '{}' \;
     - name: Disable jekyll
