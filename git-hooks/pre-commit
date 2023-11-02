@@ -8,7 +8,7 @@ function main
 	log-run ./util/find-orphaned-files.sh
 }
 
-# Used to log which check is being executed, then executing it:
+# Used to log which check is being executed, then execute it:
 function log-run
 {
 	echo "$0: $1"
