@@ -1,5 +1,8 @@
 [book]
-authors = ["Nate Wilcox"]
+authors = [
+    "Nate Wilcox",
+    "Daira Emma Hopwood",
+]
 language = "en"
 multilingual = false
 src = "src"
@@ -12,6 +15,12 @@ title = "Zcash Trailing Finality Layer"
 # we also have a symlink from `docs` to `build/html/` (this is not sufficient for GitHub pages, so CI deletes
 # the symlink and then does the move).
 build-dir = "build"
+
+[preprocessor.katex]
+macros = "macros.txt"
+renderer = ["html"]
+# This is needed in order for \href and \url links to work.
+trust = true
 
 [output.html]
 default-theme = "light"
