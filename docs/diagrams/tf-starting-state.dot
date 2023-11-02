@@ -1,0 +1,22 @@
+
+digraph BlockHistory {
+    rankdir = RL
+    color = "lightgrey"
+
+    subgraph cluster_pow {
+        label = "Unfinalized PoW Blocks"
+        node [ shape=square ]
+
+        f -> e
+        e -> d
+    }
+
+    subgraph cluster_final {
+        label = "Finalized Blocks"
+        node [ shape=Msquare ]
+
+        d -> c
+        c -> b
+        b -> a
+    }
+}
