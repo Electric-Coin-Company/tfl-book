@@ -33,7 +33,7 @@ With this approach, the Zcash Tech Tree with the [TFL](../terminology.md#definit
 
 ## Why Two Steps?
 
-One question we've gotten in proposing this approach is why take a two step process with an intermediate [hybrid consensus](../terminology.md#definition-hybrid-consensus) protocol, rather than a single transition directly to a [PoS](../terminology.md#definition-pos) protocol? 
+One question we've gotten in proposing this approach is why take a two-step process with an intermediate [hybrid consensus](../terminology.md#definition-hybrid-consensus) protocol, rather than a single transition directly to a [PoS](../terminology.md#definition-pos) protocol? 
 
 Here's how we think about those trade-offs:
 
