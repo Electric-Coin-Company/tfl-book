@@ -6,10 +6,12 @@ src = "src"
 title = "Zcash Trailing Finality Layer"
 
 [build]
-# When there is more than one [output.*] section, the HTML will be generated under `html/`.
+# When there is more than one [output.*] section, the HTML will be generated under `<build-dir>/html/`.
 # GitHub pages only renders content under `docs/`; see https://nathan-at-least.github.io/auto-deploy-howto.html
-# So, we set build-dir to the root directory of the repo and have CI move `html/` to `docs/`.
-build-dir = "."
+# So, we set build-dir to `build/` and have CI move `build/html/` to `docs/`. For convenience of local viewing,
+# we also have a symlink from `docs` to `build/html/` (this is not sufficient for GitHub pages, so CI deletes
+# the symlink and then does the move).
+build-dir = "build"
 
 [output.html]
 default-theme = "light"

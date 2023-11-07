@@ -1,3 +1,2 @@
-html/
-linkcheck/
+build/
 src/**/*.generated.svg
