@@ -1,0 +1,314 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Terminology - Zcash Trailing Finality Layer</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="introduction/a-path-to-pos-zcash.html"><strong aria-hidden="true">1.1.</strong> A Path to Proof-of-Stake Zcash</a></li><li class="chapter-item expanded "><a href="introduction/trailing-finality-layer-in-a-nutshell.html"><strong aria-hidden="true">1.2.</strong> Trailing Finality Layer in a Nutshell</a></li><li class="chapter-item expanded "><a href="introduction/status-and-next-steps.html"><strong aria-hidden="true">1.3.</strong> Status and Next Steps</a></li><li class="chapter-item expanded "><a href="introduction/motivating-finality.html"><strong aria-hidden="true">1.4.</strong> Motivating Finality</a></li><li class="chapter-item expanded "><a href="introduction/get-involved.html"><strong aria-hidden="true">1.5.</strong> Get Involved</a></li></ol></li><li class="chapter-item expanded "><a href="terminology.html" class="active"><strong aria-hidden="true">2.</strong> Terminology</a></li><li class="chapter-item expanded "><a href="overview.html"><strong aria-hidden="true">3.</strong> Design Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overview/design-goals.html"><strong aria-hidden="true">3.1.</strong> Design Goals</a></li><li class="chapter-item expanded "><a href="overview/design-at-a-glance.html"><strong aria-hidden="true">3.2.</strong> Design at a Glance</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.3.</strong> Model Code Architecture</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.4.</strong> Network Architecture</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Protocol Specification</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Abstract Protocol</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.1.</strong> Token Dynamics</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Concrete Protocol</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.1.</strong> Token Dynamics</div></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Security</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Abstract Analysis</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.1.</strong> Ebb-and-Flow analysis</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.2.</strong> Subprotocol Compromise Analysis</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.3.</strong> Model Code Architecture Analysis</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.4.</strong> Network Architecture Analysis</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.2.</strong> Concrete Analysis</div></li></ol></li><li class="chapter-item expanded "><a href="references.html"><strong aria-hidden="true">6.</strong> References</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Zcash Trailing Finality Layer</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="terminology"><a class="header" href="#terminology">Terminology</a></h1>
+<p>This book relies on the following terminology. We strive to keep these definitions as precise as possible and their definitions may deviate from uses elsewhere.</p>
+<p>Definitions are sorted alphabetically.</p>
+<h2 id="terms"><a class="header" href="#terms">Terms</a></h2>
+<!-- Unlike true html, it seems `mdbook` requires the span tags to be empty and immediately pre-fix the intended anchor target. -->
+<p><span id="definition-assured-finality"></span>
+<strong>Assured Finality</strong>: A protocol property that assures that transactions cannot be reverted by that protocol. As with all protocol guarantees, a protocol assumes certain conditions must be met. A transaction may either be final or not: transactions which are not final may not become final, whereas once transactions do achieve finality they retain that property indefinitely (so long as protocol requirements are met).</p>
+<p>Importantly, it is not feasible for any protocol to prevent reversing final transactions &quot;out of band&quot; from the protocol, such as if a sufficiently large and motivated group of users forks the network to include a specific new validity rule reverting transactions. In some cases this might be desirable, for example to mitigate exploitation of a security flaw. We are investigating the implications for governance and how to incorporate such situations into our security model. In any case, for this reason we eschew the term &quot;absolute finality&quot; sometimes used in technical discussions about consensus protocols.</p>
+<p><span id="definition-consensus-subprotocols"></span>
+<strong>Consensus Subprotocols</strong>: The <a href="#definition-pow">PoW</a> and <a href="#defintion-pos">PoS</a> subprotocols in <a href="#definition-pow-tfl">PoW+TFL</a> or other <a href="#definition-hybrid-consensus">hybrid protocols</a>.</p>
+<p><span id="definition-crosslink"></span>
+<strong>Crosslink</strong>: A <a href="#definition-hybrid-construction">hybrid construction</a> consensus protocol striving to implement the <a href="#definition-tfl">TFL</a> design goals. See <a href="./introduction/status-and-next-steps.html#current-components">Status and Next Steps: Current Components</a> for current status.</p>
+<p><span id="definition-final"></span>
+<strong>Final</strong>: A protocol property of transactions. In this book, this always implies <a href="#definition-assured-finality">assured finality</a>, in contrast to concepts like &quot;probabilistic finality&quot; provided by <a href="#definition-pow">PoW</a>.</p>
+<p><span id="definition-hybrid-consensus"></span>
+<strong>Hybrid Consensus</strong>: A consensus protocol that integrates more than one consensus subprotocol. <a href="#definition-pow-tfl">PoW+TFL</a> is an instance of a hybrid protocol integrating <a href="#definition-pow">PoW</a> and <a href="#definition-pos">PoS</a> protocols.</p>
+<p><span id="definition-hybrid-construction"></span>
+<strong>Hybrid Construction</strong>: The design component of a <a href="#defintion-hybrid-consensus">hybrid consensus</a> which specifies how to integrate <a href="#definition-consensus-subprotocols">subprotocols</a> and what modifications, if any, those subprotocols need to be safely integrated. Examples include <a href="#definition-crosslink">Crosslink</a> and <a href="#definition-snap-and-chat">Snap-and-Chat</a>.</p>
+<p><span id="definition-liveness"></span>
+<strong>Liveness</strong>: The property of a distributed protocol which ensures that the protocol may progress provided liveness requirements are met. <strong>TODO:</strong> <a href="https://github.com/Electric-Coin-Company/tfl-book/issues/120">Fix the definition of Liveness #120</a></p>
+<p><span id="definition-nu5"></span>
+<strong>NU5</strong>: The Zcash consensus protocol as of NU5.<sup class="footnote-reference"><a href="#new-mainnet-precursors">1</a></sup></p>
+<p><span id="definition-objective-validity"></span>
+<strong>Objective Validity</strong>: A validity property of a protocol history (such as a ledger) which can be computed purely from that history with no other context. Objective validity is needed to define consensus rules that will lead to the same protocol state being eventually agreed on by all nodes.</p>
+<p><span id="definition-pos"></span>
+<strong>Proof-of-Stake</strong>: A PoS protocol achieves consensus on transaction status by taking into account the weighting of staking tokens. PoS protocols exist under a large umbrella and may or may not provide <a href="#definition-assured-finality">assured finality</a> or other properties this design requires of <a href="#definition-tfl">TFL</a>.</p>
+<p><span id="definition-pow"></span>
+<strong>Proof-of-Work</strong>: A PoW protocol uses Nakamoto consensus pioneered by Bitcoin. The PoW subprotocol within PoW+TFL is a different consensus protocol from <a href="#definition-nu5">NU5</a> and encompasses more than narrow Nakamoto PoW consensus, including transaction semantics such as for shielded transfers.</p>
+<p><span id="definition-pow-tfl"></span>
+<strong>PoW+TFL</strong>: the overall complete, integrated consensus protocol specified in this book.</p>
+<p><span id="definition-safety"></span>
+<strong>Safety</strong>: The property of a distributed protocol that guarantees a participant may safely rely on a consistent local state, provided safety requirements are met. <strong>TODO:</strong> <a href="https://github.com/Electric-Coin-Company/tfl-book/issues/121">Provide a rigorous definition of Safety #121</a></p>
+<p><span id="definition-simtfl"></span>
+<strong><code>simtfl</code></strong>: a protocol simulator for analyzing <a href="#definition-tfl">TFL</a> security and abstract performance. Development lives at <a href="https://github.com/zcash/simtfl">https://github.com/zcash/simtfl</a></span>. See <a href="./introduction/status-and-next-steps.html#current-components">Status and Next Steps: Current Components</a> for current status.</p>
+<p><span id="definition-snap-and-chat"></span>
+<strong>Snap-and-Chat</strong>: A <a href="#definition-hybrid-construction">hybrid construction</a> consensus protocol introduced in <a href="./references.html#ebb-and-flow-protocols">Ebb-and-Flow Protocols</a>.</p>
+<p><span id="definition-tfl"></span>
+<strong>TFL</strong>: The <em>Trailing Finality Layer</em> subprotocol within PoW+TFL. This is a new <a href="#definition-pos">PoS</a> subprotocol which provides <a href="#definition-assured-finality">assured finality</a> for Zcash.</p>
+<p><span id="definition-trailing-finality"></span>
+<strong>Trailing Finality</strong>: A protocol property wherein transactions become final some time after first appearing in <a href="#definition-pow">PoW</a> blocks.</p>
+<p><span id="definition-zip"></span>
+<strong>ZIP</strong>: a Zcash Improvement Proposal is the protocol development process the Zcash community uses to safely define potential protocol improvements. See <a href="https://zips.z.cash">https://zips.z.cash</a></span>.</p>
+<p><strong>TODO:</strong> <a href="https://github.com/Electric-Coin-Company/tfl-book/issues/119">Clarify the distinctions between pure PoW, the PoW subprotocol, NU5, and fork-choice vs all of transaction semantics. #119</a></p>
+<h1 id="footnotes"><a class="header" href="#footnotes">Footnotes</a></h1>
+<div class="footnote-definition" id="new-mainnet-precursors"><sup class="footnote-definition-label">1</sup>
+<p>If new consensus changes are deployed to Zcash mainnet prior to PoW+TFL design finalization, this design must be updated to refer to the new delta (e.g. by reanalyzing all changes against NU6 or NU7, etc…)</p>
+</div>
+<!-- This trailing whitespace ensures that readers who follow a link to a definition will always see that term at the top of their view. -->
+<pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="introduction/get-involved.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="overview.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="introduction/get-involved.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="overview.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
