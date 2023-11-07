@@ -1,0 +1,42 @@
+#!/bin/bash
+set -efuo pipefail
+
+function main
+{
+	log-run reject-unstaged-changes
+	log-run require-render-success
+	log-run ./util/find-orphaned-files.sh
+}
+
+# Used to log which check is being executed, then execute it:
+function log-run
+{
+	echo "$0: $1"
+	eval "$@"
+}
+
+function reject-unstaged-changes
+{
+	if [ "$(unstaged-changes | wc -l)" -gt 0 ]
+	then
+		echo 'Refusing to commit unstaged changes:'
+		unstaged-changes
+		exit 1
+	fi
+}
+
+function unstaged-changes
+{
+	# Unstaged changes have a non-' ' char in the second column:
+	git status --porcelain | grep -Eve '^.  '
+}
+
+function require-render-success
+{
+	# BUG: This succeeds even if there are warnings. There is no `--deny-warnings` equivalent for `mdbook` AFAICT.
+	mdbook build
+}
+
+main "$@"
+
+source ./util/run-local-hook.sh
