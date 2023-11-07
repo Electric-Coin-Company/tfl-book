@@ -40,25 +40,17 @@ In a sense, we can think of this approach as enabling the Zcash community to "di
 
 ### Minimal Use-Case Disruption
 
-In many cases, existing products, services, and tools can continue using the mainnet chain with no changes to code assuming they rely on existingn consensus nodes. We view this as a major benefit which allows Zcash's existing user network effect to continue safely unperturbed.
+In many cases, existing products, services, and tools can continue using the mainnet chain with no changes to code assuming they rely on existing consensus nodes. We view this as a major benefit which allows Zcash's existing user network effect to continue safely unperturbed.
 
 There will be certain narrow exceptional areas if those products, services, or tools need to be precise in areas where the protocol has changed, such as mining/staking reward calculations, transaction formats (in particular any new PoS-related fields or logic), or chain rollback logic.
 
-### Minimal Consensus Rule Changes
-
-Outside of PoS mechanics (such as bonding/unbonding stake, delegating, etc…), and changes to issuance (due to supporting both PoS and PoW) this design adds precisely one consensus rule:
-
-> Final blocks may not be rolled back.
-
-We believe this presents a minimal change to consensus rules to enable PoS, and is thus one of the safest approaches to a transition in terms of security analysis.
-
 ### Modular Design
 
-By conceptualizing the TFL as a distinct "layer" or subprotocol, the consensus rules can be described as the explicit interactions between two subprotocols, one similar to the existing Zcash protcol as of NU5, and the other as a finalizing PoS protocol.
+By conceptualizing the TFL as a distinct "layer" or subprotocol, the consensus rules can be described in terms of two [consensus subprotocols](../terminology.md#definition-consensus-subprotocols), one embodying most of the current consensus logic of Zcash and another the TFL. These protocols interact through a [hybrid construction](../terminology.md#definition-hybrid-construction). See [Design at a Glance](../overview/design-at-a-glance.md) to learn more about these distinct subprotocols.
 
-This approach helps in reasoning about failure modes, and how global consensus properties are achieved by which subprotocols.
+Reasoning about the whole protocol can leverage analysis and understanding of each subprotocol and the hybrid construction somewhat independently due to this modular design. Note that although this design is modular, the hybrid construction may require modifications to the [PoW] and/or [PoS] subprotocols to protect safety and liveness properties. Nevertheless, the modularity still improves analysis and reasoning compared to a monolithic design.
 
-Finally, since one subprotocol is very similar to the existing Zcash NU5 protocol, this lessens risk that the consensus properties within that subprotocol compromise current NU5 properties.
+Finally, since one subprotocol is very similar to the existing Zcash [NU5](../terminology.md#definition-nu5) protocol, this lessens risk that the consensus properties within that subprotocol compromise current NU5 properties.
 
 ### Modular Implementation
 
