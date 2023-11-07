@@ -48,7 +48,7 @@ Here's how we think about those trade-offs:
 #### Cons
 - If there is any unforeseen show-stopping problem in the new protocol or the transition process, we’d have to react to a network-wide issue.
 - It may be more likely to cause ecosystem disruption; unforeseen differences between PoW and PoS might cause various kinds of snags or papercuts throughout the ecosystem, and these would all pop up around the same time, which may lead to a loss of confidence/retention/adoption or at the very least inconvenience many users for some time.
-- Losing miners: since the transition would be all at once, we may lose some number of miners, who are participants and users in the ecosystem. Miners may leave prior to the transition in order to take care of their own needs. If there is some show-stopper in the transition, one possible short-term mitigation would be to fall back on PoW which is well-known, but if we’ve lost most miners, that may no longer be viable.
+- Losing miners: since the transition would be all at once, we may lose some number of miners, who are participants and users in the ecosystem. Miners may leave prior to the transition in order to take care of their own needs. If there is some show-stopper in the transition, one possible short-term mitigation would be to fall back on PoW which is well known, but if we’ve lost most miners, that may no longer be viable.
 
 ### Considering Hybrid Multi-Step approach (vs Single-Step):
 
