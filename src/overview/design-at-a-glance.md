@@ -2,7 +2,7 @@
 
 The [PoW+TFL](../terminology.md#definition-pow-tfl) consensus protocol is logically an extension of the Zcash consensus rules to introduce [trailing finality](../terminology.md#definition-trailing-finality). This is achieved by compartmentalizing the top-level PoW+TFL protocol into two [consensus subprotocols](../terminology.md#definition-consensus-subprotocols), one embodying most of the current consensus logic of Zcash and another the TFL. These protocols interact through a [hybrid construction](../terminology.md#definition-hybrid-construction), which specifies how the protocols interact, and what changes from "off-the-shelf" behavior, if any, need to be imposed on the subprotocols. Each of these components (the two subprotocols and the hybrid construction) are somewhat modular: different subprotocols or hybrid constructions may be combined (with some modification) to produce a candidate [PoW+TFL](../terminology.md#definition-pow-tfl) protocol.
 
-**TODO:** Add consensus subprotocol diagram.
+**TODO:** [Add a protocol component diagram to "Design at a Glance" #122](https://github.com/Electric-Coin-Company/tfl-book/issues/122)
 
 ## Hybrid Construction
 
@@ -14,7 +14,7 @@ The [hybrid construction](../terminology.md#definition-hybrid-construction) is a
 
 Currently we believe [Crosslink](../terminology.md#definition-crosslink) is the best candidate, due to security considerations.
 
-**TODO:** Clarify the security considerations at a high level.
+**TODO:** [Explain why we're more confident in Crosslink security vs the other hybrid construction candidates #123](https://github.com/Electric-Coin-Company/tfl-book/issues/123)
 
 ## Subprotocols
 
@@ -23,9 +23,6 @@ The PoW+TFL hybrid consensus consists of two interacting subprotocols:
 1. [PoW Subprotocol](../terminology.md#definition-pow): this subprotocol is very similar to NU5 consensus. It is a design goal of the TFL design to minimize changes to this subprotocol. Note: the shorthand "PoW" is potentially misleading, because this subprotocol is also responsible for the bulk of all supply and transaction semantic consensus rules.
 2. [PoS Subprotocol](../terminology.md#definition-pos): this is a new subprotocol which provides trailing finality via a finalizing PoS protocol.
 
-**TODO:** Find a more precise name for the PoW subprotocol, because this subprotocol is responsible for:
-- Proof-of-Work proving/validation (unmodified)
-- Nakamoto Best-chain Fork Choice rule (potentially modified by the [hybrid construction](../terminology.md#definition-hybrid-construction))
-- Transaction Validity Rules (with a [transaction context](../terminology.md#definition-hybrid-construction) potentially modified by [hybrid construction](../terminology.md#definition-hybrid-construction))
+**TODO:** [Clarify the distinctions between pure PoW, the PoW subprotocol, NU5, and fork-choice vs all of transaction semantics. #119](https://github.com/Electric-Coin-Company/tfl-book/issues/119)
 
 Note that the [hybrid construction](../terminology.md#definition-hybrid-construction) may require modification to the "off-the-shelf" versions of these subprotocols. In particular [Crosslink](../terminology.md#definition-crosslink) requires each protocol to refer to the state of the other to provide [objective validity](../terminology.md#definition-objective-validity).
