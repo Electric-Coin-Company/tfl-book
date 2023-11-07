@@ -45,6 +45,26 @@ We want to follow some conservative design heuristics to minimize risk and mista
 - Rely as much as possible on design components with adequate theoretical underpinnings and security analyses.
 - Minimize changes or variations on the above: strive to only alter existing work when necessary for overall design goals. For example, Zcash's privacy or issuance constraints are likely less common among existing PoS designs.
 
+
+# Non-goals
+
+These are not goals of the TFL design, either to simplify the scope of the initial design (a.k.a. [Out-of-Scope Goals](#out-of-scope-goals)), or because we believe some potential goal _should not_ be supported (a.k.a. [Anti-goals](#anti-goals)).
+
+## Out-of-Scope Goals
+
+While these desiderata may be common across the blockchain consensus design space, they are not specific goals for the initial TFL design. Note that these may be goals for future protocol improvements.
+
+- Prioritizing minimal time-to-finality over other considerations (such as protocol simplicity, impact on existing use cases, or other goals above).
+- In-protocol liquid staking derivatives.
+- Maximizing the PoS staked-voter count ceiling. For example, [Tendermint BFT](https://github.com/tendermint/tendermint#research) has a relatively low ceiling of ~hundreds of staked voters, whereas Ethereum's [Gasper](https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/) supports hundreds of thousands of staked voters.
+- Reducing energy usage. While this would presumably be a goal of a pure PoS transition, it likely cannot be achieved for hybrid PoW/PoS without loss of security.
+
+## Anti-Goals
+
+Distinctly from [Out-of-Scope Goals](#out-of-scope-goals) we track "anti-goals" which are potential goals that we _explicitly reject_, which are potential goals we aim to _not_ support even in future protocol improvements.
+
+We currently have no defined anti-goals.
+
 # Footnotes
 
 [^req-ttf-30m]: This requirement comes from [a request from a DEX developer](https://github.com/Electric-Coin-Company/tfl-book/issues/38). While we have not yet surveyed DEX and Bridge designs, we're relying on this as a good starting point.
