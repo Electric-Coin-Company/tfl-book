@@ -35,7 +35,9 @@ Zcash has always had exemplary safety, security, and privacy, and we aim to cont
 - For any hybrid PoW/PoS protocol (including PoW+TFL), the cost-of-attack for a 1-hour rollback should not be reduced, given a “reasonably rigorous” security argument.
 - For any hybrid PoW/PoS protocol (including PoW+TFL), the cost-of-attack to halt the chain should be larger than the 24 hour revenue of PoW mining rewards, given a “reasonably rigorous” security argument.
 
-TODO: privacy, pure-PoS security goals.
+**TODO:** [Define privacy goals of TFL #118](https://github.com/Electric-Coin-Company/tfl-book/issues/118)
+
+**TODO:** [Define PoS Subprotocol desiderata which are distinct from Crosslink integration #117](https://github.com/Electric-Coin-Company/tfl-book/issues/117)
 
 ## Design Conservatism Goals
 

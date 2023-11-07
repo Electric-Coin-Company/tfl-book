@@ -23,7 +23,7 @@ After this transition to pure PoS, there are likely to be future improvements to
 
 Our primary motivation for proposing (at least) two steps is to minimize disruption to usability, safety, security, and the ecosystem during each step.
 
-This book primarily focuses this first step: the transition to [PoW+TFL](../terminology.md#definition-pow-tfl). To understand the specific goals for that, see [Design Goals](../overview/design-goals.md). 
+This book primarily focuses this first step: the transition to [PoW+TFL](../terminology.md#definition-pow-tfl). To understand the specific goals for that, see [Design Goals](../overview/design-goals.md).
 
 With this approach, the Zcash Tech Tree with the [TFL](../terminology.md#definition-tfl) approach might look something like this:
 
@@ -33,7 +33,7 @@ With this approach, the Zcash Tech Tree with the [TFL](../terminology.md#definit
 
 ## Why Two Steps?
 
-One question we've gotten in proposing this approach is why take a two-step process with an intermediate [hybrid consensus](../terminology.md#definition-hybrid-consensus) protocol, rather than a single transition directly to a [PoS](../terminology.md#definition-pos) protocol? 
+One question we've gotten in proposing this approach is why take a two-step process with an intermediate [hybrid consensus](../terminology.md#definition-hybrid-consensus) protocol, rather than a single transition directly to a [PoS](../terminology.md#definition-pos) protocol?
 
 Here's how we think about those trade-offs:
 

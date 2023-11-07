@@ -22,7 +22,7 @@ digraph ZcashTechTreeGeneric {
     e [ label = "Feature E"]
     e -> pos2
     e -> d
-    
+
     pos1 [ label = "TFL v1"]
     pos1 -> nu5
 

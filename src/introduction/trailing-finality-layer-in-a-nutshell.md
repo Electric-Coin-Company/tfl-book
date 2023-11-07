@@ -2,7 +2,7 @@
 
 The hybrid PoW/PoS protocol proposed in this book is similar to today's Zcash NU5 protocol with the addition of a *Trailing Finality Layer*:
 
-**TODO**: Add graphic showing nodes connected to each other in the p2p protocol. Each node has two parts: PoW and TFL. Each part has a distinct connection to the neighbors of the same part, so node A's "PoW" connects to node B's "PoW", node A's "TFL" connects to node B's "TFL". Finally, we want some way to visualize that all of the PoW nodes and connections were "pre-existing" and that the TFL pieces are a "new layer".
+**TODO:** [Add network topology / software subcomponent diagram #124](https://github.com/Electric-Coin-Company/tfl-book/issues/124)
 
 The Zcash Trailing Finality Layer refers to a new subprotocol of a new hybrid PoW/PoS protocol, which we refer to as *PoW+TFL*. This subprotocol introduces [assured finality](../terminology.md#definition-assured-finality) for the Zcash blockchain, ensuring that *final* blocks (and the transactions within them) may never be rolled back.
 
