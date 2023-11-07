@@ -16,7 +16,7 @@ We strive to start our protocol design process from user experience (UX) and use
 - There must be no security or safety degradation due to wallet user behavior introduced by PoS transitions, assuming users follow their current behaviors unchanged and continue to use the same cognitive model of the impacts of their behaviors. This goal encompasses all of security and safety, including privacy and transparency or more explicit disclosures.
 - The protocol should enable users of shielded mobile wallets to delegate ZEC to PoS consensus providers and earn a return on that ZEC coming via ZEC issuance or fees. Doing this may expose users to a risk of loss of delegated ZEC (such as through “slashing fees”). The protocol must guarantee that PoS consensus providers have no discretionary control over such delegated funds (including that they cannot steal those funds).
 - For any hybrid PoW/PoS protocol (including the PoW+TFL protocol we’re proposing), the process and UX of mining remains unchanged except that the return on investment may be altered. This is true both of consensus level block miners (ie mining pools and solo miners) and mining pool participants.
-- The any hybrid PoW/PoS protocol (including PoW+TFL) block explorers will continue to function with the same UX through transitions in-so-far as displaying information about transactions, the mempool, and blocks.
+- Any hybrid PoW/PoS protocol (including PoW+TFL) block explorers will continue to function with the same UX through transitions in-so-far as displaying information about transactions, the mempool, and blocks.
 - Block explorers and other network metrics sites may require UX changes with respect to mining rewards and issuance calculations.
 - Network metrics sites may require UX changes with respect to the p2p protocol or other network-specific information.
 - Users can rely on [assured finality](../terminology.md#definition-assured-finality) with an expected time-to-finality of <30m.[^req-ttf-30m]
@@ -48,9 +48,9 @@ We want to follow some conservative design heuristics to minimize risk and mista
 
 # Non-goals
 
-These are not goals of the TFL design, either to simplify the scope of the initial design (aka [Out of Scope Goals](#out-of-scope-goals)), or because we believe some potential goal _should not_ be supported (aka [Anti-goals](#anti-goals)).
+These are not goals of the TFL design, either to simplify the scope of the initial design (a.k.a. [Out-of-Scope Goals](#out-of-scope-goals)), or because we believe some potential goal _should not_ be supported (a.k.a. [Anti-goals](#anti-goals)).
 
-## Out of Scope Goals
+## Out-of-Scope Goals
 
 While these desiderata may be common across the blockchain consensus design space, they are not specific goals for the initial TFL design. Note that these may be goals for future protocol improvements.
 
@@ -58,9 +58,11 @@ While these desiderata may be common across the blockchain consensus design spac
 - In-protocol liquid staking derivatives.
 - Maximizing the PoS staked-voter count ceiling. For example, [Tendermint BFT](https://github.com/tendermint/tendermint#research) has a relatively low ceiling of ~hundreds of staked voters, whereas Ethereum's [Gasper](https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/) supports hundreds of thousands of staked voters.
 
+- Reducing energy usage. While this would presumably be a goal of a pure PoS transition, it likely cannot be achieved for hybrid PoW/PoS without loss of security.
+
 ## Anti-Goals
 
-Distinctly from [Out of Scope Goals](#out-of-scope-goals) we track "anti-goals" which are potential goals that we _explicitly reject_, which are potential goals we aim to _not_ support even in future protocol improvements.
+Distinctly from [Out-of-Scope Goals](#out-of-scope-goals) we track "anti-goals" which are potential goals that we _explicitly reject_, which are potential goals we aim to _not_ support even in future protocol improvements.
 
 We currently have no defined anti-goals.
 
