@@ -39,3 +39,41 @@ git config --local core.hooksPath git-hooks
 ## Rendering
 
 - `mdbook build`
+
+## Release Process
+
+Releases are defined as distinct revisions that embody a consistent set of changes from the prior releases, identified by a version with `XXX.YYY.ZZZ` format. Releases serve a few purposes. They:
+
+- ensure that readers can better notice changes or updates between readings or in discussions with others,
+- signify that the authors have converged after a period of editing onto a coherent integrated result,
+- signify an approximate maturity of the design, based on the version number, and
+- serve as a natural milestone for announcements on design updates.
+
+### Versioning Schema
+
+The versioning scheme isn't precise and roughly follows this rubrik:
+
+When a version `X.Y.Z` increments, the scope of change since the prior release is implied by the new version:
+
+- `<X+1>.0.0` - This release represents a complete, well analyzed design which the authors belief is a suitable candidate for Zcash (or other crypto networks) to productionize by developing conforming implementations which activate in production.
+- `X.<Y+1>.0` - This release introduces or changes substantial design decisions or analyses, or it changes the presentation (such as the order or content of chapters) significantly. A reader if the prior release may be missing essentail details in understanding this new release.
+- `X.Y.<Z+1>` - This release improves the wording, layout, rendering, or other content in a manner that doesn't rise the threshold of the previous case.
+
+### Release Process
+
+To create a new release:
+
+1. Decide that the `main` branch is in a coherent state without likely sources of confusion or self-inconsistency,
+1. Decide the new release's version as in [Versioning Schema](#versioning-schema) above.
+1. Create a release branch named `release-<NEW VERSION>`.
+1. Update the release branch with these changes:
+  - `book.toml`: Modify the `title` to end with `vX.Y.Z`. This ensures the version is visible to readers on all pages.
+  - `src/version-history.md`: Introduce a new heading `## X.Y.Z - <RELEASE TITLE>` above all prior entries (i.e. reverse chronologically).
+    - The `RELEASE TITLE` should be a short-hand title capturing the primary change of the release.
+    - The release body should always begin with a link titled `Issue Tracking` that navigates to the Github milestone page of completed issues in this release.
+    - The rest of the release body should be a 1-3 sentence summary of changes. Readers who need more detail can follow issue tracking.
+  - `src/introduction.md`: The first paragraph says `This is <VERSION LINK> of the book.` Update that link to point to the new release's entry in `src/version-history.md`.
+1. Submit those changes for Github pull-request review, resolve any blocking concerns, then merge to the `main` branch. Note: This step will render the release.
+1. Create a git tag on the git commit which merges into `main`: `git tag vX.Y.Z; git push --tags`
+
+Note: We don't use Github "releases" since there's no release artifact other than the already published rendering.
