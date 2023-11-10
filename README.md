@@ -1,6 +1,8 @@
 # tfl-book
 
-This repository is an `mdbook` instance for a `Trailing Finality Layer` design for Zcash.
+The [Zcash Trailing Finality Layer](https://electric-coin-company.github.io/tfl-book/) design book.
+
+This repository is the source text and rendering configuration for the book. To read the book, use the link above.
 
 The `mdbook` tool renders the contents into a pretty format from `markdown` based source code
 
