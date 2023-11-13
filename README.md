@@ -57,7 +57,7 @@ When a version `X.Y.Z` increments, the scope of change since the prior release i
 
 - `<X+1>.0.0` - This release represents a complete, well analyzed design which the authors belief is a suitable candidate for Zcash (or other crypto networks) to productionize by developing conforming implementations which activate in production.
 - `X.<Y+1>.0` - This release introduces or changes substantial design decisions or analyses, or it changes the presentation (such as the order or content of chapters) significantly. A reader if the prior release may be missing essentail details in understanding this new release.
-- `X.Y.<Z+1>` - This release improves the wording, layout, rendering, or other content in a manner that doesn't rise the threshold of the previous case.
+- `X.Y.<Z+1>` - This release improves the wording, layout, rendering, or other content in a manner that doesn't rise to the threshold of the previous case.
 
 ### Release Process
 
