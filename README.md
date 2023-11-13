@@ -76,4 +76,4 @@ To create a new release:
 1. Submit those changes for GitHub pull-request review, resolve any blocking concerns, then merge to the `main` branch. Note: This step will render the release.
 1. Create a git tag on the git commit that merges into `main`: `git tag vX.Y.Z && git push --tags`
 
-Note: We don't use Github "releases" since there's no release artifact other than the already published rendering.
+Note: We don't use GitHub "releases" since there's no release artifact other than the already published rendering.
