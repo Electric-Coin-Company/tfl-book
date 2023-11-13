@@ -64,16 +64,16 @@ When a version `X.Y.Z` increments, the scope of change since the prior release i
 To create a new release:
 
 1. Decide that the `main` branch is in a coherent state without likely sources of confusion or self-inconsistency.
-1. Decide the new release's version as in [Versioning Schema](#versioning-schema) above.
-1. Create a release branch named `release-<NEW VERSION>`.
-1. Update the release branch with these changes:
+2. Decide the new release's version as in [Versioning Schema](#versioning-schema) above.
+3. Create a release branch named `release-<NEW VERSION>`.
+4. Update the release branch with these changes:
   - `book.toml`: Modify the `title` to end with `vX.Y.Z`. This ensures the version is visible to readers on all pages.
   - `src/version-history.md`: Introduce a new heading `## X.Y.Z - <RELEASE TITLE>` above all prior entries (i.e. reverse chronologically).
     - The `RELEASE TITLE` should be a short-hand title capturing the primary change of the release.
     - The release body should always begin with a link titled `Issue Tracking` that navigates to the GitHub milestone page of completed issues in this release.
     - The rest of the release body should be a one- to three-sentence summary of changes. Readers who need more detail can follow issue tracking.
   - `src/introduction.md`: The first paragraph says `This is <VERSION LINK> of the book.` Update that link to point to the new release's entry in `src/version-history.md`.
-1. Submit those changes for GitHub pull-request review, resolve any blocking concerns, then merge to the `main` branch. Note: This step will render the release.
-1. Create a git tag on the git commit that merges into `main`: `git tag vX.Y.Z && git push --tags`
+5. Submit those changes for GitHub pull-request review, resolve any blocking concerns, then merge to the `main` branch. Note: This step will render the release.
+6. Create a git tag on the git commit that merges into `main`: `git tag vX.Y.Z && git push --tags`
 
 Note: We don't use GitHub "releases" since there's no release artifact other than the already published rendering.
