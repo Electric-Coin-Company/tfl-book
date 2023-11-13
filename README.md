@@ -63,7 +63,7 @@ When a version `X.Y.Z` increments, the scope of change since the prior release i
 
 To create a new release:
 
-1. Decide that the `main` branch is in a coherent state without likely sources of confusion or self-inconsistency,
+1. Decide that the `main` branch is in a coherent state without likely sources of confusion or self-inconsistency.
 1. Decide the new release's version as in [Versioning Schema](#versioning-schema) above.
 1. Create a release branch named `release-<NEW VERSION>`.
 1. Update the release branch with these changes:
