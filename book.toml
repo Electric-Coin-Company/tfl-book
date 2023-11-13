@@ -3,7 +3,7 @@ authors = ["Nate Wilcox"]
 language = "en"
 multilingual = false
 src = "src"
-title = "Zcash Trailing Finality Layer"
+title = "Zcash Trailing Finality Layer - v0.0.0"
 
 [build]
 # When there is more than one [output.*] section, the HTML will be generated under `<build-dir>/html/`.
