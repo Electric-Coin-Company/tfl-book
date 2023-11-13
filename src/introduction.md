@@ -1,6 +1,6 @@
 # A Trailing Finality Layer for Zcash
 
-This book introduces and specifies a [*Trailing Finality Layer*](./terminology.md#definition-tfl) for the Zcash network. (**TODO:** Add a sentence describing the version linked the [Version History](./version-history.md) entry.)
+This book introduces and specifies a [*Trailing Finality Layer*](./terminology.md#definition-tfl) for the Zcash network. (**TODO:** Add a sentence describing the version linked in the latest [Version History](./version-history.md) entry.)
 
 This design augments the existing Zcash Proof-of-Work ([PoW](./terminology.md#definition-pow)) network with a new consensus layer which provides [*trailing finality*](./terminology.md#definition-trailing-finality). This layer enables transactions included via PoW to become [*final*](./terminology.md#definition-final) which assures that they cannot be reverted by the protocol. This enables safer and simpler wallets and other infrastructure, and aids trust-minimized cross-chain bridges. This consensus layer uses [*Proof-of-Stake*](./terminology.md#definition-pos) consensus, and enables ZEC holders to earn protocol rewards for contributing to the security of the Zcash network. By integrating a PoS layer with the current PoW Zcash protocol, this design specifies a [*hybrid consensus*](./terminology.md#definition-hybrid-consensus) protocol dubbed [PoW+TFL](./terminology.md#definition-pow-tfl).
 
