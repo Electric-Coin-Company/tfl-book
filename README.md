@@ -73,7 +73,7 @@ To create a new release:
     - The release body should always begin with a link titled `Issue Tracking` that navigates to the GitHub milestone page of completed issues in this release.
     - The rest of the release body should be a one- to three-sentence summary of changes. Readers who need more detail can follow issue tracking.
   - `src/introduction.md`: The first paragraph says `This is <VERSION LINK> of the book.` Update that link to point to the new release's entry in `src/version-history.md`.
-1. Submit those changes for Github pull-request review, resolve any blocking concerns, then merge to the `main` branch. Note: This step will render the release.
+1. Submit those changes for GitHub pull-request review, resolve any blocking concerns, then merge to the `main` branch. Note: This step will render the release.
 1. Create a git tag on the git commit which merges into `main`: `git tag vX.Y.Z; git push --tags`
 
 Note: We don't use Github "releases" since there's no release artifact other than the already published rendering.
