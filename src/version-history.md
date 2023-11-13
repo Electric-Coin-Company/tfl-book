@@ -4,7 +4,7 @@
 
 [Issue Tracking](https://github.com/Electric-Coin-Company/tfl-book/milestone/1?closed=1)
 
-This version introduced the [Crosslink](./terminology.md#crosslink) by linking to an external write-up. This transitioned away from the implicit design presented at Zcon4 to a rigorously defined [hybrid construction](./terminology.md#definition-hybrid-construction).
+This version introduced the [Crosslink construction](./terminology.md#crosslink) by linking to an external write-up. It transitioned away from the implicit design presented at Zcon4 to a rigorously defined [hybrid construction](./terminology.md#definition-hybrid-construction).
 
 ## Prehistory - Zcon4 Presentation
 
