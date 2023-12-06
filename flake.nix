@@ -13,10 +13,10 @@
       version = "0.1.0"; # BUG: This should be derived from the `git describe --dirty`
 
       buildInputs = with pkgs; [
+        graphviz
         mdbook
         mdbook-graphviz
         mdbook-linkcheck
-        strace
       ];
 
       src = ./.;
@@ -29,7 +29,7 @@
         find "$(pwd)" -exec ls -ld '{}' \;
         dest="$out/share/doc/${pname}/${version}"
         mkdir -p "$dest"
-        strace mdbook build --dest-dir="$dest/"
+        mdbook build --dest-dir="$dest/"
       '';
     };
   in {
