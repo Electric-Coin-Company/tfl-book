@@ -26,10 +26,10 @@
         cp -a "$src" ./src
         cd ./src
         chmod -R u+w .
-        find "$(pwd)" -exec ls -ld '{}' \;
-        dest="$out/share/doc/${pname}/${version}"
-        mkdir -p "$dest"
-        mdbook build --dest-dir="$dest/"
+        mdbook build
+        dest="$out/share/doc/${pname}/"
+        mkdir -p "$(dirname "$dest")"
+        cp -a ./build/html "$dest"
       '';
     };
   in {
