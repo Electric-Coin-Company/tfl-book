@@ -30,6 +30,7 @@ git config --local core.hooksPath git-hooks
 
 - `cargo install mdbook`
 - `cargo install mdbook-graphviz`
+- `cargo install mdbook-katex`
 - `cargo install mdbook-linkcheck`
 
 ### Other prerequisites

@@ -16,6 +16,9 @@ jobs:
         tool: mdbook-graphviz@0.1.6
     - uses: taiki-e/cache-cargo-install-action@v1
       with:
+        tool: mdbook-katex@0.5.8
+    - uses: taiki-e/cache-cargo-install-action@v1
+      with:
         tool: mdbook-linkcheck@0.7.7
     - uses: actions/checkout@v3
     - run: mdbook build
