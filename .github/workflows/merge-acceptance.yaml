@@ -24,3 +24,12 @@ jobs:
     - run: mdbook build
     - name: Check for Orphaned Files
       run: ./util/find-orphaned-files.sh
+
+  # Reference: https://github.com/marketplace/actions/install-nix
+  check-flake:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: cachix/install-nix-action@v22
+    - run: nix build
+    - run: nix flake check

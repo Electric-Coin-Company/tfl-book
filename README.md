@@ -26,6 +26,8 @@ git config --local core.hooksPath git-hooks
 
 ## Prerequisites
 
+Note: Nix users can rely on `flake.nix` which packages the final rendered HTML into `<prefix>/share/doc/tfl-book`. Users can install this via `nix profile install 'github:Electric-Coin-Company/tfl-book'`, or to build the local version `nix build`.
+
 ### Rust prerequisites
 
 - `cargo install mdbook`
