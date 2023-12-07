@@ -17,6 +17,7 @@
         mdbook
         mdbook-graphviz
         mdbook-linkcheck
+        mdbook-katex
       ];
 
       src = ./.;
