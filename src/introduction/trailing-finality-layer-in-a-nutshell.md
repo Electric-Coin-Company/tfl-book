@@ -46,7 +46,7 @@ There will be certain narrow exceptional areas if those products, services, or t
 
 ### Modular Design
 
-By conceptualizing the TFL as a distinct "layer" or subprotocol, the consensus rules can be described in terms of two [consensus subprotocols](../terminology.md#definition-consensus-subprotocols), one embodying most of the current consensus logic of Zcash and another the TFL. These protocols interact through a [hybrid construction](../terminology.md#definition-hybrid-construction). See [Design at a Glance](../overview/design-at-a-glance.md) to learn more about these distinct subprotocols.
+By conceptualizing the TFL as a distinct "layer" or subprotocol, the consensus rules can be described in terms of two [consensus subprotocols](../terminology.md#definition-consensus-subprotocols), one embodying most of the current consensus logic of Zcash and another the TFL. These protocols interact through a [hybrid construction](../terminology.md#definition-hybrid-construction). See [Design at a Glance](../design/overview/design-at-a-glance.md) to learn more about these distinct subprotocols.
 
 Reasoning about the whole protocol can leverage analysis and understanding of each subprotocol and the hybrid construction somewhat independently due to this modular design. Note that although this design is modular, the hybrid construction may require modifications to the [PoW] and/or [PoS] subprotocols to protect safety and liveness properties. Nevertheless, the modularity still improves analysis and reasoning compared to a monolithic design.
 
