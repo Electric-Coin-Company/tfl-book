@@ -13,6 +13,9 @@ jobs:
         tool: mdbook@0.4.35
     - uses: taiki-e/cache-cargo-install-action@v1
       with:
+        tool: mdbook-admonish@1.14.0
+    - uses: taiki-e/cache-cargo-install-action@v1
+      with:
         tool: mdbook-graphviz@0.1.6
     - uses: taiki-e/cache-cargo-install-action@v1
       with:

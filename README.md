@@ -31,6 +31,7 @@ Note: Nix users can rely on `flake.nix` which packages the final rendered HTML i
 ### Rust prerequisites
 
 - `cargo install mdbook`
+- `cargo install mdbook-admonish`
 - `cargo install mdbook-graphviz`
 - `cargo install mdbook-katex`
 - `cargo install mdbook-linkcheck`

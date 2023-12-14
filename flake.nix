@@ -15,6 +15,7 @@
       buildInputs = with pkgs; [
         graphviz
         mdbook
+        mdbook-admonish
         mdbook-graphviz
         mdbook-linkcheck
         mdbook-katex
