@@ -180,7 +180,7 @@ Cons:
 
 The following idea is broken for safety when $\Pi_{\mathrm{bft}}$ has been subverted:
 
-:::info
+```admonish info
 We have two potential sources of information about blocks that could plausibly be considered finalized:
 1. $H \lceil_{\mathrm{bc}}^\sigma$
 2. the snapshots on the chain of the last *seen* <span style="white-space: nowrap">final bft‑block, $\mathsf{lsf}$.</span>
@@ -196,12 +196,11 @@ This approach is essentially a hybrid of Snap‑and‑Chat and Crosslink:
 * the Snap‑and‑Chat construction gives a finalized ledger under the assumption that $\Pi_{\mathrm{bft}}$ has not been subverted;
 * the main crosslink idea is used to make sure that outputs from all finalized transactions are *eventually* spendable;
 * safety is still only dependent on the stronger of the safety of $\Pi_{\mathrm{bft}}$ <span style="white-space: nowrap">and $\Pi_{\mathrm{bc}}$,</span> because we use the additional information from snapshots in final bft‑blocks only up to the point at which they agree with the best confirmed bc‑block.
-:::
+```
 
 To explain the safety problem with this idea: suppose that $\Pi_{\mathrm{bft}}$ has been subverted. In that case it is possible for a snapshot to be finalized without having being confirmed as in any honest node's bc‑best‑chain; that is, it is possible for $\mathsf{LOG}_{\mathrm{fin}}$ to include transactions $T$ from a snapshot $S$ in bft‑block $A$ such that $S$ is not on the consensus bc‑best‑chain. And, because $\Pi_{\mathrm{bft}}$ has been subverted, it is also possible that a conflicting final bft‑block $B$ <span style="white-space: nowrap">omits $S$.</span> And so a node that has seen $B$ will think that it is consistent with the best bc‑chain (so that its $\mathsf{LOG}_{\mathrm{fin}}$ does not include $T$ but does include later transactions on the consensus bc‑best‑chain), but a node that has <span style="white-space: nowrap">seen $A$</span> will compute a $\mathsf{LOG}_{\mathrm{fin}}$ that does <span style="white-space: nowrap">include $T$.</span>
 
-:::spoiler More detailed specification of the above broken idea.
-:::info
+```admonish info collapsible=true title="More detailed specification of the above broken idea."
 Define $\mathsf{LF}(H) := \textsf{bft-last-final}(H\mathsf{.context\_bft})$ as before.
 
 For simplicity assume that <span style="white-space: nowrap">$\mathsf{lsf}$ extends $\mathsf{LF}(H \lceil_{\mathrm{bc}}^\sigma)$</span> by only one bft‑block. (This assumption could have been removed if the idea had panned out.)
@@ -224,7 +223,7 @@ H \lceil_{\mathrm{bc}}^\sigma, &\text{if } \mathsf{snapshot}(\mathsf{LF}(H \lcei
 \mathsf{snapshot}(\mathsf{lsf}), &\text{if } \mathsf{snapshot}(\mathsf{LF}(H \lceil_{\mathrm{bc}}^\sigma)) \preceq_{\mathrm{bc}} \mathsf{snapshot}(\mathsf{lsf}) \preceq_{\mathrm{bc}} H \lceil_{\mathrm{bc}}^\sigma \\
 \mathsf{snapshot}(\mathsf{LF}(H \lceil_{\mathrm{bc}}^\sigma)), &\text{otherwise}
 \end{cases} $$
-:::
+```
 
 ## What about making the bc‑block‑producer the bft‑proposer?
 
@@ -243,8 +242,7 @@ The inner proposer signature is also not needed (since the bc‑header is self-a
 
 Considered as a bft‑proposal, a bc‑block needs to refer to a parent bft‑block, which requires a <span style="white-space: nowrap">$\mathsf{parent\_bft}$ field</span> in the bc‑header. With some caveats depending on the design <span style="white-space: nowrap">of $\Pi_{\mathrm{origbft}}$,</span> it might be possible to merge this with the <span style="white-space: nowrap">$\mathsf{context\_bft}$ field,</span> but for now we will assume that it is not merged.
 
-:::spoiler What are the caveats?
-:::info
+```admonish info collapsible=true title="What are the caveats?"
 If we are in an execution where **Final Agreement** holds <span style="white-space: nowrap">for $\Pi_{\mathrm{bft}}$,</span> then it is possible to show that merging the two fields has no negative effect, *provided* that $\Pi_{\mathrm{origbft}}$ has no additional rules that could disallow it in some cases.
 
 This is because, by **Final Agreement**, $\textsf{bft-last-final}(H'\mathsf{.context_bft}) \preceq\hspace{-0.5em}\succeq_{\mathrm{*bft}} \textsf{bft-last-final}(C)\,$ for any potential <span style="white-space: nowrap">bft‑block $C$</span> that the bc‑block‑producer of a new block $H$ could choose <span style="white-space: nowrap">as $H\mathsf{.context\_bft}$.</span> Suppose that the bc‑block‑producer freely chooses $H\mathsf{.parent\_bft}$ according to the desired honest behaviour for a bft‑proposer <span style="white-space: nowrap">in $\Pi_{\mathrm{bft}}$,</span> and then chooses $C$ to be the same block (which is always reasonable as long as it is allowed).
@@ -258,7 +256,7 @@ Another potential problem is that in an execution where **Final Agreement** doe
 However, in that situation it must be possible for the bc‑block‑producer to see (and prove) that the bft‑chain has a final fork. That is, it can produce a <span style="white-space: nowrap">witness $C$</span> to the violation of **Final Agreement**, showing that $\textsf{bft-last-final}(H'\mathsf{.context_bft}) \preceq\hspace{-0.5em}\succeq_{\mathrm{*bft}} \textsf{bft-last-final}(C)\,$ does not hold, as discussed in the section [Recording more info about the bft‑chain in bc‑blocks](https://hackmd.io/n8ZDPeTRQj-wa7JWb293oQ?view#Low-risk-Recording-more-info-about-the-bft-chain-in-bc-blocks) above.
 
 The second caveat is that in that situation, we still need to set $H\mathsf{.parent\_bft}$ and $H\mathsf{.context\_bft}$ in order to be able to recover, and they typically should not be the same in order to do so.
-:::
+```
 ${}$
 The **Increasing Tip Score rule** is still needed, but it can be simplified. A newly produced <span style="white-space: nowrap">bc-block $H$</span> is also a bft‑proposal <span style="white-space: nowrap">such that $\mathsf{snapshot}(H) = H$.</span> This would yield the following bft‑proposal / bc‑block validity rule:
 
@@ -274,7 +272,7 @@ The voting would be the same, performed by the same parties. Therefore, there is
 
 There may be some complication due to the fact that BFT protocols are typically designed to use epochs with a fixed period, whereas bc‑blocks are found at less predictable intervals. However, as long as BFT messages are labelled with the bc‑block they apply to, it seems like most BFT protocols would be tolerant to this change. In fact the adaptations of Snap‑and‑Chat to Hotstuff and PBFT in [[NTT2020]](https://eprint.iacr.org/2020/1091.pdf) already assume that BFT messages can be queued and processed at a later time, and rely on those BFT protocols' tolerance to this.
 
-:::info
+```admonish info
 In most PoS protocols, the requirement to have a minimum amount of stake in order to make a proposal acts as a gatekeeping filter on *proposals*, and potentially allows parties that make invalid *proposals* to be slashed.
 
 Strictly speaking, whether there is a stake requirement to make a proposal is independent of whether bc‑block‑producers (e.g. miners) are merged with bft‑proposers. It could be, for example, that a miner is still able to produce bc‑blocks, but is not able to make them into a proposal unless they satisfy a stake requirement. (This would have significant effects on the economics of mining that would need to be analysed, and that might have governance consequences.)
@@ -282,7 +280,7 @@ Strictly speaking, whether there is a stake requirement to make a proposal is in
 In a system that uses PoS, validators by definition need to have stake in order to control the ability to vote. This also allows validators to be slashed.
 
 On the other hand, there is no *technical* reason why the ability to make a bft‑proposal has to be gatekept by a stake requirement --- given the situation of Zcash in which we already have a mining infrastructure, and that in a Snap‑and‑Chat or Crosslink‑style hybrid protocol we necessarily still rely on miners not to censor transactions. The potential to make proposals that are expensive to validate as a denial of service is made sufficiently difficult by proof‑of‑work. This option has probably been underexplored by previous PoS protocols because they cannot assume an existing mining infrastructure. 
-:::
+```
 
 It could be argued that this approach goes less far toward a pure PoS‑based blockchain protocol, leaving more to be done in the second stage. However, there is a clear route to that second stage, by replacing PoW with a protocol like PoSAT that has full unpredictabilty and dynamic availability. PoSAT does this using a VDF, and as it happens, Halo 2 is a strong candidate to be used to construct such a VDF.
 

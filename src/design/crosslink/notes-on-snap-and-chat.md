@@ -4,9 +4,9 @@ The discussion in [The Argument for Bounded Dynamic Availability and Finality Ov
 
 This document considers specifics of the snap-and-chat construction proposed in [[NTT2020]](https://eprint.iacr.org/2020/1091.pdf) ([arXiv version](https://arxiv.org/pdf/2009.04987.pdf)).
 
-:::info
+```admonish info
 I am trying to be precise in this note about use of the terms "ebb-and-flow", which is the security model and goal introduced in [[NTT2020]](https://eprint.iacr.org/2020/1091.pdf), vs "snap-and-chat", which is the construction proposed in the same paper to achieve that goal. There could be other ways to design an ebb-and-flow protocol that don't run into the difficulties described in this section (or that run into different difficulties).
-:::
+```
 
 ### Effect on consensus
 
@@ -18,11 +18,11 @@ Recall from the paper how $\mathsf{LOG}_{\mathrm{fin},i}^t$ and $\mathsf{LOG}_{\
 
 This says that $\mathsf{LOG}_{\mathrm{fin},i}^t$ and $\mathsf{LOG}_{\mathrm{da},i}^t$ are sequences of transactions, *not* sequences of blocks. Therefore, [consensus rules defined at the block level](https://zips.z.cash/protocol/protocol.pdf#blockheader) are not applicable.
 
-:::warning
+```admonish warning
 **Zcash-specific**
 
 Most of these rules are Proof-of-Work-related checks that can be safely ignored at this level. Some are related to the `hashBlockCommitments` field intended for use by the FlyClient protocol. It is not at all clear how to make FlyClient (or other uses of this commitment) work with the snap-and-chat construction. In particular, the `hashEarliest{Sapling,Orchard}Root`, `hashLatest{Sapling,Orchard}Root`, and `n{Sapling,Orchard}TxCount` fields don't make sense in this context since they could only reflect the values in $\mathsf{ch}_i^t$, which have no relation in general to those for any subrange of transactions in $\mathsf{LOG}_{\mathrm{da},i}^t$. However, that problem occurs for unmodified snap-and-chat, and so is outside the scope of this note.
-:::
+```
 
 Since $\mathsf{LOG}_{\mathrm{da},i}^t$ does not have blocks, it is not well-defined whether it has "coinbase-only blocks" when in Safety Mode. That by itself is not so much of a problem because it would be sufficient for it to have only coinbase transactions in that mode.
 
@@ -44,9 +44,9 @@ That is, a transaction from one snapshot might double-spend an output already sp
 
 Since nullifiers for shielded spends are public, it is possible to do this even for shielded transactions. Each node $i$ will construct commitment trees in the order given by $\mathsf{LOG}_{\mathrm{da},i}^t.$
 
-:::info
+```admonish info
 This means that if $\mathsf{LOG}_{\mathrm{fin},i}$ is extended by a block that is not the next block in $\mathsf{LOG}_{\mathrm{da},i}$ after the finalization point (and that has different note commitments), then *all* shielded transactions from that point onward in the previous $\mathsf{LOG}_{\mathrm{da},i}$ will be invalidated. It could be possible to do better at the expense of a more complicated note commitment tree structure. In any case, this situation is expected to be rare, because it can only occur if there is a rollback of more than $\sigma$ blocks in the $\Pi_{\mathrm{lc}}$ consensus chain or a failure of BFT safety.
-:::
+```
 
 ### Subtlety in the definition of sanitization
 
@@ -67,9 +67,9 @@ Note that any *other* reason for transactions to be contextually invalid might i
 
 Transactions in $\mathsf{ch}_i^t$ need to be able to spend outputs that are not necessarily from any previous transaction in $\mathsf{ch}_i^t$. This is because, from the point of view of a user of node $i$ at time $t$, the block chain includes all transactions in $\mathsf{LOG}_{\mathrm{da},i}^t$. All of the transactions after the finalization point are guaranteed to also be in $\mathsf{ch}_i^t$, but the ones before the finalization point (i.e. in $\mathsf{LOG}_{\mathrm{fin},i}^t$) are not, because they could be from some other $\mathsf{ch}_j^u$ for $u \leq t$ and $j \neq i$ (intuitively, from some long chain fork that was once considered confirmed by enough nodes).
 
-:::info
+```admonish info
 Honest nodes only ever vote for confirmed snapshots, that is, prefixes of their best $\Pi_{\mathrm{lc}}$ chain truncated by the confirmation depth $\sigma$. Obviously the whole point of having the BFT protocol is that chain forks longer than $\sigma$ **can** occur in $\Pi_{\mathrm{lc}}$ --- otherwise we'd just use $\Pi_{\mathrm{lc}}$ and have done. So it is not that we expect this case to be common, but if it happens then it will never fix itself: the consensus chain in $\Pi_{\mathrm{lc}}$ will continue on without ever including the transactions from $\mathsf{LOG}_{\mathrm{fin}}^t$ that were obtained from a snapshot of another fork.
-:::
+```
 
 A user must be able to spend outputs for which they hold the spending key from **any** finalized transaction, otherwise there would be no point to the finalization.
 
@@ -91,18 +91,18 @@ Note that in Bitcoin-like consensus protocols, we don't generally consider it to
 
 Suppose, then, that each block header in $\Pi_{\mathrm{lc}}$ commits to the latest final BFT block known by the $\Pi_{\mathrm{lc}}$ block producer. For a block header $H$, we will refer to this commitment as $\textsf{final-bft}(H)$. 
 
-:::success
+```admonish success
 We require, as a consensus rule, that if $H$ is not the genesis block header, then this BFT block either descends from or is the same as the final BFT block committed to by the $\Pi_{\mathrm{lc}}$ block's parent: i.e. $\textsf{final-bft}(\mathsf{parent}_{\mathrm{lc}}(H)) \preceq_{\mathrm{bft}} \textsf{final-bft}(H)$.
-:::
+```
 
 This rule does not prevent the BFT chain from rolling back, if the security assumptions of $\Pi_{\mathrm{bft}}$ were violated. However, it means that if a node $i$ does not observe a rollback in $\Pi_{\mathrm{lc}}$ at confirmation depth $\sigma$, then it will also not observe any instability in $\mathsf{LOG}_{\mathrm{fin},i}$, *even if* the security assumptions of $\Pi_{\mathrm{bft}}$ are violated. This property holds **by construction**, and in fact regardless of $\Pi_{\mathrm{bft}}$.
 
-:::info
+```admonish info
 In the snap-and-chat construction, we also have BFT block proposals committing to $\Pi_{\mathrm{lc}}$ snapshots (top of right column of [[NTT2020](https://eprint.iacr.org/2020/1091.pdf), page 7]):
 > In addition, $\mathsf{ch}^t_i$ is used as side information in $\Pi_{\mathrm{bft}}$ to boycott the finalization of invalid snapshots proposed by the adversary.
 
 This does not cause any circularity, because each protocol only commits to *earlier* blocks of the other. In fact, BFT validators have to listen to transmission of $\Pi_{\mathrm{lc}}$ block headers anyway, so that *could* be also the protocol over which they get the information needed to make and broadcast their own signatures or proposals. (A possible reason not to broadcast individual signatures to all nodes is that with large numbers of validators, the proof that a sufficient proportion of validators/stake has signed can use an aggregate signature, which could be much smaller. Also, $\Pi_{\mathrm{lc}}$ nodes only need to know about *successful* BFT block proposals.)
-:::
+```
 
 Now suppose that, in a snap-and-chat protocol, the BFT consensus finalizes a $\Pi_{\mathrm{lc}}$ snapshot that does not extend the snapshot in the previous block (which can happen if either $\Pi_{\mathrm{bft}}$ is unsafe, or $\Pi_{\mathrm{lc}}$ suffers a rollback longer than $\sigma$ blocks). In that case we will initially not be able to spend outputs from the old snapshot in the new chain. But eventually for some node $i$ that sees the header $H$ at the tip of its best chain at time $t$, $\textsf{final-bft}(H)$ will be such that from then on (i.e. at time $t' \geq t$), $\mathsf{LOG}_{\mathrm{fin},i}^{t'}$ includes the output that we want to spend. This assumes *liveness* of $\Pi_{\mathrm{lc}}$ and *safety* of $\Pi_{\mathrm{bft}}$.
 
@@ -119,7 +119,7 @@ $$
 
 Here $\textsf{final-bft}(H)$ is the BFT block we are providing information for, and $\mathsf{snapshot}(\textsf{final-bft}(H))$ is the corresponding $\Pi_{\mathrm{lc}}$ snapshot. For a node $i$ that sees $\textsf{final-bft}(H)$ as the most recent final BFT block at time $t$, $\mathsf{LOG}_{\mathrm{fin},i}^t$ will definitely contain transactions from blocks up to $\mathsf{tailhead}(H)$, but usually will not contain subsequent transactions on $H$'s fork.
 
-:::info
+```admonish info
 Strictly speaking, it is possible that a previous BFT block took a snapshot $H'$ that is between $\mathsf{tailhead}(H)$ and $H$. This can only happen if there have been at least two rollbacks longer than $\sigma$ blocks (i.e. we went more than $\sigma$ blocks down $H$'s fork from $\mathsf{tailhead}(H)$, then reorged to more than $\sigma$ blocks down $\mathsf{snapshot}(\textsf{final-bft}(H))$'s fork, then reorged again to $H$'s fork). In that case, the finalized ledger would already have the non-conflicting transactions from blocks between $\mathsf{tailhead}(H)$ and $H'$ --- and it could be argued that the correct definition of finality depth in such cases is the depth of $H'$ relative to $H$, not of $\mathsf{tailhead}(H)$ relative to $H$.
 
 However,
@@ -127,23 +127,23 @@ However,
 * The effect of overestimating the finality depth in such corner cases would only cause us to enforce Safety Mode slightly sooner, which seems fine (and even desirable) in any situation where there have been at least two rollbacks longer than $\sigma$ blocks.
 
 By the way, the "tailhead" of a tailed animal is the area where the posterior of the tail joins the rump (also called the "dock" in some animals).
-:::
+```
 
 We could alternatively just rely on the fact that some proportion of block producers are honest and will include the latest information they have. However, it turns out that having a definition of finality depth will also be useful to enforce going into Safety Mode.
 
 Specifically, if we accept the above definition of finality depth, then the security property we want is
 
-:::success
+```admonish success
 **Bounded hazard-freeness** for a finality gap bound of $L$ blocks: There is never, for any node $i$ at time $t$, observed to be a more-available ledger $\mathsf{LOG}_{\mathrm{da},i}^t$ with a hazardous transaction that comes from block $H$ of $\mathsf{ch}_i^t$ such that $\textsf{finality-depth}(H) > L$. 
-:::
+```
 
-:::info
+```admonish info
 This assumes that transactions in the non-finalized suffix  $\mathsf{LOG}_{\mathrm{da},i}^t \setminus \mathsf{LOG}_{\mathrm{fin},i}^t$ come from blocks in $\mathsf{ch}_i^t$. In snap-and-chat they do by definition, but ideally we wouldn't depend on that. The difficulty in finding a more general security definition is due to the ledgers in an ebb-and-flow protocol being specified as sequences of transactions, so that a depth in the ledger would have only a very indirect correspondence to time. We could instead base a definition on timestamps, but that could run into difficulties in ensuring timestamp accuracy.
 
 Another possibility would be to count the number of coinbase transactions in $\mathsf{LOG}_{\mathrm{da},i}^t \setminus \mathsf{LOG}_{\mathrm{fin},i}^t$ before the hazardous transaction. This would still be somewhat ad hoc (it depends on the fact that coinbase transactions happen once per block and cannot conflict with any other distinct transaction).
 
 In any case, if $\textsf{finality-depth}$ sometimes overestimates the depth, that cannot weaken this security definition.
-:::
+```
 
 Note that a node that is validating a chain $\mathsf{ch}_i^t$ must fetch all the chains referenced by BFT blocks reachable from it (back to an ancestor that it has seen before). In theory, there could be a partition that causes there to be multiple disjoint snapshots that get added to the BFT chain in quick succession. However, in practice we expect such long rollbacks to be rare if $\Pi_{\mathrm{lc}}$ is meeting its security goals.
 
@@ -153,13 +153,13 @@ Nodes should not simply trust that the BFT blocks are correct; they should check
 
 It is also possible for a snapshot reference to include the subsequent $\sigma$ block headers, which are guaranteed to be available for a confirmed snapshot. Having all nodes validate the proofs-of-work in these headers is likely to significantly increase the work that an attacker would need to perform to cause disruption under a partial failure of either $\Pi_{\mathrm{bft}}$ or $\Pi_{\mathrm{lc}}$'s security properties.
 
-:::info
+```admonish info
 Note that [[NTT2020]](https://eprint.iacr.org/2020/1091.pdf) (bottom of right column, page 9) makes a safety assumption about $\Pi_{\mathrm{lc}}$ in order to prove the consistency of $\mathsf{LOG}_{\mathrm{fin}}$ with the output of $\Pi_{\mathrm{lc}}$:
 
 > As indicated by Algorithm 1, a snapshot of the output of $\Pi_{\mathrm{lc}}$ becomes final as part of a BFT block only if that snapshot is seen as confirmed by at least one honest node. However, since $\Pi_{\mathrm{lc}}$ is safe [i.e., does not roll back further than the confirmation depth $\sigma$], the fact that one honest node sees that snapshot as confirmed implies that every honest node sees the same snapshot as confirmed.
 
 I claim that, while this may be a reasonable assumption to make for parts of the security analysis, in practice we should always require any adversary to do the relevant amount of proof-of-work to construct block headers that are plausibly confirmed. This is useful even though we cannot require, for every possible attack, that it had those headers at the time they should originally have appeared.
-:::
+```
 
 ## Enforcing Finalization Availability and Safety Mode
 
@@ -171,23 +171,23 @@ Note that if full nodes have access to the BFT chain, knowing $\textsf{final-bft
 
 Suppose that the finality gap bound is $L$ blocks. Having already defined $\textsf{finality-depth}$, the necessary $\Pi_{\mathrm{lc}}$ consensus rule is attractively simple:
 
-:::success
+```admonish success
 For every $\Pi_{\mathrm{lc}}$ block $H$, $\textsf{finality-depth}(H) \leq L$.
-:::
+```
 
 To adapt this approach to enforce Safety Mode instead of stalling the chain, we can allow the alternative of producing a block that follows the Safety Mode restrictions:
 
-:::success
+```admonish success
 For every $\Pi_{\mathrm{lc}}$ block $H$, <font color="blue">either</font> $\textsf{finality-depth}(H) \leq L$<font color="blue">, or $H$ follows the Safety Mode restrictions</font>.
-:::
+```
 
 Note that Safety Mode will be exited automatically as soon as the finalization point catches up to within $L$ blocks (if it does without an intentional rollback). Typically, after recovery from whatever was causing the finalization stall, the validators will be able to obtain consensus on the same chain as $\mathsf{LOG}_{\mathrm{da}}$, and so there will be no rollback (or at least not a long one) of $\mathsf{LOG}_{\mathrm{da}}$.
 
-:::info
+```admonish info
 An earlier iteration of this idea required the finalization information to be included in $\Pi_{\mathrm{lc}}$ block headers. This is not necessary when we assume that full nodes have access to the BFT chain and can obtain arbitrary BFT blocks. This also sidesteps any need to relax the rule in order to bound the size of $\Pi_{\mathrm{lc}}$ block headers. $\Pi_{\mathrm{lc}}$ block producers are still incentivised to make the relevant BFT blocks available, because without them the above consensus rule cannot be checked, and so their $\Pi_{\mathrm{lc}}$ blocks would not be accepted.
 
 There is, however, a potential denial-of-service attack by claiming the existence of a BFT block that is very far ahead of the actual BFT chain tip. This attack is not very serious as long as nodes limit the number of BFT blocks they will attempt to obtain in parallel before having checked validator signatures.
-:::
+```
 
 ### Comment on security assumptions
 

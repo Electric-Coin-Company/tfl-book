@@ -18,11 +18,11 @@ This is claimed by the paper to “resolve” the tension between finality and d
 
 In this note, we argue that this is unacceptable, and that it is preferable to sacrifice strict dynamic availability. However, we also argue that the main idea behind ebb-and-flow protocols is a good one, and that allowing the chain tip to run ahead of the finalization point does make sense and has practical advantages. However, we also argue that it should not be possible to include transactions that spend funds in blocks that are too far ahead of the finalization point.
 
-:::info
+```admonish info
 Naive ways of preventing an unbounded finalization gap, such as stopping the chain completely in the case of a finalization stall, turn out to run into serious security problems --- at least when the best-chain protocol uses Proof-of-Work. We'll discuss those in detail.
 
 Our proposed solution will be to require coinbase-only blocks during a long finalization stall. This solution has the advantage that, as far as this change goes, the security analysis of the snap-and-chat construction from [[NTT2021]](https://arxiv.org/pdf/2009.04987.pdf) can still be applied.
-:::
+```
 
 We argue that losing strict dynamic availability in favour of "bounded dynamic availability" is preferable to the consequences of the unbounded finality gap, if/when a “long finalization stall” occurs.
 
@@ -32,9 +32,9 @@ We also argue that it is beneficial to explicitly allow “finality overrides”
 
 Since partition between nodes sufficient for finalization cannot be prevented, loosely speaking the [CAP theorem](https://en.wikipedia.org/wiki/CAP_theorem) implies that any consistent protocol (and therefore any protocol with finality) may stall for at least as long as the partition takes to heal.
 
-:::info
+```admonish info
 That "loosely speaking" is made precise by [[LR2020]](https://arxiv.org/pdf/2006.10698.pdf).
-:::
+```
 
 Dynamic availability implies that the chain tip will continue to advance, and so the finalization gap increases without bound.
 
@@ -46,9 +46,9 @@ Both the available protocol, and the subprotocol that provides finality, will be
 
 Suppose, then, that there is a long finalization stall. The final and available protocols are not separate: there is no duplication of tokens between protocols, but the rules about how to determine best-effort balance and guaranteed balance depend on both protocols, how they are composed, and how the history after the finalization point is interpreted.
 
-:::info
+```admonish info
 The guaranteed minimum balance of a given party is not just the minimum of their balance at the finalization point and their balance at the current tip. It is the minimum balance taken over all possible transaction histories that extend the finalized chain – taking into account that a party’s previously published transactions might be able to be reapplied in a different context without its explicit consent. The extent to which published transactions can be reapplied depends on technical choices that we must make, subject to some constraints (for example, we know that shielded transactions cannot be reapplied after their anchors have been invalidated). It may be desirable to further constrain re-use in order to make guaranteed minimum balances easier to compute.
-:::
+```
 
 As the finalization gap increases, the negative consequences of rolling back user transactions that spend funds increase. (Coinbase transactions do not spend funds; they are a special case that we will discuss later.)
 
@@ -72,9 +72,9 @@ Regardless, incorrect assumptions about the extent to which the finalized and av
 
 An intuitive notion of "availability" for blockchain protocols includes the ability to use the protocol as normal to spend funds. So, just to be clear, in a situation where that cannot happen we have lost availability, *even if* the block chain is advancing.
 
-:::info
+```admonish info
 For an explanation of *dynamic* availability and its advantages, I recommend [[DKT2020]](https://arxiv.org/abs/2010.08154) and its [accompanying talk](https://www.youtube.com/watch?v=SacUT_53Pg8).
-:::
+```
 
 Bounded dynamic availability is a weakening of dynamic availability. It means that we intentionally sacrifice availability when some potentially hazardous operation ---a "hazard" for short--- would occur too far after the current finalization point. For now, assume for simplicity that our only hazard is spending funds. More generally, the notion of bounded dynamic availability can be applied to a wider range of protocols by tailoring the definition of "hazard" to the protocol.
 
@@ -84,9 +84,9 @@ Bounded dynamic availability is a weakening of dynamic availability. It means th
 * In Bitcoin, Zcash, and most other PoW-based protocols, what is actually used by each node is not its longest observed chain, but its observed consensus-valid chain with most accumulated work. In Zcash this is called the node's "[best valid block chain](https://zips.z.cash/protocol/protocol.pdf#blockchain)", which we shorten to "best chain".
 * As footnote 2 on page 3 of [[NTT2021]](https://arxiv.org/pdf/2009.04987.pdf) says, that paper does not require $\Pi_{\mathrm{lc}}$ to be a "longest chain" protocol anyway.
 
-:::info
+```admonish info
 The error in conflating the "longest chain" with the observed consensus-valid chain with most accumulated work, originates in the Bitcoin whitepaper. [[Nakamoto2008](https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.221.9986), page 3]
-:::
+```
 
 We will use the term "best-chain protocol" instead. Note that this means $\Pi_{\mathrm{lc}}$ in the snap-and-chat construction, *not* any node's view of the sanitized ledger $\mathsf{LOG}_{\mathrm{da}}$.
 
@@ -96,17 +96,17 @@ We have not yet decided *how* to block hazards during a long finalization stall.
 
 We will call this method of blocking hazards, without stopping block production, "going into Safety Mode".
 
-:::info
+```admonish info
 This concept of Safety Mode is very similar to a [feature that was discussed early in the development of Zcash](https://github.com/zcash/zcash/issues/3311), but never fully designed or implemented. (After originally being called "Safety Mode", it was at some point renamed to "Emergency Mode", but then the latter term was used for [something else](https://electriccoin.co/blog/update-addressing-zcash-wallet-performance-issues/).)
-:::
+```
 
 For Zcash, I propose that the main restriction of Safety Mode should be to require coinbase-only blocks. This achieves a similar effect, for our purposes, as actually stalling the more-available protocol's chain. Since funds cannot be spent in coinbase-only blocks, the vast majority of attacks that we are worried about would not be exploitable in this state.
 
-:::info
+```admonish info
 It is possible that a security flaw could affect coinbase transactions. We *might* want to turn off shielded coinbase for Safety Mode blocks in order to reduce the chance of that.
 
 Also, mining rewards cannot be spent in a coinbase-only block; in particular, mining pools cannot distribute rewards. So there is a risk that an unscrupulous mining pool might try to do a rug-pull after mining of non-coinbase-only blocks resumes, if there were a very long finalization stall. But this approach works at least in the short term, and probably for long enough to allow manual intervention into the finalization protocol, or governance processes if needed.
-:::
+```
 
 A analogy for the effect of this on availability that may be familiar to many people, is that it works like video streaming. All video streaming services use a buffer to paper over short-term interruptions or slow-downs of network access. In most cases, this buffer is bounded. This allows the video to be watched uninterrupted and at a constant rate in most circumstances. But if there is a longer-term network failure or insufficient sustained bandwidth, the playback will unavoidably stall. In our case, block production does not literally stall, but it's the same as far as users' ability to perform "hazardous" operations is concerned.
 
@@ -183,9 +183,9 @@ If, on the other hand, there is time pressure to make a governance decision abou
 
 A possible objection is that there might be a coalition of validators who ignore the request to stop (possibly including the attacker or validators that an attacker can bribe), in which case the finalization stall would not happen. But that just means that we don’t gain the advantage of more time to make a governance decision; it isn’t actively a disadvantage relative to alternative designs. This outcome can also be thought of as a feature rather than a bug: going into Safety Mode should be a last resort, and if the argument given for the request to stop failed to convince a sufficient number of validators that it was reason enough to do so, then perhaps it wasn’t a good enough reason.
 
-:::info
+```admonish info
 This resolves one of the main objections to the [original Safety Mode idea](https://github.com/zcash/zcash/issues/3311) that stopped us from implementing it in Zcash. The original proposal was to use a signature with a key held by ECC to trigger Safety Mode, which would arguably have been too centralized. The Safety Mode described in this document, on the other hand, can only be entered by consensus of a larger validator set, or if there is an availability failure of the finalization protocol.
-:::
+```
 
 It is also possible to make the argument that the threshold of stake needed is imposed by technical properties of the finality protocol and by the resources of the attacker, which might not be ideal for the purpose described above. However, I would argue that it does not need to be ideal, and will be in the right ballpark in practice.
 
@@ -193,9 +193,9 @@ There's a caveat related to doing intentional rollbacks when using the Safety Mo
 
 This is actually fairly easy to solve. We have the governance procedures say that if we do an intentional rollback, the coinbase-only mining rewards will be preserved. I.e. we produce a block or blocks that include those rewards paid to the same addresses (adjusting the consensus to allow them to be created from thin air if necessary), have everyone check it thoroughly, and require the chain to restart from that block. So as long as block producers believe that this governance procedure will be followed and that the chain will eventually recover at a reasonable coin price, they will still have incentive to produce on $\Pi_{\mathrm{lc}}$, at least for a time.
 
-:::info
+```admonish info
 Although the community operating the governance procedures has already obtained the security benefit of mining done on the rolled-back chain by the time it creates the new chain, there is a strong incentive not to renege on the agreement with miners, because the same situation may happen again.
-:::
+```
 
 ## Tail-thrashing attacks
 
@@ -206,17 +206,17 @@ b) temporarily cause the more-available chain to stall.
 
 This section describes an important class of potential attacks on approach b) that are difficult to resolve. They are based on the fact that when the unfinalized chain stalls, an adversary has more time to find blocks, and this might violate security assumptions of the more-available protocol. For instance, if the more-available protocol is PoW-based, then its security in the steady state is predicated on the fact that an adversary with a given proportion of hash power has only a limited time to use that power, before the rest of the network finds another block.
 
-:::info
+```admonish info
 For an analysis of the concrete security of Nakamoto-like protocols, see [[DKT+2020]](https://arxiv.org/abs/2005.10484) and [[GKR2020]](https://eprint.iacr.org/2020/661). These papers confirm the intuition that the "private attack" ---in which an adversary races privately against the rest of the network to construct a forking chain--- is optimal, obtaining the same tight security bound independently using different techniques.
-:::
+```
 
 During a chain stall, the adversary no longer has a limited time to construct a forking chain. If, say, the adversary has 10% hash power, then it can on average find a block in 10 block times. And so in 100 block times it can create a 10-block fork.
 
 It may in fact be worse than this: once miners know that a finalization stall is happening, their incentive to continue mining is reduced, since they know that there is a greater chance that their blocks might be rolled back. So we would expect the global hash rate to fall ---even before the finality gap bound is hit--- and then the adversary would have a greater proportion of hash rate.
 
-:::info
+```admonish info
 Even in a pure ebb-and-flow protocol, a finalization stall could cause miners to infer that their blocks are more likely to be rolled back, but the fact that the chain is continuing would make that more difficult to exploit. This issue with the global hash rate is mostly specific to the more-available protocol being PoW: if it were PoS, then its validators might as well continue proposing blocks because it is cheap to do so. There might be other attacks when the more-available protocol is PoS; I haven't spent much time analysing that case.
-:::
+```
 
 The problem is that the more-available chain does not necessarily *just halt* during a chain stall. In fact, for a finality gap bound of $k$ blocks, an adversary could cause the $k$-block "tail" of the chain as seen by any given node to "thrash" between different chains. I will call this a **tail-thrashing attack**.
 
