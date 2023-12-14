@@ -1,16 +1,5 @@
 # Potential Changes to Crosslink
 
-This is part of a series of documents related to [Trailing Finality Layer](https://electric-coin-company.github.io/tfl-book/) research:
-
-* [The Arguments for Bounded Dynamic Availability and Finality Overrides](https://hackmd.io/sYzi5RW-RKS1j20OO4Li_w?view)
-* [Notes on Snap‑and‑Chat](https://hackmd.io/PXs8SOMHQQ6uBs3GXNPQjQ?view)
-* [The Crosslink Construction](https://hackmd.io/JqENg--qSmyqRt_RqY7Whw?view)
-* [Security Analysis of Crosslink](https://hackmd.io/YboxY2yLQDujpdkHj7JNMA?view)
-* [Questions about Crosslink](https://hackmd.io/L96pOB1nRdOOb1OHLL8_FA?view)
-* [Potential Changes to Crosslink](https://hackmd.io/n8ZDPeTRQj-wa7JWb293oQ?view)
-
-## Summary
-
 This page documents suggestions that have not had the same attention to security analysis as the [baseline Crosslink construction](https://hackmd.io/JqENg--qSmyqRt_RqY7Whw?view). Some of them are broken. Some of them also increase the complexity of the protocol (while some simplify it or have a mixed effect on complexity), and so we need to consider the security/complexity trade‑off of each suggestion before we could include it.
 
 ## Attempts to improve safety or to simplify the protocol

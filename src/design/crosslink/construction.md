@@ -1,16 +1,5 @@
 # The Crosslink Construction
 
-This is part of a series of documents related to [Trailing Finality Layer](https://electric-coin-company.github.io/tfl-book/) research:
-
-* [The Arguments for Bounded Dynamic Availability and Finality Overrides](https://hackmd.io/sYzi5RW-RKS1j20OO4Li_w?view)
-* [Notes on Snap‑and‑Chat](https://hackmd.io/PXs8SOMHQQ6uBs3GXNPQjQ?view)
-* [The Crosslink Construction](https://hackmd.io/JqENg--qSmyqRt_RqY7Whw?view)
-* [Security Analysis of Crosslink](https://hackmd.io/YboxY2yLQDujpdkHj7JNMA?view)
-* [Questions about Crosslink](https://hackmd.io/L96pOB1nRdOOb1OHLL8_FA?view)
-* [Potential Changes to Crosslink](https://hackmd.io/n8ZDPeTRQj-wa7JWb293oQ?view)
-
-## Summary
-
 We are now ready to give a description of a variant of Snap‑and‑Chat that takes into account the issues described in [Notes on Snap‑and‑Chat](https://hackmd.io/PXs8SOMHQQ6uBs3GXNPQjQ?view), and that implements [bounded dynamic availability](https://hackmd.io/sYzi5RW-RKS1j20OO4Li_w?view). I call this the "Crosslink" construction. I will try to make the description relatively self-contained, but knowledge of the Snap‑and‑Chat construction from [[NTT2020]](https://eprint.iacr.org/2020/1091.pdf) ([arXiv version](https://arxiv.org/pdf/2009.04987.pdf)) is assumed.
 
 ## Conventions
