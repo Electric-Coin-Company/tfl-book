@@ -141,7 +141,7 @@ In such an execution, <span style="white-space: nowrap">for all times $t$, $t'$<
 
 The above property is not as strong as we would like for practical uses of $\mathsf{LOG}_{\mathrm{bda}}$, because it does not say anything about rollbacks up to the finalization point, and such rollbacks may be of unbounded length. (Loosely speaking, the number of <span style="white-space: nowrap">non-Safety Mode bc‑blocks</span> after the consensus finalization point is bounded by <span style="white-space: nowrap">$L$,</span> but we have also not proven that so far.)
 
-As documented in the [Model for BFT protocols](https://hackmd.io/JqENg--qSmyqRt_RqY7Whw?view#Model-for-BFT-protocols-%CE%A0origbftbft) section of [The Crosslink Construction]([/JqENg--qSmyqRt_RqY7Whw](https://hackmd.io/JqENg--qSmyqRt_RqY7Whw?view)):
+As documented in the [Model for BFT protocols](https://hackmd.io/JqENg--qSmyqRt_RqY7Whw?view#Model-for-BFT-protocols-%CE%A0origbftbft) section of [The Crosslink Construction](https://hackmd.io/JqENg--qSmyqRt_RqY7Whw?view)):
 
 > For each epoch, there is a fixed number of voting units distributed between the players, which they use to vote for a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal</span>. If, and only if, the votes cast for a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal</span> $P$ satisfy a notarization rule, then it is possible to obtain a valid <span style="white-space: nowrap">$\mathrm{*}$bft‑notarization-proof</span> <span style="white-space: nowrap">$\mathsf{proof}_P$.</span> The notarization rule must require at least a two-thirds absolute supermajority of voting units to have been cast for $P$. (It may also require other conditions.)
 >
