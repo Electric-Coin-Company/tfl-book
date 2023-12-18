@@ -206,6 +206,6 @@ Now consider this statement and figure:
 
 > Even if $\Pi_{\mathrm{bft}}$ is unsafe (Figure 9c), finalization of a snapshot requires at least one honest vote, and thus only valid snapshots become finalized.
 >
-> ![Figure 9 of [NTT2020]](hackmd.io/_uploads/HJklq3xbT.png)
+> ![Figure 9 of [NTT2020]](./NTT2020-Figure-9.png)
 
 This argument is technically correct but has to be interpreted with care. It only applies when the number of malicious nodes $f$ is such that $n/3 < f < n/2$. What we are trying to do with Crosslink is to ensure that a similar conclusion holds even if $\Pi_{\mathrm{bft}}$ is completely subverted, i.e. the adversary has 100% of validators (but only < 50% of $\Pi_{\mathrm{lc}}$ hash rate).
