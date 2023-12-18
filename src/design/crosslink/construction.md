@@ -150,7 +150,6 @@ An execution of $\Pi_{\mathrm{*bft}}$ has **Final Agreement** iff for all <span 
 Note that it is possible for this property to hold for an execution of a BFT protocol in an asynchronous communication model. The following caveat applies: if the **one‑third bound on non‑honest voting** property is *ever* broken at any time in an execution, then it may not be possible to maintain **Final Agreement** from that point on. This is an area of possible improvement in the design and analysis, left for future work.
 
 ```admonish info collapsible=true title="Adapting the Streamlet BFT protocol."
-```admonish info
 Streamlet as described in [[CS2020]](https://eprint.iacr.org/2020/088.pdf) has three possible states of a block in a player's view:
 * "valid" (but not notarized or final);
 * "notarized" (but not final);
@@ -208,7 +207,6 @@ A <span style="white-space: nowrap">$\mathrm{*}$bc‑context</span> allows testi
 We assume that the only reasons for a transaction to be contextually invalid are that it double‑spends, or that an input is missing.
 
 ```admonish info collapsible=true title="Why is this assumption needed?"
-```admonish info
 It is needed for equivalence of the following two ways to construct <span style="white-space: nowrap">$\mathsf{LOG}_{\{\mathrm{fin},\mathrm{bda}\}}$:</span>
 
 1. Concatenate the transactions from each bft‑block snapshot of a bc‑chain, and sanitize the resulting transaction sequence by including each transaction iff it is contextually valid.
@@ -225,8 +223,7 @@ It might be possible to relax this assumption, but it would require additional a
 ${}$
 A <span style="white-space: nowrap">$\mathrm{*}$bc‑block</span> logically contains a sequence of transactions. In addition to other rules, a block is only <span style="white-space: nowrap">$\mathrm{*}$bc‑block‑valid</span> if its transactions, taken in order, are all <span style="white-space: nowrap">$\mathrm{*}$bc‑context‑valid</span> given previous blocks and previous transactions in the block.
 
-```admonish info collapsible=true title="Detail of "logically contains" for Zcash."
-```admonish info
+```admonish info collapsible=true title="Detail of 'logically contains' for Zcash."
 In Zcash, a block logically contains its transactions by having the block header commit to a Merkle tree over txids, and another Merkle tree (in the same transaction order) over witness hashes. A txid and witness hash together authenticate all data fields of a transaction.
 
 For v5 transactions, the txid commits to effecting data (that determines the effect of the transaction) and the witness hash commits to witness data (signatures and proofs). For earlier transaction versions, the witness hash is null and the txid commits to all transaction data.
@@ -235,7 +232,6 @@ When a block is downloaded, its transactions are parsed and its header is checke
 ```
 
 ```admonish info collapsible=true title="Is this model of contextual validity sufficient for Zcash?"
-```admonish info
 There are several Zcash consensus rules that mention block height or position within a block, or that depend on other transactions in a block:
 
 [Transaction consensus rule](https://zips.z.cash/protocol/protocol.pdf#txnconsensus):
@@ -269,7 +265,6 @@ Define $\textsf{is-coinbase-only-block} :: \mathrm{*}\textsf{bc-block} \to \math
 Each <span style="white-space: nowrap">$\mathrm{*}$bc‑block</span> is summarized by a <span style="white-space: nowrap">$\mathrm{*}$bc‑header</span> that commits to the block. There is a notion of <span style="white-space: nowrap">$\mathrm{*}$bc‑header‑validity</span> that is necessary, but not sufficient, for validity of the block. We will only make the distinction between <span style="white-space: nowrap">$\mathrm{*}$bc‑headers</span> and <span style="white-space: nowrap">$\mathrm{*}$bc‑blocks</span> when it is necessary to avoid ambiguity.
 
 ```admonish info collapsible=true title="Header validity for Proof‑of‑Work protocols."
-```admonish info
 In a Proof‑of‑Work protocol, it is normally possible to check the Proof‑of‑Work of a block using only the header. There is a difficulty adjustment function that determines the target difficulty for a block based on its parent chain. So, checking that the correct difficulty target has been used relies on knowing that the header's parent chain is valid.
 
 Checking header validity before expending further resources on a purported block can be relevant to mitigating denial‑of‑service attacks that attempt to inflate validation cost.
@@ -286,7 +281,6 @@ An execution of $\Pi_{\mathrm{*bc}}$ has **Prefix Consistency** at confirmation 
 ```
 
 ```admonish info collapsible=true title="Explain the confusion in the literature about what variants of this property are called."
-```admonish info
 The literature uses the same name, <span style="white-space: nowrap">"common‑prefix property",</span> for two different properties of very different strength.
 
 [[PSS2016](https://eprint.iacr.org/2016/454.pdf), section 3.3] introduced the stronger variant. That paper first describes the weaker variant, calling it the "common‑prefix property by Garay et al [[GKL2015]](https://link.springer.com/chapter/10.1007/978-3-662-46803-6_10)." Then it explains what is essentially a bug in that variant, and describes the stronger variant which it just calls "consistency":
@@ -310,7 +304,6 @@ Incidentally, I cannot find any variant of this property in [[Nakamoto2008]](htt
 ```
 
 ```admonish info collapsible=true title="Discussion of [GKL2020]'s communication model and network partition."
-```admonish info
 **Prefix Consistency** implies that, in the relevant executions, the network of honest nodes is never <span style="white-space: nowrap">partitioned ---</span> unless (roughly speaking) any partition lasts only for a short length of time relative to $\sigma$ block times. <span style="white-space: nowrap">If node $i$</span> is on one side of a full partition and <span style="white-space: nowrap">node $j$</span> on the other, then after <span style="white-space: nowrap">node $i$'s</span> best chain has been extended by more than <span style="white-space: nowrap">$\sigma$ blocks,</span> $\mathsf{ch}_i^t \lceil_{\!\mathrm{*bc}}^\sigma$ will contain information that has no way to get to <span style="white-space: nowrap">node $j$.</span> And even if the partition is incomplete, we cannot guarantee that the Prefix Consistency property will hold for any given pair of nodes.
 
 And yet, [[GKL2020]](https://eprint.iacr.org/2014/765.pdf) claims to *prove* this property from other assumptions. So we know that those assumptions must also rule out a long partition between honest nodes. In fact the required assumption is implicit in the communication model:
@@ -333,7 +326,6 @@ An execution of $\Pi_{\mathrm{*bc}}$ has **Prefix Agreement** at confirmation <s
 ```
 
 ```admonish info collapsible=true title="Why are this property, and Prefix Consistency above, stated as unconditional properties of protocol *executions*, rather than as probabilistic assumptions?"
-```admonish info
 Our security arguments that depend on these properties will all be of the form "in an execution where (safety properties) are not violated, (undesirable thing) cannot happen".
 
 It is not necessary to involve probability in arguments of this form. Any probabilistic reasoning can be done separately.
@@ -360,7 +352,6 @@ Talking about what is possible in particular executions has further advantages:
 ```
 
 ```admonish info collapsible=true title="Why, intuitively, should we believe that Prefix Agreement and Prefix Consistency for a large enough confirmation depth hold with high probability for executions of a PoW‑based best‑chain protocol?"
-```admonish info
 Roughly speaking, the intuition behind both properties is as follows:
 
 Honest nodes are collectively able to find blocks faster than an adversary, and communication between honest nodes is sufficiently reliable that they act as a combined network racing against that adversary. Then by the argument in [[Nakamoto2008]](https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.221.9986), modified by [[GP2020]](https://arxiv.org/pdf/1702.02867.pdf) to correct an error in the concrete analysis, a private mining attack that attempts to cause a <span style="white-space: nowrap">$\sigma$‑block</span> rollback will, with high probability, fail for <span style="white-space: nowrap">large enough $\sigma$.</span> A private mining attack is optimal by the argument in [[DKT+2020]](https://arxiv.org/pdf/2005.10484.pdf).
@@ -369,7 +360,6 @@ Any further analysis of the conditions under which these properties hold should 
 ```
 
 ```admonish info collapsible=true title="Why is the quantification over two *different* times *t* and *t′*?"
-```admonish info
 This strengthens the security property, relative to quantifying over a single time. The question can then be split into several parts:
 
 1. What does the strengthened property mean, intuitively?
@@ -423,7 +413,6 @@ For a bft‑block or bft‑proposal $B$, define $$
 $$
 
 ```admonish info collapsible=true title="Use of the headers_bc field, and its relation to the ch field in Snap‑and‑Chat."
-```admonish info
 For a bft‑proposal or <span style="white-space: nowrap">bft‑block $B$,</span> the role of the bc‑chain snapshot referenced by $B\mathsf{.headers\_bc}[0] \lceil_{\mathrm{bc}}^1$ is comparable to the <span style="white-space: nowrap">$\Pi_{\mathrm{lc}}$ snapshot</span> referenced by $B\mathsf{.ch}$ in the Snap‑and‑Chat construction from [[NTT2020]](https://eprint.iacr.org/2020/1091.pdf). The motivation for the additional headers is to demonstrate, to any party that sees a bft‑proposal (resp. bft‑block), that the snapshot had been confirmed when the proposal (resp. the block's proposal) was made.
 
 Typically, a node that is validating an honest bft‑proposal or bft‑block will have seen at least the snapshotted bc‑block (and possibly some of the subsequent bc‑blocks in the $\mathsf{header\_bc}$ chain) before. For this not to be the case, the validator's bc‑best‑chain would have to be more than <span style="white-space: nowrap">$\sigma$ bc‑blocks</span> behind the honest proposer's bc‑best‑chain at a given time, which would violate the **Prefix Consistency** property <span style="white-space: nowrap">of $\Pi_{\mathrm{bc}}$.</span>
@@ -434,14 +423,12 @@ If the headers *do* connect to a known bc‑valid‑chain, it could still be the
 ```
 
 ```admonish info collapsible=true title="Why is a distinguished value needed for the headers_bc field in the genesis bft‑block?"
-```admonish info
 It would be conceptually nice for $\mathcal{O}_{\mathrm{bft}}\mathsf{.headers}[0] \lceil_{\mathrm{bc}}^1$ to refer to $\mathcal{O}_{\mathrm{bc}}$, as well as $\mathcal{O}_{\mathrm{bc}}\mathsf{.context\_bft}$ being $\mathcal{O}_{\mathrm{bft}}$ so that <span style="white-space: nowrap">$\textsf{bft-last-final}(\mathcal{O}_{\mathrm{bc}}\mathsf{.context\_bft}) = \mathcal{O}_{\mathrm{bft}}$.</span> That reflects the fact that we know <span style="white-space: nowrap">"from the start"</span> that neither genesis block can be rolled back.
 
 This is not literally implementable using block hashes because it would involve a hash cycle, but we achieve the same effect by defining a $\mathsf{snapshot}$ function that allows us to "patch" $\mathsf{snapshot}(\mathcal{O}_{\mathrm{bft}})$ <span style="white-space: nowrap">to be $\mathcal{O}_{\mathrm{bc}}$.</span> We do it this way around rather than "patching" the link from a bc‑block to a bft‑block, because the genesis bft‑block already needs a special case since there are not <span style="white-space: nowrap">$\sigma$ bc‑headers</span> available.
 ```
 
 ```admonish info collapsible=true title="Why is the context_bft field needed? Why not use a final_bft field to refer directly to the last final bft‑block before the context block?"
-```admonish info
 The finality of some bft‑block is only defined in the context of another bft‑block. One possible design would be for a bc‑block to have both $\mathsf{final\_bft}$ and $\mathsf{context\_bft}$ fields, so that the finality of $\mathsf{final\_bft}$ could be checked objectively in the context <span style="white-space: nowrap">of $\mathsf{context\_bft}$.</span>
 
 However, specifying just the context block is sufficient information to determine its last final ancestor. There would never be any need to give a context block and a final ancestor that is not the last one. The $\textsf{bft-last-final}$ function can be computed efficiently for typical BFT protocols. Therefore, having just the $\mathsf{context\_bft}$ field is sufficient.
@@ -464,21 +451,18 @@ The "corresponding validity rules" are assumed to include the **Parent rule** th
 Note: origbft‑block‑validity rules may be different to origbft‑proposal‑validity rules. For example, in adapted Streamlet, a origbft‑block needs evidence that it was voted for by a supermajority, and an origbft‑proposal doesn't. Such differences also apply to bft‑block‑validity vs bft‑proposal‑validity.
 
 ```admonish info collapsible=true title="What about making the bc‑block producer the bft‑proposer?"
-```admonish info
 If this were enforced, it could be an alternative way of ensuring that every bft‑proposal snapshots a new bc‑block with a higher score than previous snapshots, potentially making the **Increasing Score rule** redundant. However, it would require merging bc‑block producers and bft‑proposers, which could have concerning knock‑on effects (such as concentrating security into fewer participants).
 
 For a contrary view, see [What about making the bc‑block producer the bft‑proposer?](https://hackmd.io/n8ZDPeTRQj-wa7JWb293oQ?view#What-about-making-the-bc-block-producer-the-bft-proposer) in [Potential changes to Crosslink](https://hackmd.io/n8ZDPeTRQj-wa7JWb293oQ?view).
 ```
 
 ```admonish info collapsible=true title="Why have validity rules been separated from the honest voting condition below?"
-```admonish info
 The reason to separate the validity rules from the honest voting condition, is that the validity rules are objective: they don't depend on an observer's view of the bc‑best‑chain. Therefore, they can be checked independently of validator signatures. Even a proposal voted for by 100% of validators will not be considered bft‑proposal‑valid by other nodes unless it satisfies the above rules. If more than two thirds of voting units are cast for an **invalid** proposal, something is seriously *and visibly* wrong; in any case, the block will not be accepted as a valid bft‑block. Importantly, a purportedly valid bft‑block will not be recognized as such by *any* honest Crosslink node even if it includes a valid notarization proof, if it does not meet other bft‑block‑validity rules.
 
 This is essential to making $\mathsf{LOG}_{\mathrm{fin}}$ safe against a flaw in $\Pi_{\mathrm{bft}}$ or its security assumptions (even, say, a complete break of the validator signature algorithm), as long as $\Pi_{\mathrm{bc}}$ remains safe.
 ```
 
 ```admonish info collapsible=true title="What does the **Increasing Score rule** do?"
-```admonish info
 This rule ensures that each snapshot in a bft‑valid‑chain is strictly "better" than the last distinct snapshot (and therefore any earlier distinct snapshot), according to the same metric used to choose the bc‑best‑chain.
 
 This rule has several positive effects:
@@ -493,7 +477,6 @@ The increase in score is intentionally always relative to the snapshot of the pa
 ```
 
 ```admonish info collapsible=true title="Why does the **Increasing Score rule** allow keeping the same snapshot as the parent?"
-```admonish info
 This is necessary in order to preserve liveness of $\Pi_{\mathrm{bft}}$ relative <span style="white-space: nowrap">to $\Pi_{\mathrm{origbft}}$.</span> Liveness of $\Pi_{\mathrm{origbft}}$ might require honest proposers to make proposals at a minimum rate. That requirement could be consistently violated if it were not always possible to make a valid proposal. But given that it is allowed to repeat the same snapshot as in the parent bft‑block, neither the **Increasing Score rule** nor the **Tail Confirmation rule** can prevent making a valid <span style="white-space: nowrap">proposal ---</span> and all other rules of $\Pi_{\mathrm{bft}}$ affecting the ability to make valid proposals are the same as <span style="white-space: nowrap">in $\Pi_{\mathrm{origbft}}$.</span> <span style="white-space: nowrap">(In principle,</span> changes to voting in $\Pi_{\mathrm{bft}}$ could also affect its liveness; we'll discuss that in the liveness proof later.)
 
 For example, Streamlet requires three notarized blocks *in consecutive epochs* in order to finalize <span style="white-space: nowrap">a block [[CS2020](https://eprint.iacr.org/2020/088.pdf), section 1.1].</span> Its proof of liveness depends on the assumption that in each epoch for which the leader is honest, that leader will make a proposal, and that during a "period of synchrony" this proposal will be received by <span style="white-space: nowrap">every node [[CS2020](https://eprint.iacr.org/2020/088.pdf), section 3.6].</span> This argument can also be extended to adapted‑Streamlet.
@@ -504,7 +487,6 @@ As a clarification, no BFT protocol that uses leader election can *require* a pr
 ```
 
 ```admonish info collapsible=true title="Why is it not allowed to switch between snapshots with the same score?"
-```admonish info
 Consider the following variant of the **Increasing Score rule**: $\mathsf{score}(\mathsf{snapshot}(B \lceil_{\mathrm{bft}}^1)) \leq \mathsf{score}(\mathsf{snapshot}(B))$.
 
 This would allow keeping the same snapshot as the parent as discussed in the previous answer. However, it would also allow continually cycling within a given set of snapshots, without making progress and without needing any new Proof‑of‑Work to be performed. This is worse than not making progress due to the same snapshot continually being proposed, because it increases the number of snapshots that need to be considered for sanitization, and therefore it could potentially be used for a denial‑of‑service.
@@ -519,14 +501,12 @@ The finality rule for bft‑blocks in a given context is unchanged from origbft�
 An honest proposer of a bft‑proposal $P$ chooses $P\mathsf{.headers\_bc}$ as the $\sigma$‑block tail of its bc‑best‑chain, provided that it is consistent with the **Increasing Score rule**. If it would not be consistent with that rule, it sets $P\mathsf{.headers\_bc}$ to the same $\mathsf{headers\_bc}$ field as $P$'s parent bft‑block. It does not make proposals until its bc‑best‑chain is at least $\sigma + 1$ blocks long.
 
 ```admonish info collapsible=true title="Why σ + 1?"
-```admonish info
 If the length were less than $\sigma + 1$ blocks, it would be impossible to construct the $\mathsf{headers\_bc}$ field of the proposal.
 
 Note that when the length of the proposer' bc‑best‑chain is exactly $\sigma + 1$ blocks, the snapshot must be of $\mathcal{O}_{\mathrm{bc}}.$ But this does not violate the **Increasing Score rule**, because $\mathcal{O}_{\mathrm{bc}}$ matches the previous snapshot by $\mathcal{O}_{\mathrm{bft}}$.
 ```
 
 ```admonish info collapsible=true title="How is it possible that the **Increasing Score rule** would not be satisfied by choosing headers from the proposer's bc‑best‑chain?"
-```admonish info
 Assume for this discussion that $\Pi_{\mathrm{bc}}$ uses PoW.
 
 Depending on the value of $\sigma$, the timestamps of bc‑blocks, and the difficulty adjustment rule, it could be the case that the difficulty on the new bc‑best‑chain increases relative to the chain of the previous snapshot. In that case, when there is a fork, the new chain could reach a higher score than the previous chain in less than $\sigma$ blocks from the fork point, and so its <span style="white-space: nowrap">$\sigma$‑confirmed</span> snapshot could be before the previous snapshot.
@@ -543,7 +523,6 @@ An honest validator considering a proposal $P$, first updates its view of both s
 For each downloaded bc‑block, the bft‑chain referenced by its $\mathsf{context\_bft}$ field might need to be validated if it has not been seen before.
 
 ```admonish info collapsible=true title="Wait what, how much validation is that?"
-```admonish info
 In general the entire referenced bft‑chain needs to be validated, not just the referenced block --- and for each bft‑block, the bc‑chain in $\mathsf{headers\_bc}$ needs to be validated, and so on recursively. If this sounds overwhelming, note that:
 * We should check the requirement that a bft‑valid‑block must have been voted for by a two‑thirds absolute supermajority of validators, and any other *non‑recursive* bft‑validity rules, *first*.
 * Before validating a bc‑chain referenced by a $\mathsf{headers\_bc}$ field, we check that it connects to an already-validated bc‑chain and that the Proofs‑of‑Work are valid. This implies that the amount of bc‑block validation is constrained by how fast the network can find valid Proofs‑of‑Work.
@@ -557,7 +536,6 @@ After updating its view, the validator will vote for a proposal $P$ *only if*:
 * **Confirmed best‑chain criterion:** $\mathsf{snapshot}(P)$ is part of the validator's bc‑best‑chain at a bc‑confirmation‑depth of at least $\sigma$.
 
 ```admonish info collapsible=true title="Blocks in a bc‑best‑chain are by definition bc‑block‑valid. If we're checking the **Confirmed best‑chain criterion**, why do we need to have separately checked that the blocks referenced by the headers are bc‑block‑valid?"
-```admonish info
 The **Confirmed best‑chain criterion** is quite subtle. It ensures that $\mathsf{snapshot}(P) = P\mathsf{.headers\_bc}[0] \lceil_{\mathrm{bc}}^1$ is bc‑block‑valid and has $\sigma$ bc‑block‑valid blocks after it in the validator's bc‑best‑chain. However, it need not be the case that $P\mathsf{.headers\_bc}[\sigma-1]$ is part of the validator's bc‑best‑chain after it updates its view. That is, the chain could fork after $\mathsf{snapshot}(P)$.
 
 The bft‑proposal‑validity rule must be objective; it can't depend on what the validator's bc‑best‑chain is. The validator's bc‑best‑chain *may* have been updated to $P\mathsf{.headers\_bc}[\sigma-1]$ (if it has the highest score), but it also may not.
@@ -568,7 +546,6 @@ In any case, if the validator does not check that all of the blocks referenced b
 ```
 
 ```admonish info collapsible=true title="How does this compare to Snap‑and‑Chat?"
-```admonish info
 Snap‑and‑Chat already had the voting condition:
 > An honest node only votes for a proposed BFT block $B$ if it views $B\mathsf{.ch}$ as confirmed.
 
@@ -677,19 +654,16 @@ $$ It chooses one of the longest of these chains, $C$, breaking ties by maximizi
 The honest block producer then sets <span style="white-space: nowrap">$H\mathsf{.context\_bft} := C$.</span>
 
 ```admonish info collapsible=true title="Why not choose *T*  such that *H* ⌈<sup>1</sup><sub>bc</sub> . context_bft  ⪯<sub>bft</sub>  bft‑last‑final(*T* )?"
-```admonish info
 The effect of this would be to tend to more often follow the last bft‑block seen by the producer of the parent bc‑block, if there is a choice. It is not always possible to do so, though: the resulting set of candidates <span style="white-space: nowrap">for $C$</span> might be empty.
 
 Also, it is not clear that giving the parent bc‑block‑producer the chance to "guide" what bft‑block should be chosen next is beneficial, since that producer might be adversarial and the resulting incentives are difficult to reason about.
 ```
 
 ```admonish info collapsible=true title="Why choose the longest *C*, rather than the longest bft‑last‑final(*C* )?"
-```admonish info
 We could have instead chosen $C$ to maximize the length <span style="white-space: nowrap">of $\textsf{bft-last-final}(C)$.</span> The rule we chose follows Streamlet, which builds on the longest notarized chain, not the longest finalized chain. This may call for more analysis specific to the chosen BFT protocol.
 ```
 
 ```admonish info collapsible=true title="Why this tie‑breaking rule?"
-```admonish info
 Choosing the bft‑chain that has the last final snapshot with the highest score, tends to inhibit an adversary's ability to finalize its own chain if it has a lesser score. (If it has a greater score, then it has already won a hash race and we cannot stop the adversary chain from being finalized.)
 
 If we [switch to using the Increasing Tip Score rule](https://hackmd.io/n8ZDPeTRQj-wa7JWb293oQ?view#Changing-the-Increasing-Score-rule-to-require-the-score-of-the-tip-rather-than-the-score-of-the-snapshot-to-increase), then it would be more consistent to also change this tie‑breaking rule to use the tip score, <span style="white-space: nowrap">i.e. $\mathsf{score}(\mathsf{tip}(\textsf{bft-last-final}(C)))$.</span>
