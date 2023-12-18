@@ -1,6 +1,6 @@
 # The Crosslink Construction
 
-We are now ready to give a description of a variant of Snap‑and‑Chat that takes into account the issues described in [Notes on Snap‑and‑Chat](https://hackmd.io/PXs8SOMHQQ6uBs3GXNPQjQ?view), and that implements [bounded dynamic availability](https://hackmd.io/sYzi5RW-RKS1j20OO4Li_w?view). I call this the "Crosslink" construction. I will try to make the description relatively self-contained, but knowledge of the Snap‑and‑Chat construction from [[NTT2020]](https://eprint.iacr.org/2020/1091.pdf) ([arXiv version](https://arxiv.org/pdf/2009.04987.pdf)) is assumed.
+We are now ready to give a description of a variant of Snap‑and‑Chat that takes into account the issues described in [Notes on Snap‑and‑Chat](./notes-on-snap-and-chat.md), and that implements [bounded dynamic availability](./the-arguments-for-bounded-dynamic-availability-and-finality-overrides.md). I call this the "Crosslink" construction. I will try to make the description relatively self-contained, but knowledge of the Snap‑and‑Chat construction from [[NTT2020]](https://eprint.iacr.org/2020/1091.pdf) ([arXiv version](https://arxiv.org/pdf/2009.04987.pdf)) is assumed.
 
 ## Conventions
 
@@ -63,7 +63,7 @@ The notation $[f(X) \text{ for } X \preceq_{\mathrm{*}} Y]$ means the sequence o
 As in Snap‑and‑Chat, we depend on a <span style="white-space: nowrap">BFT protocol $\Pi_{\mathrm{origbft}}$,</span> and a <span style="white-space: nowrap">best‑chain protocol $\Pi_{\mathrm{origbc}}$.</span>
 
 ```admonish info
-See [this terminology note](https://hackmd.io/sYzi5RW-RKS1j20OO4Li_w?view#Terminology-note) for why we do not call $\Pi_{\mathrm{origbc}}$ a "longest‑chain" protocol.
+See [this terminology note](./the-arguments-for-bounded-dynamic-availability-and-finality-overrides.md#Terminology-note) for why we do not call $\Pi_{\mathrm{origbc}}$ a "longest‑chain" protocol.
 ```
 
 We modify $\Pi_{\mathrm{origbft}}$ <span style="white-space: nowrap">(resp. $\Pi_{\mathrm{origbc}}$)</span> to give $\Pi_{\mathrm{bft}}$ <span style="white-space: nowrap">(resp. $\Pi_{\mathrm{bc}}$)</span> by adding structural elements, changing validity rules, and potentially changing the specified behaviour of honest nodes.
@@ -378,13 +378,13 @@ The following definition is rough and only intended to provide intuition.
 
 Consider, at a point in <span style="white-space: nowrap">time $t$,</span> the number of bc‑blocks of transactions that have entered $\mathsf{LOG}_{\mathrm{bda},i,0}^t$ but have not (yet) entered <span style="white-space: nowrap">$\mathsf{LOG}_{\mathrm{fin},i}^t$.</span> We call this the <span style="white-space: nowrap">"finality gap"</span> at <span style="white-space: nowrap">time $t$.</span> Under an assumption about the distribution of bc‑block intervals, if this gap stays roughly constant then it corresponds to the approximate time that transactions added to $\mathsf{LOG}_{\mathrm{bda},i,0}$ have taken to enter $\mathsf{LOG}_{\mathrm{fin},i}$ (if they do so at all) just prior to <span style="white-space: nowrap">time $t$.</span>
 
-As explained in detail by [The Arguments for Bounded Dynamic Availability and Finality Overrides](https://hackmd.io/sYzi5RW-RKS1j20OO4Li_w?view), if this bound exceeds a reasonable threshold then it likely signals an exceptional or emergency condition, in which it is undesirable to keep accepting user transactions that spend funds into <span style="white-space: nowrap">$\mathsf{LOG}_{\mathrm{bda},i,0}$.</span>
+As explained in detail by [The Arguments for Bounded Dynamic Availability and Finality Overrides](./the-arguments-for-bounded-dynamic-availability-and-finality-overrides.md), if this bound exceeds a reasonable threshold then it likely signals an exceptional or emergency condition, in which it is undesirable to keep accepting user transactions that spend funds into <span style="white-space: nowrap">$\mathsf{LOG}_{\mathrm{bda},i,0}$.</span>
 
 The condition that the network enters in such cases will be called <span style="white-space: nowrap">"Safety Mode".</span> For a given higher‑level transaction protocol, we can define a policy for which bc‑blocks will be accepted in <span style="white-space: nowrap">Safety Mode.</span> This will be modelled by a predicate <span style="white-space: nowrap">$\textsf{is-safety-block} :: \textsf{bc-block} \to \mathsf{boolean}$.</span> A bc‑block for which $\textsf{is-safety-block}$ returns $\mathsf{true}$ is called a <span style="white-space: nowrap">"safety block".</span>
 
 Note that a bc‑block producer is only constrained to produce safety blocks while, roughly speaking, its view of the finalization point remains stalled. In particular an adversary that has subverted the BFT protocol in a way that does *not* keep it in a stalled state can always avoid being constrained by <span style="white-space: nowrap">Safety Mode.</span>
 
-The desired properties of safety blocks and a possible <span style="white-space: nowrap">Safety Mode</span> policy for Zcash are discussed in the [How to block hazards](https://hackmd.io/sYzi5RW-RKS1j20OO4Li_w?view#How-to-block-hazards) section of [The Arguments for Bounded Dynamic Availability and Finality Overrides](https://hackmd.io/sYzi5RW-RKS1j20OO4Li_w?view).
+The desired properties of safety blocks and a possible <span style="white-space: nowrap">Safety Mode</span> policy for Zcash are discussed in the [How to block hazards](./the-arguments-for-bounded-dynamic-availability-and-finality-overrides.md#How-to-block-hazards) section of [The Arguments for Bounded Dynamic Availability and Finality Overrides](./the-arguments-for-bounded-dynamic-availability-and-finality-overrides.md).
 
 ## Parameters
 
@@ -453,7 +453,7 @@ Note: origbft‑block‑validity rules may be different to origbft‑proposal‑
 ```admonish info collapsible=true title="What about making the bc‑block producer the bft‑proposer?"
 If this were enforced, it could be an alternative way of ensuring that every bft‑proposal snapshots a new bc‑block with a higher score than previous snapshots, potentially making the **Increasing Score rule** redundant. However, it would require merging bc‑block producers and bft‑proposers, which could have concerning knock‑on effects (such as concentrating security into fewer participants).
 
-For a contrary view, see [What about making the bc‑block producer the bft‑proposer?](https://hackmd.io/n8ZDPeTRQj-wa7JWb293oQ?view#What-about-making-the-bc-block-producer-the-bft-proposer) in [Potential changes to Crosslink](https://hackmd.io/n8ZDPeTRQj-wa7JWb293oQ?view).
+For a contrary view, see [What about making the bc‑block producer the bft‑proposer?](./potential-changes.md#What-about-making-the-bc-block-producer-the-bft-proposer) in [Potential changes to Crosslink](./potential-changes.md).
 ```
 
 ```admonish info collapsible=true title="Why have validity rules been separated from the honest voting condition below?"
@@ -513,7 +513,7 @@ Depending on the value of $\sigma$, the timestamps of bc‑blocks, and the diffi
 
 (For [Zcash's difficulty adjustment algorithm](https://zips.z.cash/protocol/protocol.pdf#diffadjustment), the difficulty of each block is adjusted based on the median timestamps and difficulty target thresholds over a range of $\mathsf{PoWAveragingWindow} = 17$ blocks, where each median is taken over $\mathsf{PoWMedianBlockSpan} = 11$ blocks. Other damping factors and clamps are applied in order to prevent instability and to reduce the influence that adversarially chosen timestamps can have on difficulty adjustment. This makes it unlikely that an adversary could gain a significant advantage by manipulating the difficulty adjustment.)
 
-For a variation on the **Increasing Score rule** that would be automatically satisfied by choosing headers from the proposer's bc‑best‑chain, see [Potential changes to Crosslink](https://hackmd.io/n8ZDPeTRQj-wa7JWb293oQ?view#Changing-the-Increasing-Score-rule-to-require-the-score-of-the-tip-rather-than-the-score-of-the-snapshot-to-increase).
+For a variation on the **Increasing Score rule** that would be automatically satisfied by choosing headers from the proposer's bc‑best‑chain, see [Potential changes to Crosslink](./potential-changes.md#Changing-the-Increasing-Score-rule-to-require-the-score-of-the-tip-rather-than-the-score-of-the-snapshot-to-increase).
 ```
 
 ### Π<sub>bft</sub> honest voting
@@ -666,7 +666,7 @@ We could have instead chosen $C$ to maximize the length <span style="white-space
 ```admonish info collapsible=true title="Why this tie‑breaking rule?"
 Choosing the bft‑chain that has the last final snapshot with the highest score, tends to inhibit an adversary's ability to finalize its own chain if it has a lesser score. (If it has a greater score, then it has already won a hash race and we cannot stop the adversary chain from being finalized.)
 
-If we [switch to using the Increasing Tip Score rule](https://hackmd.io/n8ZDPeTRQj-wa7JWb293oQ?view#Changing-the-Increasing-Score-rule-to-require-the-score-of-the-tip-rather-than-the-score-of-the-snapshot-to-increase), then it would be more consistent to also change this tie‑breaking rule to use the tip score, <span style="white-space: nowrap">i.e. $\mathsf{score}(\mathsf{tip}(\textsf{bft-last-final}(C)))$.</span>
+If we [switch to using the Increasing Tip Score rule](./potential-changes.md#Changing-the-Increasing-Score-rule-to-require-the-score-of-the-tip-rather-than-the-score-of-the-snapshot-to-increase), then it would be more consistent to also change this tie‑breaking rule to use the tip score, <span style="white-space: nowrap">i.e. $\mathsf{score}(\mathsf{tip}(\textsf{bft-last-final}(C)))$.</span>
 ```
 ${}$
-At this point we have completed the definition of Crosslink. In [Security Analysis of Crosslink](https://hackmd.io/YboxY2yLQDujpdkHj7JNMA), we will prove it secure.
+At this point we have completed the definition of Crosslink. In [Security Analysis of Crosslink](./security-analysis.md), we will prove it secure.

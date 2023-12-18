@@ -1,6 +1,6 @@
 # Notes on Snap-and-Chat
 
-The discussion in [The Argument for Bounded Dynamic Availability and Finality Overrides](https://hackmd.io/sYzi5RW-RKS1j20OO4Li_w?view) is at an abstract level, applying to any ebb-and-flow-like protocol.
+The discussion in [The Argument for Bounded Dynamic Availability and Finality Overrides](./the-arguments-for-bounded-dynamic-availability-and-finality-overrides.md) is at an abstract level, applying to any ebb-and-flow-like protocol.
 
 This document considers specifics of the snap-and-chat construction proposed in [[NTT2020]](https://eprint.iacr.org/2020/1091.pdf) ([arXiv version](https://arxiv.org/pdf/2009.04987.pdf)).
 
@@ -206,6 +206,6 @@ Now consider this statement and figure:
 
 > Even if $\Pi_{\mathrm{bft}}$ is unsafe (Figure 9c), finalization of a snapshot requires at least one honest vote, and thus only valid snapshots become finalized.
 >
-> ![Figure 9 of [NTT2020]](https://hackmd.io/_uploads/HJklq3xbT.png)
+> ![Figure 9 of [NTT2020]](hackmd.io/_uploads/HJklq3xbT.png)
 
 This argument is technically correct but has to be interpreted with care. It only applies when the number of malicious nodes $f$ is such that $n/3 < f < n/2$. What we are trying to do with Crosslink is to ensure that a similar conclusion holds even if $\Pi_{\mathrm{bft}}$ is completely subverted, i.e. the adversary has 100% of validators (but only < 50% of $\Pi_{\mathrm{lc}}$ hash rate).

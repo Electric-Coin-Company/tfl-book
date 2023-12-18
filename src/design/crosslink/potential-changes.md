@@ -1,6 +1,6 @@
 # Potential Changes to Crosslink
 
-This page documents suggestions that have not had the same attention to security analysis as the [baseline Crosslink construction](https://hackmd.io/JqENg--qSmyqRt_RqY7Whw?view). Some of them are broken. Some of them also increase the complexity of the protocol (while some simplify it or have a mixed effect on complexity), and so we need to consider the security/complexity trade‑off of each suggestion before we could include it.
+This page documents suggestions that have not had the same attention to security analysis as the [baseline Crosslink construction](./construction.md). Some of them are broken. Some of them also increase the complexity of the protocol (while some simplify it or have a mixed effect on complexity), and so we need to consider the security/complexity trade‑off of each suggestion before we could include it.
 
 ## Attempts to improve safety or to simplify the protocol
 
@@ -20,7 +20,7 @@ Note that double‑proposal and double‑voting could be a sign that a proposer 
 
 ### Changing the Increasing Score rule to require the score of the tip (rather than the score of the snapshot) to increase
 
-The current [**Increasing Score rule**](https://hackmd.io/JqENg--qSmyqRt_RqY7Whw?view#%CE%A0bft-proposal-and-block-validity) concerns the score of the snapshot:
+The current [**Increasing Score rule**](./construction.md#%CE%A0bft-proposal-and-block-validity) concerns the score of the snapshot:
 
 **Increasing Snapshot Score rule:** Either $\mathsf{score}(\mathsf{snapshot}(B \lceil_{\mathrm{bft}}^1)) < \mathsf{score}(\mathsf{snapshot}(B))$ or $\mathsf{snapshot}(B \lceil_{\mathrm{bft}}^1) = \mathsf{snapshot}(B)$.
 
@@ -30,7 +30,7 @@ We could instead require the score of $\mathsf{tip}(B) = B\mathsf{.header\_bc}[\
 
 Pros:
 * This more directly reflects the fork‑choice rule in $\Pi_{\mathrm{bc}}$.
-* In baseline Crosslink, an [honest bft-proposer](https://hackmd.io/JqENg--qSmyqRt_RqY7Whw?view#%CE%A0bft-honest-proposal) uses its bc‑best‑chain tip with the highest score *provided that* it is consistent with the **Increasing Snapshot Score rule**. This change removes the caveat, simplifying honest bft‑proposer behaviour.
+* In baseline Crosslink, an [honest bft-proposer](./construction.md#%CE%A0bft-honest-proposal) uses its bc‑best‑chain tip with the highest score *provided that* it is consistent with the **Increasing Snapshot Score rule**. This change removes the caveat, simplifying honest bft‑proposer behaviour.
 * As a result of removing that caveat, we always know about an honest bft‑proposer's bc‑best‑chain.
 
 Con:
@@ -125,7 +125,7 @@ A node $i$ identifies <span style="white-space: nowrap">$(\delta, \mu)$‑compet
 
 This complements the above idea by letting a validator that has seen a competing chain signal it in its signed vote. Then, as long as the adversary is reliant on some votes from honest validators that are signalling the existence of competing chains, we would go into <span style="white-space: nowrap">$\mathsf{bc\_is\_forked}$ mode</span> without relying on honest proposers to have an intervening slot.
 
-The [notarization proof](https://hackmd.io/JqENg--qSmyqRt_RqY7Whw?view#%CE%A0bft-proposal-and-block-validity) that appears in a bft‑block would need to be modified to preserve these signals. More precisely, it is necessary for a <span style="white-space: nowrap">bft‑block $B$</span> to preserve at least:
+The [notarization proof](./construction.md#%CE%A0bft-proposal-and-block-validity) that appears in a bft‑block would need to be modified to preserve these signals. More precisely, it is necessary for a <span style="white-space: nowrap">bft‑block $B$</span> to preserve at least:
 * the best bc‑chain that credibly competes <span style="white-space: nowrap">with $\mathsf{tip}(B)$,</span> if any.
 * the best bc‑chain that does not credibly compete <span style="white-space: nowrap">with $\mathsf{tip}(B)$</span> (this necessarily exists because $\mathsf{tip}(B)$ does not credibly compete with itself).
 
@@ -149,7 +149,7 @@ Note that this rule is really quite constraining for a potential adversary, espe
 
 The current Crosslink design imposes a finalization latency of at least <span style="white-space: nowrap">$2\sigma + 1$ block times.</span> Intuitively, this is because in $$
 \mathsf{fin}(H) := [\mathsf{snapshot}(B) \text{ for } B \preceq_{\mathrm{bft}} \textsf{bft-last-final}(H \lceil_{\mathrm{bc}}^\sigma\mathsf{.context\_bft})],
-$$ $\mathsf{snapshot}(\textsf{bft-last-final}(H \lceil_{\mathrm{bc}}^\sigma\mathsf{.context\_bft}))$ is at least <span style="white-space: nowrap">$\sigma+1$ blocks</span> back <span style="white-space: nowrap">from $H \lceil_{\mathrm{bc}}^\sigma$</span> (as argued in [Questions about Crosslink](https://hackmd.io/L96pOB1nRdOOb1OHLL8_FA?view#Why-don%E2%80%99t-we-have-a-bc-block-validity-rule-snapshotfinal-bftH-%E2%AA%AFbc-H-)), and therefore <span style="white-space: nowrap">$2\sigma+1$ blocks</span> back <span style="white-space: nowrap">from $H$.</span> So the total finalization latency is <span style="white-space: nowrap">$\sigma$ block times + BFT overhead + $(\sigma + 1)$ block times + snapshot overhead.</span>
+$$ $\mathsf{snapshot}(\textsf{bft-last-final}(H \lceil_{\mathrm{bc}}^\sigma\mathsf{.context\_bft}))$ is at least <span style="white-space: nowrap">$\sigma+1$ blocks</span> back <span style="white-space: nowrap">from $H \lceil_{\mathrm{bc}}^\sigma$</span> (as argued in [Questions about Crosslink](./questions.md#Why-don%E2%80%99t-we-have-a-bc-block-validity-rule-snapshotfinal-bftH-%E2%AA%AFbc-H-)), and therefore <span style="white-space: nowrap">$2\sigma+1$ blocks</span> back <span style="white-space: nowrap">from $H$.</span> So the total finalization latency is <span style="white-space: nowrap">$\sigma$ block times + BFT overhead + $(\sigma + 1)$ block times + snapshot overhead.</span>
 
 However, the snapshot headers contain information about the proposer's bc‑best‑chain.
 
@@ -227,16 +227,16 @@ H \lceil_{\mathrm{bc}}^\sigma, &\text{if } \mathsf{snapshot}(\mathsf{LF}(H \lcei
 
 ## What about making the bc‑block‑producer the bft‑proposer?
 
-The answer given for this question at [The Crosslink Construction](https://hackmd.io/JqENg--qSmyqRt_RqY7Whw?view#%CE%A0bft-proposal-and-block-validity) is:
+The answer given for this question at [The Crosslink Construction](./construction.md#%CE%A0bft-proposal-and-block-validity) is:
 > If this were enforced, it could be an alternative way of ensuring that every bft‑proposal snapshots a new bc‑block with a higher score than previous snapshots, potentially making the **Increasing Score rule** redundant. However, it would require merging bc‑block‑producers and bft‑proposers, which could have concerning knock‑on effects (such as concentrating security into fewer participants).
 
 This may have been too hasty. It is not clear that merging bc‑block‑producers and bft‑proposers actually does "concentrate security into fewer participants" in a way that can have any harmful effect.
 
-Remember, the job of a bft‑proposer in Crosslink is primarily to snapshot the bc‑best‑chain (even more so if the [Increasing Tip Score rule](https://hackmd.io/n8ZDPeTRQj-wa7JWb293oQ?view#Changing-the-Increasing-Score-rule-to-require-the-score-of-the-tip-rather-than-the-score-of-the-snapshot-to-increase) is adopted). An honest miner *by definition* is claiming to build on the best chain, and miners have a strong economic incentive to do so. Therefore, it is entirely reasonable for every newly produced block to be treated as a bft‑proposal. This arguably decentralizes the task of proposing bft‑blocks more effectively than using a leader election protocol would --- especially given that in a hybrid protocol we *necessarily* still rely on there being sufficient honest miners.
+Remember, the job of a bft‑proposer in Crosslink is primarily to snapshot the bc‑best‑chain (even more so if the [Increasing Tip Score rule](./potential-changes.md#Changing-the-Increasing-Score-rule-to-require-the-score-of-the-tip-rather-than-the-score-of-the-snapshot-to-increase) is adopted). An honest miner *by definition* is claiming to build on the best chain, and miners have a strong economic incentive to do so. Therefore, it is entirely reasonable for every newly produced block to be treated as a bft‑proposal. This arguably decentralizes the task of proposing bft‑blocks more effectively than using a leader election protocol would --- especially given that in a hybrid protocol we *necessarily* still rely on there being sufficient honest miners.
 
 [[DKT2021]](https://arxiv.org/pdf/2010.08154.pdf), for example, argues for the importance of "the complete unpredictability of who will get to propose a block next, even by the winner itself." The main basis of this argument is that it makes subversion of the proposer significantly more difficult. A PoW protocol has that property, and most PoS protocols do not. (It is not that PoS protocols are unable to provide this property; indeed, [[DKT2021]](https://arxiv.org/pdf/2010.08154.pdf) constructs a PoS protocol, "PoSAT", that provides it.)
 
-So let's explore this in more detail. A newly produced bc‑block would implicitly be a bft‑proposal with itself as the tip. The $\mathsf{bc\_headers}$ field is therefore not needed. The [**Tail Confirmation rule**](https://hackmd.io/JqENg--qSmyqRt_RqY7Whw?view#%CE%A0bft-proposal-and-block-validity) goes away since its intent is automatically satisfied. This is already a significant simplification.
+So let's explore this in more detail. A newly produced bc‑block would implicitly be a bft‑proposal with itself as the tip. The $\mathsf{bc\_headers}$ field is therefore not needed. The [**Tail Confirmation rule**](./construction.md#%CE%A0bft-proposal-and-block-validity) goes away since its intent is automatically satisfied. This is already a significant simplification.
 
 The inner proposer signature is also not needed (since the bc‑header is self-authenticating), but the block producer would have to include a <span style="white-space: nowrap">public key $H\mathsf{.pubkey}$</span> that can be used to verify its outer signature. It would sign the notarized bft‑block with the corresponding private key. This change is a wash in terms of protocol complexity. 
 
@@ -253,7 +253,7 @@ In the case <span style="white-space: nowrap">$\textsf{bft-last-final}(H'\mathsf
 
 Another potential problem is that in an execution where **Final Agreement** does *not* hold for <span style="white-space: nowrap">$\Pi_{\mathrm{bft}}$,</span> we can no longer infer that either $\textsf{bft-last-final}(H'\mathsf{.context\_bft}) \preceq_{\mathrm{*bft}} \textsf{bft-last-final}(C)$ or $\textsf{bft-last-final}(H'\mathsf{.context\_bft}) ⪲_{\mathrm{*bft}} \textsf{bft-last-final}(C)$. In particular it could be the case that the producer of $H'$ was adversarial, and chose $H'\mathsf{.context\_bft}$ in such a way as to favour its own bft‑block that is final in that context.
 
-However, in that situation it must be possible for the bc‑block‑producer to see (and prove) that the bft‑chain has a final fork. That is, it can produce a <span style="white-space: nowrap">witness $C$</span> to the violation of **Final Agreement**, showing that $\textsf{bft-last-final}(H'\mathsf{.context_bft}) \preceq\hspace{-0.5em}\succeq_{\mathrm{*bft}} \textsf{bft-last-final}(C)\,$ does not hold, as discussed in the section [Recording more info about the bft‑chain in bc‑blocks](https://hackmd.io/n8ZDPeTRQj-wa7JWb293oQ?view#Low-risk-Recording-more-info-about-the-bft-chain-in-bc-blocks) above.
+However, in that situation it must be possible for the bc‑block‑producer to see (and prove) that the bft‑chain has a final fork. That is, it can produce a <span style="white-space: nowrap">witness $C$</span> to the violation of **Final Agreement**, showing that $\textsf{bft-last-final}(H'\mathsf{.context_bft}) \preceq\hspace{-0.5em}\succeq_{\mathrm{*bft}} \textsf{bft-last-final}(C)\,$ does not hold, as discussed in the section [Recording more info about the bft‑chain in bc‑blocks](./potential-changes.md#Low-risk-Recording-more-info-about-the-bft-chain-in-bc-blocks) above.
 
 The second caveat is that in that situation, we still need to set $H\mathsf{.parent\_bft}$ and $H\mathsf{.context\_bft}$ in order to be able to recover, and they typically should not be the same in order to do so.
 ```

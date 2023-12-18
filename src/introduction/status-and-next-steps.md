@@ -12,7 +12,7 @@ This book is intended to become both a high-level overview and introduction to [
 
 The current heart of the design work is an in-progress hybrid consensus protocol construction called [Crosslink](../terminology.md#definition-crosslink). This is an in-development realization of the [TFL](../terminology.md#definition-tfl) design goals. The essential design details are specified, along with a security argument for its [liveness](../terminology.md#definition-liveness). The security argument for its [safety](../terminology.md#definition-liveness) is in progress.
 
-The draft specification and security arguments of Crosslink currently live on [this hackmd](https://hackmd.io/JqENg--qSmyqRt_RqY7Whw?view).
+The draft specification and security arguments of Crosslink currently live on [this hackmd](./construction.md).
 
 ### `simtfl`
 

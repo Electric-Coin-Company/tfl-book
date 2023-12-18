@@ -4,9 +4,9 @@ This document considers disadvantages of allowing transactions to continue to be
 
 I also argue that it is necessary to allow for the possibility of overriding finalization in order to respond to certain attacks, and that this should be explicitly modelled and subject to a well-defined governance process.
 
-This is a rewritten version of [this forum post](https://forum.zcashcommunity.com/t/the-trailing-finality-layer/45133/10), adapting the main argument to take into account the discussion of "tail-thrashing attacks" and finalization availability from the Addendum. More details of how bounded dynamic availability could be implemented in the context of a snap-and-chat protocol are in [Notes on Snap-and-Chat](https://hackmd.io/PXs8SOMHQQ6uBs3GXNPQjQ?view).
+This is a rewritten version of [this forum post](https://forum.zcashcommunity.com/t/the-trailing-finality-layer/45133/10), adapting the main argument to take into account the discussion of "tail-thrashing attacks" and finalization availability from the Addendum. More details of how bounded dynamic availability could be implemented in the context of a snap-and-chat protocol are in [Notes on Snap-and-Chat](./notes-on-snap-and-chat.md).
 
-The proposed changes end up being significant enough to give our construction a new name: "[Crosslink](https://hackmd.io/@daira/SJ7dHPZlT)", referring to the cross-links between blocks of the BFT and best-chain protocols. Crosslink has evolved somewhat, and now includes other changes not covered in either this document or [Notes on Snap-and-Chat](https://hackmd.io/PXs8SOMHQQ6uBs3GXNPQjQ?view).
+The proposed changes end up being significant enough to give our construction a new name: "[Crosslink](./construction.md)", referring to the cross-links between blocks of the BFT and best-chain protocols. Crosslink has evolved somewhat, and now includes other changes not covered in either this document or [Notes on Snap-and-Chat](./notes-on-snap-and-chat.md).
 
 ## Background
 
@@ -226,4 +226,4 @@ Note that in the snap-and-chat construction, snapshots of $\Pi_{\mathrm{lc}}$ ar
 
 Also, when restarting $\Pi_{\mathrm{lc}}$, we would need to take account of the fact that the adversary has had an arbitrary length of time to build long chains from every block that we could potentially restart from. It could be possible to invalidate those chains by requiring blocks after the restart to be dependent on fresh randomness, but that sounds quite tricky (especially given that we want to restart *without* manual intervention if possible), and there may be other attacks I haven't thought of. This motivates using approach a) instead.
 
-Note that we have still glossed over precisely how consensus rules would change to enforce a). I recommend reading [Notes on Snap-and-Chat](https://hackmd.io/PXs8SOMHQQ6uBs3GXNPQjQ?view) next, followed by [The Crosslink Construction](https://hackmd.io/JqENg--qSmyqRt_RqY7Whw?view).
+Note that we have still glossed over precisely how consensus rules would change to enforce a). I recommend reading [Notes on Snap-and-Chat](./notes-on-snap-and-chat.md) next, followed by [The Crosslink Construction](./construction.md).
