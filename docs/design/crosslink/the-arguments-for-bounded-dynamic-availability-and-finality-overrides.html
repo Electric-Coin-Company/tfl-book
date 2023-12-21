@@ -1,0 +1,445 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>The Arguments for Bounded Dynamic Availability and Finality Overrides - Zcash Trailing Finality Layer - v0.1.0</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../.././css/mdbook-admonish.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../introduction/a-path-to-pos-zcash.html"><strong aria-hidden="true">1.1.</strong> A Path to Proof-of-Stake Zcash</a></li><li class="chapter-item expanded "><a href="../../introduction/trailing-finality-layer-in-a-nutshell.html"><strong aria-hidden="true">1.2.</strong> Trailing Finality Layer in a Nutshell</a></li><li class="chapter-item expanded "><a href="../../introduction/status-and-next-steps.html"><strong aria-hidden="true">1.3.</strong> Status and Next Steps</a></li><li class="chapter-item expanded "><a href="../../introduction/motivating-finality.html"><strong aria-hidden="true">1.4.</strong> Motivating Finality</a></li><li class="chapter-item expanded "><a href="../../introduction/get-involved.html"><strong aria-hidden="true">1.5.</strong> Get Involved</a></li></ol></li><li class="chapter-item expanded "><a href="../../terminology.html"><strong aria-hidden="true">2.</strong> Terminology</a></li><li class="chapter-item expanded "><a href="../../design.html"><strong aria-hidden="true">3.</strong> Design</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../design/overview.html"><strong aria-hidden="true">3.1.</strong> Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../design/overview/design-at-a-glance.html"><strong aria-hidden="true">3.1.1.</strong> Design at a Glance</a></li></ol></li><li class="chapter-item expanded "><a href="../../design/goals.html"><strong aria-hidden="true">3.2.</strong> Design Goals</a></li><li class="chapter-item expanded "><a href="../../design/crosslink.html"><strong aria-hidden="true">3.3.</strong> Crosslink</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../design/crosslink/the-arguments-for-bounded-dynamic-availability-and-finality-overrides.html" class="active"><strong aria-hidden="true">3.3.1.</strong> The Arguments for Bounded Dynamic Availability and Finality Overrides</a></li><li class="chapter-item expanded "><a href="../../design/crosslink/notes-on-snap-and-chat.html"><strong aria-hidden="true">3.3.2.</strong> Notes On Snap And Chat</a></li><li class="chapter-item expanded "><a href="../../design/crosslink/construction.html"><strong aria-hidden="true">3.3.3.</strong> The Crosslink Construction</a></li><li class="chapter-item expanded "><a href="../../design/crosslink/security-analysis.html"><strong aria-hidden="true">3.3.4.</strong> Security Analysis of Crosslink</a></li><li class="chapter-item expanded "><a href="../../design/crosslink/questions.html"><strong aria-hidden="true">3.3.5.</strong> Questions About Crosslink</a></li><li class="chapter-item expanded "><a href="../../design/crosslink/potential-changes.html"><strong aria-hidden="true">3.3.6.</strong> Potential Changes to Crosslink</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.4.</strong> Model Code Architecture</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.5.</strong> Network Architecture</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Protocol Specification</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Abstract Protocol</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.1.</strong> Token Dynamics</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Concrete Protocol</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.1.</strong> Token Dynamics</div></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Security</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Abstract Analysis</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.1.</strong> Ebb-and-Flow analysis</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.2.</strong> Subprotocol Compromise Analysis</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.3.</strong> Model Code Architecture Analysis</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.4.</strong> Network Architecture Analysis</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.2.</strong> Concrete Analysis</div></li></ol></li><li class="chapter-item expanded "><a href="../../references.html"><strong aria-hidden="true">6.</strong> References</a></li><li class="chapter-item expanded "><a href="../../version-history.html"><strong aria-hidden="true">7.</strong> Version History</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Zcash Trailing Finality Layer - v0.1.0</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="the-arguments-for-bounded-dynamic-availability-and-finality-overrides"><a class="header" href="#the-arguments-for-bounded-dynamic-availability-and-finality-overrides">The Arguments for Bounded Dynamic Availability and Finality Overrides</a></h1>
+<p>This document considers disadvantages of allowing transactions to continue to be included at the chain tip while the gap from the last finalized block becomes unbounded, and what I think should be done instead. This condition is allowed by ebb-and-flow protocols <a href="https://arxiv.org/pdf/2009.04987.pdf">[NTT2021]</a>.</p>
+<p>I also argue that it is necessary to allow for the possibility of overriding finalization in order to respond to certain attacks, and that this should be explicitly modelled and subject to a well-defined governance process.</p>
+<p>This is a rewritten version of <a href="https://forum.zcashcommunity.com/t/the-trailing-finality-layer/45133/10">this forum post</a>, adapting the main argument to take into account the discussion of &quot;tail-thrashing attacks&quot; and finalization availability from the Addendum. More details of how bounded dynamic availability could be implemented in the context of a snap-and-chat protocol are in <a href="./notes-on-snap-and-chat.html">Notes on Snap-and-Chat</a>.</p>
+<p>The proposed changes end up being significant enough to give our construction a new name: &quot;<a href="./construction.html">Crosslink</a>&quot;, referring to the cross-links between blocks of the BFT and best-chain protocols. Crosslink has evolved somewhat, and now includes other changes not covered in either this document or <a href="./notes-on-snap-and-chat.html">Notes on Snap-and-Chat</a>.</p>
+<h2 id="background"><a class="header" href="#background">Background</a></h2>
+<p>“Ebb-and-flow”, as described in <a href="https://arxiv.org/pdf/2009.04987.pdf">[NTT2021]</a>, is a security model for consensus protocols that provide two transaction logs, one with dynamic availability, and a prefix of it with finality.</p>
+<p>The paper proposes an instantiation of this security model called a &quot;snap-and-chat&quot; construction. It composes two consensus subprotocols, a BFT subprotocol and a best-chain subprotocol (it calls this the &quot;longest chain protocol&quot;). The above logs are obtained from the output of these subprotocols in a non-trivial way.</p>
+<p>This is claimed by the paper to “resolve” the tension between finality and dynamic availability. However, a necessary consequence is that in a situation where the “final” log stalls and the “available” log does not, the “finalization gap” between the finalization point and the chain tip can grow without bound. In particular, this means that transactions that spend funds can remain unfinalized for an arbitrary length of time.</p>
+<p>In this note, we argue that this is unacceptable, and that it is preferable to sacrifice strict dynamic availability. However, we also argue that the main idea behind ebb-and-flow protocols is a good one, and that allowing the chain tip to run ahead of the finalization point does make sense and has practical advantages. However, we also argue that it should not be possible to include transactions that spend funds in blocks that are too far ahead of the finalization point.</p>
+<div id="admonition-info" class="admonition admonish-info">
+<div class="admonition-title">
+<p>Info</p>
+<p><a class="admonition-anchor-link" href="#admonition-info"></a></p>
+</div>
+<div>
+<p>Naive ways of preventing an unbounded finalization gap, such as stopping the chain completely in the case of a finalization stall, turn out to run into serious security problems --- at least when the best-chain protocol uses Proof-of-Work. We'll discuss those in detail.</p>
+<p>Our proposed solution will be to require coinbase-only blocks during a long finalization stall. This solution has the advantage that, as far as this change goes, the security analysis of the snap-and-chat construction from <a href="https://arxiv.org/pdf/2009.04987.pdf">[NTT2021]</a> can still be applied.</p>
+</div>
+</div>
+<p>We argue that losing strict dynamic availability in favour of &quot;bounded dynamic availability&quot; is preferable to the consequences of the unbounded finality gap, if/when a “long finalization stall” occurs.</p>
+<p>We also argue that it is beneficial to explicitly allow “finality overrides” under the control of a well-documented governance process. Such overrides allow long rollbacks that may be necessary in the case of an exploited security flaw. This is complementary to the argument for bounded dynamic availability, because the latter limits the period of user transactions that could be affected. The governance process can impose a limit on the length of this long rollback if desired.</p>
+<h2 id="finality--dynamic-availability-implies-an-unbounded-finalization-gap"><a class="header" href="#finality--dynamic-availability-implies-an-unbounded-finalization-gap">Finality + Dynamic availability implies an unbounded finalization gap</a></h2>
+<p>Since partition between nodes sufficient for finalization cannot be prevented, loosely speaking the <a href="https://en.wikipedia.org/wiki/CAP_theorem">CAP theorem</a> implies that any consistent protocol (and therefore any protocol with finality) may stall for at least as long as the partition takes to heal.</p>
+<div id="admonition-info-1" class="admonition admonish-info">
+<div class="admonition-title">
+<p>Info</p>
+<p><a class="admonition-anchor-link" href="#admonition-info-1"></a></p>
+</div>
+<div>
+<p>That &quot;loosely speaking&quot; is made precise by <a href="https://arxiv.org/pdf/2006.10698.pdf">[LR2020]</a>.</p>
+</div>
+</div>
+<p>Dynamic availability implies that the chain tip will continue to advance, and so the finalization gap increases without bound.</p>
+<p>Partition is not necessarily the only condition that could cause a finalization stall, it is just the one that most easily proves that this conclusion is impossible to avoid.</p>
+<h2 id="problems-with-allowing-spends-in-an-unbounded-finalization-gap"><a class="header" href="#problems-with-allowing-spends-in-an-unbounded-finalization-gap">Problems with allowing spends in an unbounded finalization gap</a></h2>
+<p>Both the available protocol, and the subprotocol that provides finality, will be used in practice — otherwise, one or both of them might as well not exist. There is always a risk that blocks may be rolled back to the finalization point, by definition.</p>
+<p>Suppose, then, that there is a long finalization stall. The final and available protocols are not separate: there is no duplication of tokens between protocols, but the rules about how to determine best-effort balance and guaranteed balance depend on both protocols, how they are composed, and how the history after the finalization point is interpreted.</p>
+<div id="admonition-info-2" class="admonition admonish-info">
+<div class="admonition-title">
+<p>Info</p>
+<p><a class="admonition-anchor-link" href="#admonition-info-2"></a></p>
+</div>
+<div>
+<p>The guaranteed minimum balance of a given party is not just the minimum of their balance at the finalization point and their balance at the current tip. It is the minimum balance taken over all possible transaction histories that extend the finalized chain – taking into account that a party’s previously published transactions might be able to be reapplied in a different context without its explicit consent. The extent to which published transactions can be reapplied depends on technical choices that we must make, subject to some constraints (for example, we know that shielded transactions cannot be reapplied after their anchors have been invalidated). It may be desirable to further constrain re-use in order to make guaranteed minimum balances easier to compute.</p>
+</div>
+</div>
+<p>As the finalization gap increases, the negative consequences of rolling back user transactions that spend funds increase. (Coinbase transactions do not spend funds; they are a special case that we will discuss later.)</p>
+<p>There are several possible ---not mutually exclusive--- outcomes:</p>
+<ul>
+<li>Users of the currency start to consider the available protocol increasingly unreliable.</li>
+<li>Users start to consider a rollback to be untenable, and lobby to prevent it or cry foul if it occurs.</li>
+<li>Users start to consider finalization increasingly irrelevant. Services that depend on finality become unavailable.
+<ul>
+<li>There is no free lunch that would allow us to avoid availability problems for services that also depend on finality.</li>
+</ul>
+</li>
+<li>Service providers adopt temporary workarounds that may not have had adequate security analysis.</li>
+</ul>
+<p>Any of these might precipitate a crisis of confidence, and there are reasons to think this effect might be worse than if the chain had switched to a &quot;Safety Mode&quot; designed to prevent loss of user funds. Any such crisis may have a negative effect on token prices and long-term adoption.</p>
+<p>Note that adding finalization using an ebb-and-flow protocol does not by itself increase the probability of a rollback in the available chain, provided the PoW remains as secure against rollbacks of a given length as before. But that is a big proviso. We have a design constraint (motivated by limiting token devaluation and by governance issues) to limit issuance to be no greater than that of the original Zcash protocol up to a given height. Since some of the issuance is likely needed to reward staking, the amount of money available for mining rewards is reduced, which may reduce overall hash rate and security of the PoW. Independently, there may be a temptation for design decisions to rely on finality in a way that reduces security of PoW (“risk compensation”). There is also pressure to reduce the energy usage of PoW, which necessarily reduces the global hash rate, and therefore the cost of performing an attack that depends on the adversary having any given proportion of global hash rate.</p>
+<p>It could be argued that the issue of availability of services that depend on finality is mainly one of avoiding over-claiming about what is possible. Nevertheless I think there are also real usability issues if balances as seen by those services can differ significantly and for long periods from balances at the chain tip.</p>
+<p>Regardless, incorrect assumptions about the extent to which the finalized and available states can differ are likely to be exposed if there is a finalization stall. And those who made the assumptions may (quite reasonably!) not accept “everything is fine, those assumptions were always wrong” as a satisfactory response.</p>
+<h2 id="what-is-bounded-dynamic-availability"><a class="header" href="#what-is-bounded-dynamic-availability">What is Bounded Dynamic Availability?</a></h2>
+<p>An intuitive notion of &quot;availability&quot; for blockchain protocols includes the ability to use the protocol as normal to spend funds. So, just to be clear, in a situation where that cannot happen we have lost availability, <em>even if</em> the block chain is advancing.</p>
+<div id="admonition-info-3" class="admonition admonish-info">
+<div class="admonition-title">
+<p>Info</p>
+<p><a class="admonition-anchor-link" href="#admonition-info-3"></a></p>
+</div>
+<div>
+<p>For an explanation of <em>dynamic</em> availability and its advantages, I recommend <a href="https://arxiv.org/abs/2010.08154">[DKT2020]</a> and its <a href="https://www.youtube.com/watch?v=SacUT_53Pg8">accompanying talk</a>.</p>
+</div>
+</div>
+<p>Bounded dynamic availability is a weakening of dynamic availability. It means that we intentionally sacrifice availability when some potentially hazardous operation ---a &quot;hazard&quot; for short--- would occur too far after the current finalization point. For now, assume for simplicity that our only hazard is spending funds. More generally, the notion of bounded dynamic availability can be applied to a wider range of protocols by tailoring the definition of &quot;hazard&quot; to the protocol.</p>
+<h3 id="terminology-note"><a class="header" href="#terminology-note">Terminology note</a></h3>
+<p><a href="https://arxiv.org/pdf/2009.04987.pdf">[NTT2021]</a> calls the dynamically available blockchain protocol <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight">lc</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> that provides input to the rest of the contruction, the &quot;longest chain&quot; protocol. There are two reasons to avoid this terminology:</p>
+<ul>
+<li>In Bitcoin, Zcash, and most other PoW-based protocols, what is actually used by each node is not its longest observed chain, but its observed consensus-valid chain with most accumulated work. In Zcash this is called the node's &quot;<a href="https://zips.z.cash/protocol/protocol.pdf#blockchain">best valid block chain</a>&quot;, which we shorten to &quot;best chain&quot;.</li>
+<li>As footnote 2 on page 3 of <a href="https://arxiv.org/pdf/2009.04987.pdf">[NTT2021]</a> says, that paper does not require <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight">lc</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> to be a &quot;longest chain&quot; protocol anyway.</li>
+</ul>
+<div id="admonition-info-4" class="admonition admonish-info">
+<div class="admonition-title">
+<p>Info</p>
+<p><a class="admonition-anchor-link" href="#admonition-info-4"></a></p>
+</div>
+<div>
+<p>The error in conflating the &quot;longest chain&quot; with the observed consensus-valid chain with most accumulated work, originates in the Bitcoin whitepaper. [<a href="https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.221.9986">Nakamoto2008</a>, page 3]</p>
+</div>
+</div>
+<p>We will use the term &quot;best-chain protocol&quot; instead. Note that this means <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight">lc</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> in the snap-and-chat construction, <em>not</em> any node's view of the sanitized ledger <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord"><span class="mord mathsf">LOG</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight">da</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>.</p>
+<h3 id="how-to-block-hazards"><a class="header" href="#how-to-block-hazards">How to block hazards</a></h3>
+<p>We have not yet decided <em>how</em> to block hazards during a long finalization stall. We could do so directly, or by stopping block production in the more-available protocol. For reasons explained in the section on &quot;Tail-thrashing attacks&quot; below, it's desirable <em>not</em> to stop block production. And so it's consistent to have bounded dynamic availability together with another liveness property ---which can be defined similarly to dynamic availability--- that says the more-available protocol's chain is still advancing. This is what we will aim for.</p>
+<p>We will call this method of blocking hazards, without stopping block production, &quot;going into Safety Mode&quot;.</p>
+<div id="admonition-info-5" class="admonition admonish-info">
+<div class="admonition-title">
+<p>Info</p>
+<p><a class="admonition-anchor-link" href="#admonition-info-5"></a></p>
+</div>
+<div>
+<p>This concept of Safety Mode is very similar to a <a href="https://github.com/zcash/zcash/issues/3311">feature that was discussed early in the development of Zcash</a>, but never fully designed or implemented. (After originally being called &quot;Safety Mode&quot;, it was at some point renamed to &quot;Emergency Mode&quot;, but then the latter term was used for <a href="https://electriccoin.co/blog/update-addressing-zcash-wallet-performance-issues/">something else</a>.)</p>
+</div>
+</div>
+<p>For Zcash, I propose that the main restriction of Safety Mode should be to require coinbase-only blocks. This achieves a similar effect, for our purposes, as actually stalling the more-available protocol's chain. Since funds cannot be spent in coinbase-only blocks, the vast majority of attacks that we are worried about would not be exploitable in this state.</p>
+<div id="admonition-info-6" class="admonition admonish-info">
+<div class="admonition-title">
+<p>Info</p>
+<p><a class="admonition-anchor-link" href="#admonition-info-6"></a></p>
+</div>
+<div>
+<p>It is possible that a security flaw could affect coinbase transactions. We <em>might</em> want to turn off shielded coinbase for Safety Mode blocks in order to reduce the chance of that.</p>
+<p>Also, mining rewards cannot be spent in a coinbase-only block; in particular, mining pools cannot distribute rewards. So there is a risk that an unscrupulous mining pool might try to do a rug-pull after mining of non-coinbase-only blocks resumes, if there were a very long finalization stall. But this approach works at least in the short term, and probably for long enough to allow manual intervention into the finalization protocol, or governance processes if needed.</p>
+</div>
+</div>
+<p>A analogy for the effect of this on availability that may be familiar to many people, is that it works like video streaming. All video streaming services use a buffer to paper over short-term interruptions or slow-downs of network access. In most cases, this buffer is bounded. This allows the video to be watched uninterrupted and at a constant rate in most circumstances. But if there is a longer-term network failure or insufficient sustained bandwidth, the playback will unavoidably stall. In our case, block production does not literally stall, but it's the same as far as users' ability to perform &quot;hazardous&quot; operations is concerned.</p>
+<h3 id="why-is-this-better"><a class="header" href="#why-is-this-better">Why is this better?</a></h3>
+<p>So, why do I advocate this over:</p>
+<ol>
+<li>A protocol that only provides dynamic availability;</li>
+<li>A protocol that only provides finality;</li>
+<li>An unmodified ebb-and-flow protocol?</li>
+</ol>
+<p>The reason to reject a) is straightforward: finality is a valuable security property that is necessary for some use cases.</p>
+<p>If a protocol only provides finality (option b), then short-term availability is directly tied to finalization. It may be possible to make finalization stalls sufficiently rare or short-lived that this is tolerable. But that is more likely to be possible if and when there is a well-established staking ecosystem. Before that ecosystem is established, the protocol may be particularly vulnerable to stalls. Furthermore, it’s difficult to get to such a protocol from a pure PoW system like current Zcash.</p>
+<p>We argued in the previous section that allowing hazards in an unbounded finalization gap is bad. Option c) entails an unbounded finalization gap that <em>will</em> allow hazards. However, that isn’t sufficient to argue that bounded dynamic availability is better. Perhaps there are no good solutions! What are we gaining from a bounded dynamic availability approach that would justify the complexity of a hybrid protocol without obtaining strict dynamic availability?</p>
+<p>My argument goes like this:</p>
+<ul>
+<li>It is likely that a high proportion of the situations in which a sustained finalization stall happens will require human intervention. If the finality protocol were going to recover without intervention, there is no reason to think that it wouldn’t do so in a relatively short time.</li>
+<li>When human intervention is required, the fact that the chain tip is still proceeding apace (in protocols with strict dynamic availability) makes restarting the finality protocol harder, for many potential causes of a finalization stall. This may be less difficult when only &quot;non-hazardous&quot; transactions are present--- in particular, when only coinbase transactions (which are subject to fairly strict rules in Zcash and other Bitcoin-derived chains) are present. This argument carries even more force when the protocol also allows “finality overrides”, as discussed later in the Complementarity section.</li>
+<li>Nothing about bounded dynamic availability prevents us from working hard to design a system that makes finalization stalls as infrequent and short-lived as possible, just as we would for any other option that provides finality.</li>
+<li>We want to optimistically minimize the finalization gap under good conditions, because this improves the usability of services that depend on finality. This argues against protocols that try to maintain a fixed gap, and motivates letting the gap vary.</li>
+<li>In practice, the likelihood of short finalization stalls is high enough that heuristically retaining availability in those situations is useful.</li>
+</ul>
+<p>The argument that it is difficult to completely prevent finalization stalls is supported by <a href="https://www.coindesk.com/tech/2023/05/17/ethereums-loss-of-finality-what-happened/">experience on Ethereum in May 2023</a>, when there were two stalls within 24 hours, <a href="https://offchain.medium.com/post-mortem-report-ethereum-mainnet-finality-05-11-2023-95e271dfd8b2">one for about 25 minutes and one for about 64 minutes</a>. This experience is consistent with my arguments:</p>
+<ul>
+<li>Neither stall required short-term human intervention, and the network did in fact recover from them quickly.</li>
+<li>The stalls were caused by a resource exhaustion problem in the Prysm consensus client when handling attestations. It’s plausible to think that if this bug had been more serious, or possibly if Prysm clients had made up more of the network, then it would have required a hotfix release (and/or a significant proportion of nodes switching to another client) in order to resolve the stall. So this lines up with my hypothesis that longer stalls are likely to require manual intervention.</li>
+<li>A bounded dynamic availability protocol would very likely have resulted in either a shorter or no interruption in availability. If, say, the availability bound were set to be roughly an hour, then the first finalization stall would have been “papered over” and the second would have resulted in only a short loss of availability.</li>
+</ul>
+<p>Retaining short-term availability does not result in a risk compensation hazard:</p>
+<ul>
+<li>A finalization stall is still very visible, and directly affects applications relying on finality.</li>
+<li>Precisely because of the availability bound, it is obvious that it could affect all applications if it lasted long enough.</li>
+</ul>
+<p>A potential philosophical objection to lack of strict dynamic availability is that it creates a centralization risk to availability. That is, it becomes more likely that a coalition of validators can deliberately cause a denial of service. I think this objection may be more prevalent among people who would object to adding a finality layer or PoS at all.</p>
+<h2 id="finality-overrides"><a class="header" href="#finality-overrides">Finality Overrides</a></h2>
+<p>Consensus protocols sometimes fail. Potential causes of failure include:</p>
+<ul>
+<li>A design problem with the finality layer that causes a stall, or allows a stall to be provoked.</li>
+<li>A balance violation or spend authorization flaw that is being exploited or is sufficiently likely to be exploited.</li>
+<li>An implementation bug in a widely used node implementation that causes many nodes to diverge from consensus.</li>
+</ul>
+<p>In these situations, overriding finality may be better than any other alternative.</p>
+<p>An example is a <a href="https://bitcointalk.org/index.php?topic=822.0">balance violation flaw due to a 64-bit integer overflow</a> that was <a href="https://en.bitcoin.it/wiki/Value_overflow_incident">exploited on Bitcoin mainnet</a> on 15th August 2010. The response was to roll back the chain to before the exploitation, which is widely considered to have been the right decision. The time between the exploit (at block height 74638) and the forked chain overtaking the exploited chain (at block height 74691) was 53 blocks, or around 9 hours.</p>
+<p>Of course, Bitcoin used and still uses a pure PoW consensus. But the applicability of the example does not depend on that: the flaw was independent of the consensus mechanism.</p>
+<p>Another example of a situation that prompted this kind of override was the <a href="https://hackingdistributed.com/2016/06/18/analysis-of-the-dao-exploit/">DAO recursion exploit</a> on the Ethereum main chain <a href="https://www.coindesk.com/learn/understanding-the-dao-attack/">in June 2016</a>. The response to this was the forced balance adjustment hard fork on 20th July 2016 commonly known as the <a href="https://ethereum.org/en/history/#dao-fork">DAO fork</a>. Although this adjustment was not implemented as a rollback, and although Ethereum was using PoW at the time and did not make any formal finality guarantees, it did override transfers that would heuristically have been considered final at the fork height. Again, this flaw was independent of the consensus mechanism.</p>
+<p>The DAO fork was of course much more controversial than the Bitcoin fork, and a substantial minority of mining nodes split off to form Ethereum Classic. In any case, the point of this example is that it’s always possible to override finality in response to an exceptional situation, and that a chain’s community may decide to do so. The fact that Ethereum 2.0 now does claim a finality guarantee, would not in practice prevent a similar response in future that would override that guarantee.</p>
+<p>The question then is whether the procedure to override finality should be formalised or ad hoc. I argue that it should be formalised, including specifying the governance process to be used.</p>
+<p>This makes security analysis — of the consensus protocol per se, of the governance process, and of their interaction — much more feasible. Arguably a complete security analysis is not possible at all without it.</p>
+<p>It also front-loads arguing about what procedure should be followed, and so it is more likely that stakeholders will agree to follow the process in any time-critical incident.</p>
+<h3 id="a-way-of-modelling-overrides-that-is-insufficient"><a class="header" href="#a-way-of-modelling-overrides-that-is-insufficient">A way of modelling overrides that is insufficient</a></h3>
+<p>There is another possible way to model a protocol that claims finality but can be overridden in practice. We could say that the protocol after the override is a brand new protocol and chain (inheriting balances from the previous one, possibly modulo adjustments such as those that happened in the DAO fork).</p>
+<p>Although that would allow saying that the finality property has technically not been violated, it does not match how users think about an override situation. They are more likely to think of it as a protocol with finality that can be violated in exceptional cases — and they would reasonably want to know what those cases are and how they will be handled. It also does nothing to help with security analysis of such cases.</p>
+<h2 id="complementarity"><a class="header" href="#complementarity">Complementarity</a></h2>
+<p>Finality overrides and bounded dynamic availability are complementary in the following way: if a problem is urgent enough, then validators can be asked to stop validating. For genuinely harmful problems, it is likely to be in the interests of enough validators to stop that this causes a finalization stall. If this lasts longer than the availability bound then the protocol will go into Safety Mode, giving time for the defined governance process to occur and decide what to do. And because the unfinalized consensus chain will contain only a limited period of user transactions that spend funds, the option of a long rollback remains realistically open.</p>
+<p>If, on the other hand, there is time pressure to make a governance decision about a rollback in order to reduce its length, that may result in a less well-considered decision.</p>
+<p>A possible objection is that there might be a coalition of validators who ignore the request to stop (possibly including the attacker or validators that an attacker can bribe), in which case the finalization stall would not happen. But that just means that we don’t gain the advantage of more time to make a governance decision; it isn’t actively a disadvantage relative to alternative designs. This outcome can also be thought of as a feature rather than a bug: going into Safety Mode should be a last resort, and if the argument given for the request to stop failed to convince a sufficient number of validators that it was reason enough to do so, then perhaps it wasn’t a good enough reason.</p>
+<div id="admonition-info-7" class="admonition admonish-info">
+<div class="admonition-title">
+<p>Info</p>
+<p><a class="admonition-anchor-link" href="#admonition-info-7"></a></p>
+</div>
+<div>
+<p>This resolves one of the main objections to the <a href="https://github.com/zcash/zcash/issues/3311">original Safety Mode idea</a> that stopped us from implementing it in Zcash. The original proposal was to use a signature with a key held by ECC to trigger Safety Mode, which would arguably have been too centralized. The Safety Mode described in this document, on the other hand, can only be entered by consensus of a larger validator set, or if there is an availability failure of the finalization protocol.</p>
+</div>
+</div>
+<p>It is also possible to make the argument that the threshold of stake needed is imposed by technical properties of the finality protocol and by the resources of the attacker, which might not be ideal for the purpose described above. However, I would argue that it does not need to be ideal, and will be in the right ballpark in practice.</p>
+<p>There's a caveat related to doing intentional rollbacks when using the Safety Mode approach, where block production in the more-available protocol continues during a long finalization stall. What happens to incentives of block producers (miners in the case of Proof-of-Work), given that they know the consensus chain might be intentionally rolled back? They might reasonably conclude that it is less valuable to produce those blocks, leading to a reduction of hash rate or other violations of the security assumptions of <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight">lc</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>.</p>
+<p>This is actually fairly easy to solve. We have the governance procedures say that if we do an intentional rollback, the coinbase-only mining rewards will be preserved. I.e. we produce a block or blocks that include those rewards paid to the same addresses (adjusting the consensus to allow them to be created from thin air if necessary), have everyone check it thoroughly, and require the chain to restart from that block. So as long as block producers believe that this governance procedure will be followed and that the chain will eventually recover at a reasonable coin price, they will still have incentive to produce on <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight">lc</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, at least for a time.</p>
+<div id="admonition-info-8" class="admonition admonish-info">
+<div class="admonition-title">
+<p>Info</p>
+<p><a class="admonition-anchor-link" href="#admonition-info-8"></a></p>
+</div>
+<div>
+<p>Although the community operating the governance procedures has already obtained the security benefit of mining done on the rolled-back chain by the time it creates the new chain, there is a strong incentive not to renege on the agreement with miners, because the same situation may happen again.</p>
+</div>
+</div>
+<h2 id="tail-thrashing-attacks"><a class="header" href="#tail-thrashing-attacks">Tail-thrashing attacks</a></h2>
+<p>Earlier we said that there were two possible approaches to preventing hazards during a long finalization stall:</p>
+<p>a) go into a Safety Mode that directly disallows hazardous transactions (for example, by requiring <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight">lc</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> blocks to be coinbase-only in Zcash);
+b) temporarily cause the more-available chain to stall.</p>
+<p>This section describes an important class of potential attacks on approach b) that are difficult to resolve. They are based on the fact that when the unfinalized chain stalls, an adversary has more time to find blocks, and this might violate security assumptions of the more-available protocol. For instance, if the more-available protocol is PoW-based, then its security in the steady state is predicated on the fact that an adversary with a given proportion of hash power has only a limited time to use that power, before the rest of the network finds another block.</p>
+<div id="admonition-info-9" class="admonition admonish-info">
+<div class="admonition-title">
+<p>Info</p>
+<p><a class="admonition-anchor-link" href="#admonition-info-9"></a></p>
+</div>
+<div>
+<p>For an analysis of the concrete security of Nakamoto-like protocols, see <a href="https://arxiv.org/abs/2005.10484">[DKT+2020]</a> and <a href="https://eprint.iacr.org/2020/661">[GKR2020]</a>. These papers confirm the intuition that the &quot;private attack&quot; ---in which an adversary races privately against the rest of the network to construct a forking chain--- is optimal, obtaining the same tight security bound independently using different techniques.</p>
+</div>
+</div>
+<p>During a chain stall, the adversary no longer has a limited time to construct a forking chain. If, say, the adversary has 10% hash power, then it can on average find a block in 10 block times. And so in 100 block times it can create a 10-block fork.</p>
+<p>It may in fact be worse than this: once miners know that a finalization stall is happening, their incentive to continue mining is reduced, since they know that there is a greater chance that their blocks might be rolled back. So we would expect the global hash rate to fall ---even before the finality gap bound is hit--- and then the adversary would have a greater proportion of hash rate.</p>
+<div id="admonition-info-10" class="admonition admonish-info">
+<div class="admonition-title">
+<p>Info</p>
+<p><a class="admonition-anchor-link" href="#admonition-info-10"></a></p>
+</div>
+<div>
+<p>Even in a pure ebb-and-flow protocol, a finalization stall could cause miners to infer that their blocks are more likely to be rolled back, but the fact that the chain is continuing would make that more difficult to exploit. This issue with the global hash rate is mostly specific to the more-available protocol being PoW: if it were PoS, then its validators might as well continue proposing blocks because it is cheap to do so. There might be other attacks when the more-available protocol is PoS; I haven't spent much time analysing that case.</p>
+</div>
+</div>
+<p>The problem is that the more-available chain does not necessarily <em>just halt</em> during a chain stall. In fact, for a finality gap bound of <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span> blocks, an adversary could cause the <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>-block &quot;tail&quot; of the chain as seen by any given node to &quot;thrash&quot; between different chains. I will call this a <strong>tail-thrashing attack</strong>.</p>
+<p>If a protocol allowed such attacks then it would be a regression relative to the security we would normally expect from an otherwise similar PoW-based protocol. It only occurs during a finalization stall, but note that we cannot exclude the possibility of an adversary being able to provoke a finalization stall.</p>
+<p>Note that in the snap-and-chat construction, snapshots of <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight">lc</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> are used as input to the BFT protocol. That implies that the tail-thrashing problem could also affect the input to that protocol, which would be bad (not least for security analysis of availability, which seems somewhat intractable in that case).</p>
+<p>Also, when restarting <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight">lc</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, we would need to take account of the fact that the adversary has had an arbitrary length of time to build long chains from every block that we could potentially restart from. It could be possible to invalidate those chains by requiring blocks after the restart to be dependent on fresh randomness, but that sounds quite tricky (especially given that we want to restart <em>without</em> manual intervention if possible), and there may be other attacks I haven't thought of. This motivates using approach a) instead.</p>
+<p>Note that we have still glossed over precisely how consensus rules would change to enforce a). I recommend reading <a href="./notes-on-snap-and-chat.html">Notes on Snap-and-Chat</a> next, followed by <a href="./construction.html">The Crosslink Construction</a>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../design/crosslink.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../design/crosslink/notes-on-snap-and-chat.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../design/crosslink.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../design/crosslink/notes-on-snap-and-chat.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
