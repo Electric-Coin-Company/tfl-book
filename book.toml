@@ -24,6 +24,7 @@ trust = true
 
 [output.html]
 default-theme = "light"
+additional-css = ["./css/mdbook-admonish.css"]
 
 [output.linkcheck]
 
@@ -31,3 +32,8 @@ default-theme = "light"
 command = "mdbook-graphviz"
 after = ["links"]
 output-to-file = true
+
+[preprocessor.admonish]
+command = "mdbook-admonish"
+assets_version = "3.0.0" # do not edit: managed by `mdbook-admonish install`
+on_failure = "bail"
