@@ -35,7 +35,7 @@ All that said, does the suggested rule help? First we have to ask whether it int
       * This does not mean that a break of $\Pi_{\mathrm{bft}}$ is not a problem for Crosslink. In particular, an adversary that can violate safety of $\Pi_{\mathrm{bft}}$ can violate safety of $\mathsf{LOG}_{\mathrm{bda}}$ (and of $\mathsf{LOG}_{\mathrm{fin}}$ if there is also a $\sigma$-block rollback in some node's bc-best-chain).
       * The difference is that a safety violation of $\Pi_{\mathrm{bft}}$ can be directly observed by nodes *without any chance of false positives*, which is not necessarily the case for all possible attacks against $\Pi_{\mathrm{bft}}$. (The attack described above does *not* violate safety of $\Pi_{\mathrm{bft}}$; it just adds a final bft-block with a suspiciously long $\Pi_{\mathrm{bc}}$ rollback. It could alternatively have added a block with a less suspiciously long rollback, say exactly $\sigma + 1$ blocks. That is, in pursuit of preventing an attack against $\Pi_{\mathrm{bc}}$, we have enabled attacks against $\Pi_{\mathrm{bft}}$ to achieve the same effect --- precisely what Crosslink is designed to prevent.)
       * This raises an interesting idea: if any node sees a rollback in the chain of final bft-blocks, it could provide objective evidence of that rollback in the form of a "bft-final-vee": two final bft-blocks with the same parent. Similarly, if any node sees more than one third of stake vote for conflicting blocks in a given epoch, then the assumption bounding the adversary's stake must have been violated. This evidence can be posted in a transaction to the bc-chain. In that case, any node that is synced to the bc-chain can see that the bft-chain suffered a violation of safety or of a safety assumption, without needing to have seen that violation itself. This can be generalized to allow other proofs of flaws in $\Pi_{\mathrm{bft}}$. Optionally, a bc-chain that has posted such a proof could be latched into Safety Mode until manual intervention can occur. (Obviously we need to make sure that this cannot be abused for denial-of-service.)
-      * This is now described in [Potential changes to Crosslink](./potential-changes.md#Low-risk-Recording-more-info-about-the-bft-chain-in-bc-blocks).
+      * This is now described in [Potential changes to Crosslink](./potential-changes.md#recommended-recording-more-info-about-the-bftchain-in-bcblocks).
 
 **Okay, but is it a good idea to make that change to the fork-choice rule anyway?**
 
@@ -45,7 +45,7 @@ The change was that the bc-best-chain for a node $i$ would be required to extend
 
 From the point of view of any modular analysis that treats $\Pi_{\mathsf{bft}}$ as potentially subverted, we cannot say anything useful about $\mathsf{snapshot}(B)$. It seems as though any repair would have to assume much more about the BFT protocol than is desirable.
 
-In general, changes to fork-choice rules are tricky; it was a fork-choice rule problem that allowed the liveness attack against Casper FFG described in [[NTT2021](https://arxiv.org/pdf/2009.04987.pdf), Appendix E].
+In general, changes to fork-choice rules are tricky; it was a fork-choice rule problem that allowed the liveness attack against Casper FFG described in [[NTT2020](https://eprint.iacr.org/2020/1091.pdf), Appendix E].
 
 **What if validators who see that a long rollback occurred, refuse to vote for it?**
 
