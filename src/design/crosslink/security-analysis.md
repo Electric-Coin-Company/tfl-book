@@ -137,16 +137,18 @@ The above property is not as strong as we would like for practical uses of $\mat
 
 As documented in the [Model for BFT protocols](./construction.md#model-for-bft-protocols-Πorigbftbft) section of [The Crosslink Construction](./construction.md)):
 
-> For each epoch, there is a fixed number of voting units distributed between the players, which they use to vote for a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal</span>. If, and only if, the votes cast for a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal</span> $P$ satisfy a notarization rule, then it is possible to obtain a valid <span style="white-space: nowrap">$\mathrm{*}$bft‑notarization-proof</span> <span style="white-space: nowrap">$\mathsf{proof}_P$.</span> The notarization rule must require at least a two-thirds absolute supermajority of voting units to have been cast for $P$. (It may also require other conditions.)
+> For each epoch, there is a fixed number of voting units distributed between the players, which they use to vote for a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal.</span> We say that a voting unit has been cast for a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal $P$</span> at a given time in a <span style="white-space: nowrap">$\mathrm{*}$bft‑execution,</span> <span style="white-space: nowrap">if and only if</span> <span style="white-space: nowrap">$P$ is $\mathrm{*}$bft‑proposal‑valid</span> and a ballot <span style="white-space: nowrap">for $P$</span> authenticated by the holder of the voting unit exists at that time.
 >
-> A voting unit for an epoch is cast non‑honestly if:
+> Using knowledge of ballots cast for a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal $P$</span> that collectively satisfy a notarization rule at a given time in a <span style="white-space: nowrap">$\mathrm{*}$bft‑execution,</span> and only with such knowledge, it is possible to obtain a valid <span style="white-space: nowrap">$\mathrm{*}$bft‑notarization‑proof $\mathsf{proof}_P$.</span> The notarization rule must require at least a two‑thirds absolute supermajority of voting units <span style="white-space: nowrap">in $P$’s epoch</span> to have been cast <span style="white-space: nowrap">for $P$.</span> It may also require other conditions.
+>
+> A voting unit is cast non‑honestly for an epoch’s proposal iff:
 > * it is cast other than by the holder of the unit (due to key compromise or any flaw in the voting protocol, for example); or
-> * it is double‑cast (i.e. for distinct proposals); or
-> * the holder of the unit following the conditions for honest voting in $\Pi_{\mathrm{*bft}}$, according to its view, should not have cast that vote.
->
-> ```admonish success
-> An execution of $\Pi_{\mathrm{bft}}$ has the **one‑third bound on non‑honest voting** property if at any epoch in the execution, strictly fewer than one third of the total voting units for that epoch are cast non‑honestly.
-> ```
+> * it is double‑cast (i.e. there are two ballots casting it for distinct proposals); or
+> * the holder of the unit following the conditions for honest voting <span style="white-space: nowrap">in $\Pi_{\mathrm{*bft}}$,</span> according to its view, should not have cast that vote.
+
+```admonish success "Definition: One‑third bound on non‑honest voting"
+An execution of $\Pi_{\mathrm{bft}}$ has the **one‑third bound on non‑honest voting** property iff for every epoch, *strictly* fewer than one third of the total voting units for that epoch are ever cast non‑honestly.
+```
 
 ```admonish success "Theorem: On bft‑valid blocks for a given epoch in honest view"
 By a well known argument often used to prove safety of BFT protocols, in an execution of Crosslink where $\Pi_{\mathrm{bft}}$ has the **one‑third bound on non‑honest voting** property (and assuming soundness of notarization proofs), any bft‑valid block for a given epoch in honest view must commit to the same proposal.

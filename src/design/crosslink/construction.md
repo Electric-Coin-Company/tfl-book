@@ -74,6 +74,8 @@ A Crosslink node must participate in <span style="white-space: nowrap">both $\Pi
 
 A player’s view in $\Pi_{\mathrm{*bft}}$ includes a set of <span style="white-space: nowrap">$\mathrm{*}$bft‑block chains</span> each rooted at a fixed genesis <span style="white-space: nowrap">$\mathrm{*}$bft‑block $\mathcal{O}_{\mathrm{*bft}}$.</span> There is a <span style="white-space: nowrap">$\mathrm{*}$bft‑block‑validity</span> rule (specified below), which depends only on the content of the block and its ancestors. A non‑genesis block can only be <span style="white-space: nowrap">$\mathrm{*}$bft‑block‑valid</span> if its parent is $\mathrm{*}$bft‑block‑valid. <span style="white-space: nowrap">A $\mathrm{*}$bft‑valid‑chain</span> is a chain of <span style="white-space: nowrap">$\mathrm{*}$bft‑block‑valid</span> blocks.
 
+Execution proceeds in a sequence of epochs. In each epoch, a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal</span> may be made.
+
 A <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal</span> refers to a parent <span style="white-space: nowrap">$\mathrm{*}$bft‑block,</span> and specifies the proposal’s epoch. The content of a proposal is signed by the proposer using a strongly unforgeable signature scheme. We consider the proposal to include this signature. There is a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal‑validity</span> rule, depending only on the content of the proposal and its parent block, and the validity of the proposer’s signature.
 
 ```admonish info
@@ -82,21 +84,27 @@ We will shorten <span style="white-space: nowrap">“$\mathrm{*}$bft‑block‑v
 
 For each epoch, there is a fixed number of voting units distributed between the players, which they use to vote for a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal.</span> We say that a voting unit has been cast for a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal $P$</span> at a given time in a <span style="white-space: nowrap">$\mathrm{*}$bft‑execution,</span> <span style="white-space: nowrap">if and only if</span> <span style="white-space: nowrap">$P$ is $\mathrm{*}$bft‑proposal‑valid</span> and a ballot <span style="white-space: nowrap">for $P$</span> authenticated by the holder of the voting unit exists at that time.
 
-If, and only if, the votes cast for a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal $P$</span> satisfy a notarization rule at a given time in a <span style="white-space: nowrap">$\mathrm{*}$bft‑execution,</span> then it is possible to obtain a valid <span style="white-space: nowrap">$\mathrm{*}$bft‑notarization‑proof $\mathsf{proof}_P$.</span> The notarization rule must require at least a two‑thirds absolute supermajority of voting units <span style="white-space: nowrap">in $P$'s epoch</span> to have been cast <span style="white-space: nowrap">for $P$.</span> It may also require other conditions.
+Using knowledge of ballots cast for a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal $P$</span> that collectively satisfy a notarization rule at a given time in a <span style="white-space: nowrap">$\mathrm{*}$bft‑execution,</span> and only with such knowledge, it is possible to obtain a valid <span style="white-space: nowrap">$\mathrm{*}$bft‑notarization‑proof $\mathsf{proof}_P$.</span> The notarization rule must require at least a two‑thirds absolute supermajority of voting units <span style="white-space: nowrap">in $P$’s epoch</span> to have been cast <span style="white-space: nowrap">for $P$.</span> It may also require other conditions.
 
 A voting unit is cast non‑honestly for an epoch’s proposal iff:
 * it is cast other than by the holder of the unit (due to key compromise or any flaw in the voting protocol, for example); or
-* it is double‑cast (i.e. for distinct proposals); or
+* it is double‑cast (i.e. there are two ballots casting it for distinct proposals); or
 * the holder of the unit following the conditions for honest voting <span style="white-space: nowrap">in $\Pi_{\mathrm{*bft}}$,</span> according to its view, should not have cast that vote.
 
 ```admonish success "Definition: One‑third bound on non‑honest voting"
-An execution of $\Pi_{\mathrm{bft}}$ has the **one‑third bound on non‑honest voting** property if at any epoch in the execution, *strictly* fewer than one third of the total voting units for that epoch are cast non‑honestly.
+An execution of $\Pi_{\mathrm{bft}}$ has the **one‑third bound on non‑honest voting** property iff for every epoch, *strictly* fewer than one third of the total voting units for that epoch are ever cast non‑honestly.
 ```
 
 ```admonish info
 It may be the case that a ballot cast for $P$ is not in honest view when it is used to create a notarisation proof for $P$. Since we are not assuming synchrony, it may also be the case that such a ballot is in honest view but that any given node has not received it (and perhaps will never receive it).
 
 There may be multiple distinct ballots or distinct ballot messages attempting to cast a given voting unit for the same proposal; this is undesirable for bandwidth usage, but it is not necessary to consider it to be non‑honest behaviour for the purpose of security analysis, as long as such ballots are not double‑counted toward the two‑thirds threshold.
+```
+
+```admonish warning "Security caveat"
+The **one‑third bound on non‑honest voting** property considers all ballots cast in the entire execution. In particular, it is possible that a validator’s key is compromised and then used to cast its voting units for a proposal of an epoch long finished. If the number of voting units cast non-honestly for any epoch *ever* reaches one third of the total voting units for that epoch during an execution, then the **one‑third bound on non‑honest voting** property is violated for that execution.
+
+Therefore, validator keys of honest nodes must remain secret indefinitely. Whenever a key is rotated, the old key must be securely deleted. For further discussion and potential improvements, see [tfl-book issue #140](https://github.com/Electric-Coin-Company/tfl-book/issues/140).
 ```
 
 A <span style="white-space: nowrap">$\mathrm{*}$bft‑block</span> consists <span style="white-space: nowrap">of $(P, \mathsf{proof}_P)$</span> re‑signed by the same proposer using a strongly unforgeable signature scheme. It is <span style="white-space: nowrap">$\mathrm{*}$bft‑block‑valid</span> iff:
