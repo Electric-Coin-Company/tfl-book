@@ -32,13 +32,13 @@ Importantly, it is not feasible for any protocol to prevent reversing final tran
 
 <span id="definition-pow"></span>**Proof-of-Work**: A PoW protocol uses Nakamoto consensus pioneered by Bitcoin. The PoW subprotocol within TFL Protocol is a different consensus protocol from [NU5](#definition-nu5) and encompasses more than narrow Nakamoto PoW consensus, including transaction semantics such as for shielded transfers.
 
-<span id="definition-tfl-protocol"></span>**TFL Protocol**: the overall complete, integrated consensus protocol specified in this book.
-
 <span id="definition-safety"></span>**Safety**: The property of a distributed protocol that guarantees a participant may safely rely on a consistent local state, provided safety requirements are met. **TODO:** [Provide a rigorous definition of Safety #121](https://github.com/Electric-Coin-Company/tfl-book/issues/121)
 
 <span id="definition-simtfl"></span>**`simtfl`**: a protocol simulator for analyzing [TFL](#definition-tfl) security and abstract performance. Development lives at <https://github.com/zcash/simtfl></span>. See [Status and Next Steps: Current Components](./introduction/status-and-next-steps.md#current-components) for current status.
 
 <span id="definition-snap-and-chat"></span>**Snap-and-Chat**: A [hybrid construction](#definition-hybrid-construction) consensus protocol introduced in [Ebb-and-Flow Protocols](./references.md#ebb-and-flow-protocols).
+
+<span id="definition-tfl-protocol"></span>**TFL Protocol**: the overall complete, integrated consensus protocol specified in this book which is a [hybrid protocol](#definition-hybrid-protocol) integrating a [PoW Subprotocol](#definition-pow) and a [PoS Subprotocol](#definition-pos).
 
 <span id="definition-tfl"></span>**TFL**: The *Trailing Finality Layer* subprotocol within TFL Protocol. This is a new [PoS](#definition-pos) subprotocol which provides [assured finality](#definition-assured-finality) for Zcash.
 
