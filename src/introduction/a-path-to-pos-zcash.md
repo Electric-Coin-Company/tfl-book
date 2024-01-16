@@ -16,14 +16,14 @@ We envision a *proof-of-stake transition path* as one of the potential paths wit
 
 Given that context, we envision a path within the Zcash Tech-Tree for transitioning Zcash to PoS. At the top level we propose that this path contain at least two major milestones:
 
-1. Transitioning from current Zcash [NU5](../terminology.md#definition-nu5) [PoW](../terminology.md#definition-pow) protocol to a PoW/PoS [hybrid consensus](../terminology.md#definition-hybrid-consensus) protocol dubbed [TFL Protocol](../terminology.md#definition-pow-tfl).
-2. Transitioning from [TFL Protocol](../terminology.md#definition-pow-tfl) to pure [PoS](../terminology.md#definition-pow-tfl) protocol.
+1. Transitioning from current Zcash [NU5](../terminology.md#definition-nu5) [PoW](../terminology.md#definition-pow) protocol to a PoW/PoS [hybrid consensus](../terminology.md#definition-hybrid-consensus) protocol dubbed [TFL Protocol](../terminology.md#definition-tfl-protocol).
+2. Transitioning from [TFL Protocol](../terminology.md#definition-tfl-protocol) to pure [PoS](../terminology.md#definition-tfl-protocol) protocol.
 
 After this transition to pure PoS, there are likely to be future improvements to the PoS protocol, or the consensus protocol more generally. This TFL book focuses almost exclusively on the first step in this sequence.
 
 Our primary motivation for proposing (at least) two steps is to minimize disruption to usability, safety, security, and the ecosystem during each step.
 
-This book primarily focuses this first step: the transition to [TFL Protocol](../terminology.md#definition-pow-tfl). To understand the specific goals for that, see [Design Goals](../design/goals.md).
+This book primarily focuses this first step: the transition to [TFL Protocol](../terminology.md#definition-tfl-protocol). To understand the specific goals for that, see [Design Goals](../design/goals.md).
 
 With this approach, the Zcash Tech Tree with the [TFL](../terminology.md#definition-tfl) approach might look something like this:
 
@@ -56,7 +56,7 @@ Note: TFL is one instance of a multi-step approach.
 
 #### Pros
 - We can hopefully be less disruptive across the ecosystem so that there are fewer snags and disruptions with each step.
-- If there is a show-stopping flaw in any step, the fall-back possibility seems more plausible. For example, if there is a show-stopper when transitioning from PoW to [TFL Protocol](../terminology.md#definition-pow-tfl), falling back to pure PoW seems more feasible, since both protocols rely on mainnet PoW infrastructure, so those participants will be present in either case.
+- If there is a show-stopping flaw in any step, the fall-back possibility seems more plausible. For example, if there is a show-stopper when transitioning from PoW to [TFL Protocol](../terminology.md#definition-tfl-protocol), falling back to pure PoW seems more feasible, since both protocols rely on mainnet PoW infrastructure, so those participants will be present in either case.
 - Retaining miners during a hybrid phase: while it is true that a hybrid protocol will lower miner revenue (since we aim to maintain the issuance schedule constraints), there is also more possibility and likelihood of keeping some of these users engaged. For example, they may begin participating in staking services (either as delegators or as infrastructure operators). If that is successful, then they’re also more likely to remain engaged in the subsequent transition to pure PoS.
 - This general approach was demonstrated successfully by Ethereum, which is the largest or second largest cryptocurrency network for several important metrics (e.g. market cap, fees paid, user and developer activity, …). So we know this can be done well without disruptions.
 

@@ -12,13 +12,13 @@ Definitions are sorted alphabetically.
 
 Importantly, it is not feasible for any protocol to prevent reversing final transactions "out of band" from the protocol, such as if a sufficiently large and motivated group of users forks the network to include a specific new validity rule reverting transactions. In some cases this might be desirable, for example to mitigate exploitation of a security flaw. We are investigating the implications for governance and how to incorporate such situations into our security model. In any case, for this reason we eschew the term "absolute finality" sometimes used in technical discussions about consensus protocols.
 
-<span id="definition-consensus-subprotocols"></span>**Consensus Subprotocols**: The [PoW](#definition-pow) and [PoS](#defintion-pos) subprotocols in [TFL Protocol](#definition-pow-tfl) or other [hybrid protocols](#definition-hybrid-consensus).
+<span id="definition-consensus-subprotocols"></span>**Consensus Subprotocols**: The [PoW](#definition-pow) and [PoS](#defintion-pos) subprotocols in [TFL Protocol](#definition-tfl-protocol) or other [hybrid protocols](#definition-hybrid-consensus).
 
 <span id="definition-crosslink"></span>**Crosslink**: A [hybrid construction](#definition-hybrid-construction) consensus protocol striving to implement the [TFL](#definition-tfl) design goals. See [Status and Next Steps: Current Components](./introduction/status-and-next-steps.md#current-components) for current status.
 
 <span id="definition-final"></span>**Final**: A protocol property of transactions. In this book, this always implies [assured finality](#definition-assured-finality), in contrast to concepts like "probabilistic finality" provided by [PoW](#definition-pow).
 
-<span id="definition-hybrid-consensus"></span>**Hybrid Consensus**: A consensus protocol that integrates more than one consensus subprotocol. [TFL Protocol](#definition-pow-tfl) is an instance of a hybrid protocol integrating [PoW](#definition-pow) and [PoS](#definition-pos) protocols.
+<span id="definition-hybrid-consensus"></span>**Hybrid Consensus**: A consensus protocol that integrates more than one consensus subprotocol. [TFL Protocol](#definition-tfl-protocol) is an instance of a hybrid protocol integrating [PoW](#definition-pow) and [PoS](#definition-pos) protocols.
 
 <span id="definition-hybrid-construction"></span>**Hybrid Construction**: The design component of a [hybrid consensus](#defintion-hybrid-consensus) which specifies how to integrate [subprotocols](#definition-consensus-subprotocols) and what modifications, if any, those subprotocols need to be safely integrated. Examples include [Crosslink](#definition-crosslink) and [Snap-and-Chat](#definition-snap-and-chat).
 
@@ -32,7 +32,7 @@ Importantly, it is not feasible for any protocol to prevent reversing final tran
 
 <span id="definition-pow"></span>**Proof-of-Work**: A PoW protocol uses Nakamoto consensus pioneered by Bitcoin. The PoW subprotocol within TFL Protocol is a different consensus protocol from [NU5](#definition-nu5) and encompasses more than narrow Nakamoto PoW consensus, including transaction semantics such as for shielded transfers.
 
-<span id="definition-pow-tfl"></span>**TFL Protocol**: the overall complete, integrated consensus protocol specified in this book.
+<span id="definition-tfl-protocol"></span>**TFL Protocol**: the overall complete, integrated consensus protocol specified in this book.
 
 <span id="definition-safety"></span>**Safety**: The property of a distributed protocol that guarantees a participant may safely rely on a consistent local state, provided safety requirements are met. **TODO:** [Provide a rigorous definition of Safety #121](https://github.com/Electric-Coin-Company/tfl-book/issues/121)
 
