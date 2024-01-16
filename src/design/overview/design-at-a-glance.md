@@ -1,6 +1,6 @@
 # Design at a Glance
 
-The [PoW+TFL](../../terminology.md#definition-pow-tfl) consensus protocol is logically an extension of the Zcash consensus rules to introduce [trailing finality](../../terminology.md#definition-trailing-finality). This is achieved by compartmentalizing the top-level PoW+TFL protocol into two [consensus subprotocols](../../terminology.md#definition-consensus-subprotocols), one embodying most of the current consensus logic of Zcash and another the TFL. These protocols interact through a [hybrid construction](../../terminology.md#definition-hybrid-construction), which specifies how the protocols interact, and what changes from "off-the-shelf" behavior, if any, need to be imposed on the subprotocols. Each of these components (the two subprotocols and the hybrid construction) are somewhat modular: different subprotocols or hybrid constructions may be combined (with some modification) to produce a candidate [PoW+TFL](../../terminology.md#definition-pow-tfl) protocol.
+The [TFL Protocol](../../terminology.md#definition-pow-tfl) consensus protocol is logically an extension of the Zcash consensus rules to introduce [trailing finality](../../terminology.md#definition-trailing-finality). This is achieved by compartmentalizing the top-level TFL Protocol protocol into two [consensus subprotocols](../../terminology.md#definition-consensus-subprotocols), one embodying most of the current consensus logic of Zcash and another the TFL. These protocols interact through a [hybrid construction](../../terminology.md#definition-hybrid-construction), which specifies how the protocols interact, and what changes from "off-the-shelf" behavior, if any, need to be imposed on the subprotocols. Each of these components (the two subprotocols and the hybrid construction) are somewhat modular: different subprotocols or hybrid constructions may be combined (with some modification) to produce a candidate [TFL Protocol](../../terminology.md#definition-pow-tfl) protocol.
 
 **TODO:** [Add a protocol component diagram to "Design at a Glance" #122](https://github.com/Electric-Coin-Company/tfl-book/issues/122)
 
@@ -18,7 +18,7 @@ Currently we believe [Crosslink](../../terminology.md#definition-crosslink) is t
 
 ## Subprotocols
 
-The PoW+TFL hybrid consensus consists of two interacting subprotocols:
+The TFL Protocol hybrid consensus consists of two interacting subprotocols:
 
 1. [PoW Subprotocol](../../terminology.md#definition-pow): this subprotocol is very similar to NU5 consensus. It is a design goal of the TFL design to minimize changes to this subprotocol. Note: the shorthand "PoW" is potentially misleading, because this subprotocol is also responsible for the bulk of all supply and transaction semantic consensus rules.
 2. [PoS Subprotocol](../../terminology.md#definition-pos): this is a new subprotocol which provides trailing finality via a finalizing PoS protocol.
