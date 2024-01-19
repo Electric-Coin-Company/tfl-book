@@ -74,7 +74,7 @@ A Crosslink node must participate in <span style="white-space: nowrap">both $\Pi
 
 A player’s view in $\Pi_{\mathrm{*bft}}$ includes a set of <span style="white-space: nowrap">$\mathrm{*}$bft‑block chains</span> each rooted at a fixed genesis <span style="white-space: nowrap">$\mathrm{*}$bft‑block $\mathcal{O}_{\mathrm{*bft}}$.</span> There is a <span style="white-space: nowrap">$\mathrm{*}$bft‑block‑validity</span> rule (specified below), which depends only on the content of the block and its ancestors. A non‑genesis block can only be <span style="white-space: nowrap">$\mathrm{*}$bft‑block‑valid</span> if its parent is $\mathrm{*}$bft‑block‑valid. <span style="white-space: nowrap">A $\mathrm{*}$bft‑valid‑chain</span> is a chain of <span style="white-space: nowrap">$\mathrm{*}$bft‑block‑valid</span> blocks.
 
-Execution proceeds in a sequence of epochs. In each epoch, a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal</span> may be made.
+Execution proceeds in a sequence of epochs. In each epoch, an honest proposer for that epoch may make a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal</span>.
 
 A <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal</span> refers to a parent <span style="white-space: nowrap">$\mathrm{*}$bft‑block,</span> and specifies the proposal’s epoch. The content of a proposal is signed by the proposer using a strongly unforgeable signature scheme. We consider the proposal to include this signature. There is a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal‑validity</span> rule, depending only on the content of the proposal and its parent block, and the validity of the proposer’s signature.
 
@@ -88,7 +88,7 @@ Using knowledge of ballots cast for a <span style="white-space: nowrap">$\mathrm
 
 A voting unit is cast non‑honestly for an epoch’s proposal iff:
 * it is cast other than by the holder of the unit (due to key compromise or any flaw in the voting protocol, for example); or
-* it is double‑cast (i.e. there are two ballots casting it for distinct proposals); or
+* it is double‑cast (i.e. there are at least two ballots casting it for distinct proposals); or
 * the holder of the unit following the conditions for honest voting <span style="white-space: nowrap">in $\Pi_{\mathrm{*bft}}$,</span> according to its view, should not have cast that vote.
 
 ```admonish success "Definition: One‑third bound on non‑honest voting"
