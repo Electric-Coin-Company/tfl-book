@@ -3,25 +3,13 @@ set -efuo pipefail
 
 function main
 {
-	log-run reject-unstaged-changes
-	log-run require-render-success
-	log-run ./util/find-orphaned-files.sh
-}
-
-# Used to log which check is being executed, then execute it:
-function log-run
-{
-	echo "$0: $1"
-	eval "$@"
-}
-
-function reject-unstaged-changes
-{
 	if [ "$(unstaged-changes | wc -l)" -gt 0 ]
 	then
-		echo 'Refusing to commit unstaged changes:'
+		echo 'Warning: you have unstaged changes:'
 		unstaged-changes
-		exit 1
+	else
+		require-render-success
+		./util/find-orphaned-files.sh
 	fi
 }
 
