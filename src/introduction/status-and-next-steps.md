@@ -30,7 +30,7 @@ This list may be incomplete, and as the design matures the need for major new co
 
 ## Next Steps
 
-This design proposal is being developed by [Electric Coin Company](https://electriccoin.co/) as the first major milestone in our focus of deploying Proof-of-Stake to the Zcash protocol. Our rough near-term plan for this proposal is as follows:
+This design proposal is being developed by [Electric Coin Company](https://electriccoin.co/) and [Shielded Labs](https://x.com/shieldedlabs) as the first major milestone in our focus of deploying Proof-of-Stake to the Zcash protocol. Our rough near-term plan for this proposal is as follows:
 
 1. Complete the [Crosslink](../terminology.md#definition-crosslink) description.
 2. Complete core security arguments for [Crosslink](../terminology.md#definition-crosslink).
