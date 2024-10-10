@@ -1,3 +1,6 @@
 build/
 src/**/*.generated.svg
 result
+
+*.swp
+*.save
