@@ -16,7 +16,7 @@ We envision a *proof-of-stake transition path* as one of the potential paths wit
 
 Given that context, we envision a path within the Zcash Tech-Tree for transitioning Zcash to PoS. At the top level we propose that this path contain at least two major milestones:
 
-1. Transitioning from current Zcash [NU5](../terminology.md#definition-nu5) [PoW](../terminology.md#definition-pow) protocol to a PoW/PoS [hybrid consensus](../terminology.md#definition-hybrid-consensus) protocol dubbed [PoW+TFL](../terminology.md#definition-pow-tfl).
+1. Transitioning from Zcash [NU5/NU6](../terminology.md#definition-nu5nu6) [PoW](../terminology.md#definition-pow) consensus to a PoW/PoS [hybrid consensus](../terminology.md#definition-hybrid-consensus) protocol dubbed [PoW+TFL](../terminology.md#definition-pow-tfl).
 2. Transitioning from [PoW+TFL](../terminology.md#definition-pow-tfl) to pure [PoS](../terminology.md#definition-pow-tfl) protocol.
 
 After this transition to pure PoS, there are likely to be future improvements to the PoS protocol, or the consensus protocol more generally. This TFL book focuses almost exclusively on the first step in this sequence.

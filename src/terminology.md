@@ -24,13 +24,13 @@ Importantly, it is not feasible for any protocol to prevent reversing final tran
 
 <span id="definition-liveness"></span>**Liveness**: The property of a distributed protocol which ensures that the protocol may progress provided liveness requirements are met. **TODO:** [Fix the definition of Liveness #120](https://github.com/Electric-Coin-Company/tfl-book/issues/120)
 
-<span id="definition-nu5"></span>**NU5**: The Zcash consensus protocol as of NU5.[^new-mainnet-precursors]
+<span id="definition-nu5nu6"></span>**NU5/NU6**: The Zcash consensus protocol as of NU5 or NU6 (which do not differ significantly in terms of the base block chain layer).[^new-mainnet-precursors]
 
 <span id="definition-objective-validity"></span>**Objective Validity**: A validity property of a protocol history (such as a ledger) which can be computed purely from that history with no other context. Objective validity is needed to define consensus rules that will lead to the same protocol state being eventually agreed on by all nodes.
 
 <span id="definition-pos"></span>**Proof-of-Stake**: A PoS protocol achieves consensus on transaction status by taking into account the weighting of staking tokens. PoS protocols exist under a large umbrella and may or may not provide [assured finality](#definition-assured-finality) or other properties this design requires of [TFL](#definition-tfl).
 
-<span id="definition-pow"></span>**Proof-of-Work**: A PoW protocol uses Nakamoto consensus pioneered by Bitcoin. The PoW subprotocol within PoW+TFL is a different consensus protocol from [NU5](#definition-nu5) and encompasses more than narrow Nakamoto PoW consensus, including transaction semantics such as for shielded transfers.
+<span id="definition-pow"></span>**Proof-of-Work**: A PoW protocol uses Nakamoto consensus pioneered by Bitcoin. The PoW subprotocol within PoW+TFL is a different consensus protocol from [NU5/NU6](#definition-nu5nu6) and encompasses more than narrow Nakamoto PoW consensus, including transaction semantics such as for shielded transfers.
 
 <span id="definition-pow-tfl"></span>**PoW+TFL**: the overall complete, integrated consensus protocol specified in this book.
 
@@ -46,7 +46,7 @@ Importantly, it is not feasible for any protocol to prevent reversing final tran
 
 <span id="definition-zip"></span>**ZIP**: a Zcash Improvement Proposal is the protocol development process the Zcash community uses to safely define potential protocol improvements. See <https://zips.z.cash></span>.
 
-**TODO:** [Clarify the distinctions between pure PoW, the PoW subprotocol, NU5, and fork-choice vs all of transaction semantics. #119](https://github.com/Electric-Coin-Company/tfl-book/issues/119)
+**TODO:** [Clarify the distinctions between pure PoW, the PoW subprotocol, NU6, and fork-choice vs all of transaction semantics. #119](https://github.com/Electric-Coin-Company/tfl-book/issues/119)
 
 # Footnotes
 

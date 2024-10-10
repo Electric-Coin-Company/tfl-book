@@ -20,9 +20,9 @@ Currently we believe [Crosslink](../../terminology.md#definition-crosslink) is t
 
 The PoW+TFL hybrid consensus consists of two interacting subprotocols:
 
-1. [PoW Subprotocol](../../terminology.md#definition-pow): this subprotocol is very similar to NU5 consensus. It is a design goal of the TFL design to minimize changes to this subprotocol. Note: the shorthand "PoW" is potentially misleading, because this subprotocol is also responsible for the bulk of all supply and transaction semantic consensus rules.
+1. [PoW Subprotocol](../../terminology.md#definition-pow): this subprotocol is very similar to NU5 or NU6 consensus. It is a design goal of the TFL design to minimize changes to this subprotocol. Note: the shorthand "PoW" is potentially misleading, because this subprotocol is also responsible for the bulk of all supply and transaction semantic consensus rules.
 2. [PoS Subprotocol](../../terminology.md#definition-pos): this is a new subprotocol which provides trailing finality via a finalizing PoS protocol.
 
-**TODO:** [Clarify the distinctions between pure PoW, the PoW subprotocol, NU5, and fork-choice vs all of transaction semantics. #119](https://github.com/Electric-Coin-Company/tfl-book/issues/119)
+**TODO:** [Clarify the distinctions between pure PoW, the PoW subprotocol, NU6, and fork-choice vs all of transaction semantics. #119](https://github.com/Electric-Coin-Company/tfl-book/issues/119)
 
 Note that the [hybrid construction](../../terminology.md#definition-hybrid-construction) may require modification to the "off-the-shelf" versions of these subprotocols. In particular [Crosslink](../../terminology.md#definition-crosslink) requires each protocol to refer to the state of the other to provide [objective validity](../../terminology.md#definition-objective-validity).

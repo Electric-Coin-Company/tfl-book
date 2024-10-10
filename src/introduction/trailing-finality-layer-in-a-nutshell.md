@@ -1,6 +1,6 @@
 # Trailing Finality Layer in a Nutshell
 
-The hybrid PoW/PoS protocol proposed in this book is similar to today's Zcash NU5 protocol with the addition of a *Trailing Finality Layer*:
+The hybrid PoW/PoS consensus protocol proposed in this book is similar to today's Zcash NU5/NU6 consensus protocol with the addition of a *Trailing Finality Layer*:
 
 **TODO:** [Add network topology / software subcomponent diagram #124](https://github.com/Electric-Coin-Company/tfl-book/issues/124)
 
@@ -50,7 +50,7 @@ By conceptualizing the TFL as a distinct "layer" or subprotocol, the consensus r
 
 Reasoning about the whole protocol can leverage analysis and understanding of each subprotocol and the hybrid construction somewhat independently due to this modular design. Note that although this design is modular, the hybrid construction may require modifications to the [PoW] and/or [PoS] subprotocols to protect safety and liveness properties. Nevertheless, the modularity still improves analysis and reasoning compared to a monolithic design.
 
-Finally, since one subprotocol is very similar to the existing Zcash [NU5](../terminology.md#definition-nu5) protocol, this lessens risk that the consensus properties within that subprotocol compromise current NU5 properties.
+Finally, since one subprotocol is very similar to the existing Zcash [NU5/NU6](../terminology.md#definition-nu5nu6) consensus protocol, this lessens risk that the consensus properties within that subprotocol compromise current NU5/NU6 properties.
 
 ### Modular Implementation
 
