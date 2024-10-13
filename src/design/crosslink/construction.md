@@ -63,7 +63,7 @@ The notation $[f(X) \text{ for } X \preceq_{\mathrm{*}} Y]$ means the sequence o
 As in Snap‑and‑Chat, we depend on a <span style="white-space: nowrap">BFT protocol $\Pi_{\mathrm{origbft}}$,</span> and a <span style="white-space: nowrap">best‑chain protocol $\Pi_{\mathrm{origbc}}$.</span>
 
 ```admonish info
-See [this terminology note](./the-arguments-for-bounded-dynamic-availability-and-finality-overrides.md#terminology-note) for why we do not call $\Pi_{\mathrm{origbc}}$ a “longest‑chain” protocol.
+See [this terminology note](./the-arguments-for-bounded-availability-and-finality-overrides.md#terminology-note) for why we do not call $\Pi_{\mathrm{origbc}}$ a “longest‑chain” protocol.
 ```
 
 We modify $\Pi_{\mathrm{origbft}}$ <span style="white-space: nowrap">(resp. $\Pi_{\mathrm{origbc}}$)</span> to give $\Pi_{\mathrm{bft}}$ <span style="white-space: nowrap">(resp. $\Pi_{\mathrm{bc}}$)</span> by adding structural elements, changing validity rules, and potentially changing the specified behaviour of honest nodes.

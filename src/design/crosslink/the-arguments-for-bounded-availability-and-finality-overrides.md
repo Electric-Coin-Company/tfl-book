@@ -1,4 +1,4 @@
-# The Arguments for Bounded Dynamic Availability and Finality Overrides
+# The Arguments for Bounded Availability and Finality Overrides
 
 This document considers disadvantages of allowing transactions to continue to be included at the chain tip while the gap from the last finalized block becomes unbounded, and what I think should be done instead. This condition is allowed by Ebb‑and‑Flow protocols [[NTT2020]](https://eprint.iacr.org/2020/1091.pdf).
 
@@ -24,7 +24,7 @@ Naive ways of preventing an unbounded finalization gap, such as stopping the cha
 Our proposed solution will be to require coinbase-only blocks during a long finalization stall. This solution has the advantage that, as far as this change goes, the security analysis of the Snap‑and‑Chat construction from [[NTT2020]](https://eprint.iacr.org/2020/1091.pdf) can still be applied.
 ```
 
-We argue that losing strict dynamic availability in favour of “bounded dynamic availability” is preferable to the consequences of the unbounded finality gap, if/when a “long finalization stall” occurs.
+We argue that losing strict dynamic availability in favour of “bounded availability” is preferable to the consequences of the unbounded finality gap, if/when a “long finalization stall” occurs.
 
 We also argue that it is beneficial to explicitly allow “finality overrides” under the control of a well-documented governance process. Such overrides allow long rollbacks that may be necessary in the case of an exploited security flaw. This is complementary to the argument for bounded dynamic availability, because the latter limits the period of user transactions that could be affected. The governance process can impose a limit on the length of this long rollback if desired.
 
@@ -68,7 +68,7 @@ It could be argued that the issue of availability of services that depend on fin
 
 Regardless, incorrect assumptions about the extent to which the finalized and available states can differ are likely to be exposed if there is a finalization stall. And those who made the assumptions may (quite reasonably!) not accept “everything is fine, those assumptions were always wrong” as a satisfactory response.
 
-## What is Bounded Dynamic Availability?
+## What is Bounded Availability?
 
 An intuitive notion of “availability” for blockchain protocols includes the ability to use the protocol as normal to spend funds. So, just to be clear, in a situation where that cannot happen we have lost availability, *even if* the block chain is advancing.
 

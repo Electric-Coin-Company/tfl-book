@@ -4,7 +4,7 @@ Crosslink is the proposed [hybrid construction](../terminology.md#definition-hyb
 
 ## Contents
 
-- [The Arguments for Bounded Dynamic Availability and Finality Overrides](./crosslink/the-arguments-for-bounded-dynamic-availability-and-finality-overrides.md)
+- [The Arguments for Bounded Availability and Finality Overrides](./crosslink/the-arguments-for-bounded-availability-and-finality-overrides.md)
 - [Notes On Snap And Chat](./crosslink/notes-on-snap-and-chat.md)
 - [The Crosslink Construction](./crosslink/construction.md)
 - [Security Analysis of Crosslink](./crosslink/security-analysis.md)
