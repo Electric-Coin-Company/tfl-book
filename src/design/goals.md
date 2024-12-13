@@ -6,7 +6,7 @@ Here we strive to lay out our high level TFL design goals.
 
 Here we lay out _ideal_ goals. As we develop a complete design, we are likely to inevitably encounter trade-offs some of which may preclude achieving the full idealized goals. Wherever possible, we motivate design decisions by these goals, and when goals are impacted by trade-offs we describe that impact and the rationale for the trade-off decision.
 
-For example, one ideal user experience goal below is to avoid disruption to existing wallets. However, the [Crosslink](../terminology.md#definition-crosslink) construction may require wallets to alter their context of valid transactions differently from the current [NU5](../terminology.md#definition-nu5) protocol.
+For example, one ideal user experience goal below is to avoid disruption to existing wallets. However, the [Crosslink](../terminology.md#definition-crosslink) construction may require wallets to alter their context of valid transactions differently from the current [NU5/NU6](../terminology.md#definition-nu5nu6) consensus protocol.
 
 ## User Experience and Use Case Goals
 
@@ -19,7 +19,7 @@ We strive to start our protocol design process from user experience (UX) and use
 - Any hybrid PoW/PoS protocol (including PoW+TFL) block explorers will continue to function with the same UX through transitions as far as displaying information about transactions, the mempool, and blocks.
 - Block explorers and other network metrics sites may require UX changes with respect to mining rewards and issuance calculations.
 - Network metrics sites may require UX changes with respect to the p2p protocol or other network-specific information.
-- Users can rely on [assured finality](../terminology.md#definition-assured-finality) with an expected time-to-finality of <30m.[^req-ttf-30m]
+- Users can rely on [assured finality](../terminology.md#definition-assured-finality) with an expected time‑to‑finality below 30 minutes.[^req-ttf-30-min]
 
 ## Developer Experience Goals
 
@@ -32,8 +32,8 @@ For a full PoS transition, ecosystem developers for products such as consensus n
 
 Zcash has always had exemplary safety, security, and privacy, and we aim to continue that tradition:
 
-- For any hybrid PoW/PoS protocol (including PoW+TFL), the cost-of-attack for a 1-hour rollback should not be reduced, given a “reasonably rigorous” security argument.
-- For any hybrid PoW/PoS protocol (including PoW+TFL), the cost-of-attack to halt the chain should be larger than the 24 hour revenue of PoW mining rewards, given a “reasonably rigorous” security argument.
+- For any hybrid PoW/PoS protocol (including PoW+TFL), the cost‑of‑attack for a 1-hour rollback should not be reduced, given a “reasonably rigorous” security argument.
+- For any hybrid PoW/PoS protocol (including PoW+TFL), the cost‑of‑attack to halt the chain should be larger than the 24‑hour revenue of PoW mining rewards, given a “reasonably rigorous” security argument.
 
 **TODO:** [Define privacy goals of TFL #118](https://github.com/Electric-Coin-Company/tfl-book/issues/118)
 
@@ -45,7 +45,7 @@ We want to follow some conservative design heuristics to minimize risk and mista
 
 - Rely as much as possible on design components that are already proven in production environments.
 - Rely as much as possible on design components with adequate theoretical underpinnings and security analyses.
-- Minimize changes or variations on the above: strive to only alter existing work when necessary for overall design goals. For example, Zcash's privacy or issuance constraints are likely less common among existing PoS designs.
+- Minimize changes or variations on the above: strive to only alter existing work when necessary for overall design goals. For example, Zcash’s privacy or issuance constraints are likely less common among existing PoS designs.
 
 
 # Non-goals
@@ -54,11 +54,11 @@ These are not goals of the TFL design, either to simplify the scope of the initi
 
 ## Out-of-Scope Goals
 
-While these desiderata may be common across the blockchain consensus design space, they are not specific goals for the initial TFL design. Note that these may be goals for future protocol improvements.
+While these desiderata may be common across the block‑chain consensus design space, they are not specific goals for the initial TFL design. Note that these may be goals for future protocol improvements.
 
 - Prioritizing minimal time-to-finality over other considerations (such as protocol simplicity, impact on existing use cases, or other goals above).
 - In-protocol liquid staking derivatives.
-- Maximizing the PoS staked-voter count ceiling. For example, [Tendermint BFT](https://github.com/tendermint/tendermint#research) has a relatively low ceiling of ~hundreds of staked voters, whereas Ethereum's [Gasper](https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/) supports hundreds of thousands of staked voters.
+- Maximizing the PoS staked-voter count ceiling. For example, [Tendermint BFT](https://github.com/tendermint/tendermint#research) has a relatively low ceiling of ~hundreds of staked voters, whereas Ethereum’s [Gasper](https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/) supports hundreds of thousands of staked voters.
 
 - Reducing energy usage. While this would presumably be a goal of a pure PoS transition, it likely cannot be achieved for hybrid PoW/PoS without loss of security.
 
@@ -70,4 +70,4 @@ We currently have no defined anti-goals.
 
 # Footnotes
 
-[^req-ttf-30m]: This requirement comes from [a request from a DEX developer](https://github.com/Electric-Coin-Company/tfl-book/issues/38). While we have not yet surveyed DEX and Bridge designs, we're relying on this as a good starting point.
+[^req-ttf-30-min]: This requirement comes from [a request from a DEX developer](https://github.com/Electric-Coin-Company/tfl-book/issues/38). While we have not yet surveyed DEX and Bridge designs, we're relying on this as a good starting point.

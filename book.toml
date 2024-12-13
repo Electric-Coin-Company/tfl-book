@@ -1,7 +1,7 @@
 [book]
 authors = [
     "Nate Wilcox",
-    "Daira Emma Hopwood",
+    "Daira-Emma Hopwood",
 ]
 language = "en"
 multilingual = false
@@ -21,6 +21,8 @@ macros = "macros.txt"
 renderer = ["html"]
 # This is needed in order for \href and \url links to work.
 trust = true
+# Left-aligned displaymath
+fleqn = true
 
 [output.html]
 default-theme = "light"
