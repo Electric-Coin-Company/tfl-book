@@ -12,7 +12,7 @@ The [hybrid construction](../terminology.md#definition-hybrid-construction) is a
 2. The [Snap-and-Chat](../terminology.md#definition-snap-and-chat) from the [Ebb-and-Flow paper](https://eprint.iacr.org/2020/1091).
 3. The [Crosslink](../terminology.md#definition-crosslink) construction.
 
-We believe [Crosslink](../terminology.md#definition-crosslink) is the best candidate, due to its more rigorous [specification](./crosslink/construction.md) and [security analysis](./crosslink/security-analysis.md).
+We believe [Crosslink](../terminology.md#definition-crosslink) is the best candidate, due to its more rigorous [specification](./crosslink/construction.md) and [security analysis](./crosslink/security-analysis.md), and due to the issues with Snap-and-Chat described in [Notes on Snap-and-Chat](./crosslink/notes-on-snap-and-chat.md).
 
 ## Subprotocols
 

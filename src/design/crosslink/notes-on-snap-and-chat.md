@@ -1,6 +1,6 @@
 # Notes on Snap‑and‑Chat
 
-The discussion in [The Argument for Bounded Dynamic Availability and Finality Overrides](./the-arguments-for-bounded-dynamic-availability-and-finality-overrides.md) is at an abstract level, applying to any Ebb‑and‑Flow-like protocol.
+The discussion in [The Argument for Bounded Availability and Finality Overrides](./the-arguments-for-bounded-availability-and-finality-overrides.md) is at an abstract level, applying to any Ebb‑and‑Flow-like protocol.
 
 This document considers specifics of the Snap‑and‑Chat construction proposed in [[NTT2020]](https://eprint.iacr.org/2020/1091.pdf) ([arXiv version](https://arxiv.org/pdf/2009.04987.pdf)).
 
@@ -20,10 +20,10 @@ This says that $\LOG_{\fin,i}^t$ and $\LOG_{\da,i}^t$ are sequences of transacti
 
 ```admonish warning "Zcash-specific"
 
-Most of these rules are Proof-of-Work-related checks that can be safely ignored at this level. Some are related to the `hashBlockCommitments` field intended for use by the FlyClient protocol. It is not at all clear how to make FlyClient (or other uses of this commitment) work with the Snap‑and‑Chat construction. In particular, the `hashEarliest{Sapling,Orchard}Root`, `hashLatest{Sapling,Orchard}Root`, and `n{Sapling,Orchard}TxCount` fields don't make sense in this context since they could only reflect the values in $\mathsf{ch}_i^t$, which have no relation in general to those for any subrange of transactions in $\mathsf{LOG}_{\mathrm{da},i}^t$. However, that problem occurs for unmodified Snap‑and‑Chat, and so is outside the scope of this note.
+Most of these rules are Proof‑of‑Work‑related checks that can be safely ignored at this level. Some are related to the `hashBlockCommitments` field intended for use by the FlyClient protocol. It is not at all clear how to make FlyClient (or other uses of this commitment) work with the Snap‑and‑Chat construction. In particular, the `hashEarliest{Sapling,Orchard}Root`, `hashLatest{Sapling,Orchard}Root`, and `n{Sapling,Orchard}TxCount` fields don’t make sense in this context since they could only reflect the values in $\ch_i^t$, which have no relation in general to those for any subrange of transactions in $\LOG_{\da,i}^t$. This problem occurs as a result of sanitization and so will be avoided by Crosslink 2, which does not need sanitization.
 ```
 
-Since $\mathsf{LOG}_{\mathrm{da},i}^t$ does not have blocks, it is not well-defined whether it has "coinbase-only blocks" when in Safety Mode. That by itself is not so much of a problem because it would be sufficient for it to have only coinbase transactions in that mode.
+Since $\LOG_{\da,i}^t$ does not have blocks, it is not well-defined whether it has “coinbase‑only blocks” when in Stalled Mode. That by itself is not so much of a problem because it would be sufficient for it to have only coinbase transactions in that mode.
 
 ### Effect on issuance
 
@@ -31,7 +31,7 @@ The issuance schedule of Zcash was designed under the assumption that blocks onl
 
 For Snap‑and‑Chat, if there is a rollback longer than $\sigma$ blocks in $\Pi_{\lc}$, additional coinbase transactions from the rolled-back chain will be included in $\LOG_{\fin}$.
 
-We can argue that this will happen rarely enough not to cause any significant problem for the overall issuance schedule. However, it does mean that issuance is less predictable, because the block subsidies will be computed according to their depth in the $\Pi_{\mathrm{lc}}$ chain on which they were mined. So it will no longer be the case that coinbase transactions issue a deterministic, non-increasing sequence of block subsidies.
+We can argue that this will happen rarely enough not to cause any significant problem for the overall issuance schedule. However, it does mean that issuance is less predictable, because the block subsidies will be computed according to their depth in the $\Pi_{\lc}$ chain on which they were mined. So it would no longer be the case that coinbase transactions issue a deterministic, non-increasing sequence of block subsidies. (Again, this problem will be avoided by Crosslink 2.)
 
 ### Effect on transaction ordering
 
@@ -54,13 +54,21 @@ There are two possible ways to interpret how $\LOG_{\{\fin,\da\}}$ are construct
 1. Concatenate the transactions from each final BFT block snapshot of an LC chain, and sanitize the resulting transaction sequence by including each transaction iff it is contextually valid.
 2. Concatenate the *blocks* from each final BFT block snapshot of an LC chain, remove duplicate *blocks*, and only then sanitize the resulting transaction sequence by including each transaction iff it is contextually valid.
 
-These are equivalent, but the argument for their equivalence is not obvious. We definitely want them to be equivalent: in practice there will be many duplicate blocks from chain prefixes in the input to sanitization, and so a literal implementation of the first variant would have to recheck all duplicate transactions for contextual validity. That would have at least $O(n^2)$ complexity (more likely $O(n^2 \log n)$) in the length $n$ of the block chain, because the length of each final snapshot grows with $n$.
+These are equivalent in the setting considered by [[NTT2020]](https://eprint.iacr.org/2020/1091.pdf), but the argument for their equivalence is not obvious. We definitely want them to be equivalent: in practice there will be many duplicate blocks from chain prefixes in the input to sanitization, and so a literal implementation of the first variant would have to recheck all duplicate transactions for contextual validity. That would have at least $O(n^2)$ complexity (more likely $O(n^2 \log n)$) in the length $n$ of the block chain, because the length of each final snapshot grows with $n$.
 
-The only reasons for a transaction to be contextually invalid are double-spends and missing inputs. The argument for equivalence is:
+Suppose that, in a particular $\Pi_{\lc}$, the only reasons for a transaction to be contextually invalid are double-spends and missing inputs. In that case the argument for equivalence is:
 * If a transaction is omitted due to a double-spend, then any subsequent time it is checked, that input will still have been double-spent.
 * If a transaction is omitted due to a missing input, this can only be because an earlier transaction in the input to sanitization was omitted. So the structure of omitted transactions forms a DAG in which parent links must be to *earlier* omitted transactions. The roots of the DAG are at double-spending transactions, which cannot be reinstated. A child cannot be reinstated until its parents have been reinstated. Therefore, no transactions are reinstated.
 
 Note that any *other* reason for transactions to be contextually invalid might interfere with this argument. Therefore, strictly speaking Snap‑and‑Chat should require of $\Pi_{\lc}$ that there is no such other reason. This does not seem to be explicitly stated anywhere in [[NTT2020]](https://eprint.iacr.org/2020/1091.pdf).
+
+```admonish warning "Zcash-specific"
+
+In Zcash a transaction can also be contextually invalid because it has expired, or because it has a missing anchor. Expiry can be handled by extending the above argument as follows:
+* If a transaction is omitted due to having expired, then any subsequent time it is checked, it will still be expired.
+
+It is not obvious how to extend it to handle missing anchors, because it *is* technically possible for a duplicate transaction that was invalid because of a missing anchor to *become* valid in a subsequent block. That situation would require careful manipulation of the commitment trees, but there does not seem to be anything preventing it from being provoked intentionally. The argument that was used above for missing inputs does not work here, because there is no corresponding DAG formed by the transactions with missing anchors: the same commitment treestate can be produced by two unrelated transactions.
+```
 
 ### Spending finalized outputs
 
@@ -88,13 +96,15 @@ Both in order to optimize the availability of applications that require finality
 
 Note that in Bitcoin-like consensus protocols, we don’t generally consider it to be an availability flaw that a block header only *commits* to the previous block hash and to the Merkle tree of transactions in the block, rather than including them directly. These commitments allow nodes to check that they have the correct information, which can then be requested separately.
 
-Suppose, then, that each block header in $\Pi_{\mathrm{lc}}$ commits to the latest final BFT block known by the $\Pi_{\mathrm{lc}}$ block producer. For a block header $H$, we will refer to this commitment as $\textsf{final-bft}(H)$. 
+Suppose, then, that each block header in $\Pi_{\lc}$ commits to the **L**ast **F**inal BFT block known by the $\Pi_{\lc}$ block producer. For an LC block chain with block $H$ at its tip, we will refer to this commitment as $\LF(H)$. We refer to the parent block of $H$ as $H \trunc_{\bc}^1$ (this is a special case of a notation that will be defined in [The Crosslink 2 Construction](./construction.md)).
 
-```admonish success "Consensus rule"
-We require, as a consensus rule, that if $H$ is not the genesis block header, then this BFT block either descends from or is the same as the final BFT block committed to by the $\Pi_{\mathrm{lc}}$ block's parent: i.e. $\textsf{final-bft}(\mathsf{parent}_{\mathrm{lc}}(H)) \preceq_{\mathrm{bft}} \textsf{final-bft}(H)$.
+```admonish success "Consensus rule: Extension"
+We require, as a consensus rule, that if $H$ is not the genesis block header, then this BFT block either descends from or is the same as the final BFT block committed to by the $\Pi_{\lc}$ block’s parent. <span style="white-space: nowrap">That is, $\LF(H \trunc_{\bc}^1) \preceq_{\bft} \LF(H)$.</span>
 ```
 
-This rule does not prevent the BFT chain from rolling back, if the security assumptions of $\Pi_{\mathrm{bft}}$ were violated. However, it means that if a node $i$ does not observe a rollback in $\Pi_{\mathrm{lc}}$ at confirmation depth $\sigma$, then it will also not observe any instability in $\mathsf{LOG}_{\mathrm{fin},i}$, *even if* the security assumptions of $\Pi_{\mathrm{bft}}$ are violated. This property holds **by construction**, and in fact regardless of $\Pi_{\mathrm{bft}}$.
+This Extension rule will be preserved into Crosslink 2.
+
+The Extension rule does not prevent the BFT chain from rolling back, if the security assumptions of $\Pi_{\bft}$ were violated. However, it means that if <span style="white-space: nowrap">a node $i$</span> does not observe a rollback in $\Pi_{\lc}$ at confirmation <span style="white-space: nowrap">depth $\sigma$,</span> then it will also not observe any instability <span style="white-space: nowrap">in $\LOG_{\fin,i}$,</span> *even if* the security assumptions of $\Pi_{\bft}$ are violated. This property holds **by construction**, and in fact regardless <span style="white-space: nowrap">of $\Pi_{\bft}$.</span>
 
 ```admonish info
 In the Snap‑and‑Chat construction, we also have BFT block proposals committing to $\Pi_{\lc}$ snapshots (top of right column of [[NTT2020](https://eprint.iacr.org/2020/1091.pdf), page 7]):
@@ -103,32 +113,36 @@ In the Snap‑and‑Chat construction, we also have BFT block proposals committi
 This does not cause any circularity, because each protocol only commits to *earlier* blocks of the other. In fact, BFT validators have to listen to transmission of $\Pi_{\lc}$ block headers anyway, so that *could* be also the protocol over which they get the information needed to make and broadcast their own signatures or proposals. (A possible reason not to broadcast individual signatures to all nodes is that with large numbers of validators, the proof that a sufficient proportion of validators/stake has signed can use an aggregate signature, which could be much smaller. Also, $\Pi_{\lc}$ nodes only need to know about *successful* BFT block proposals.)
 ```
 
-Now suppose that, in a Snap‑and‑Chat protocol, the BFT consensus finalizes a $\Pi_{\mathrm{lc}}$ snapshot that does not extend the snapshot in the previous block (which can happen if either $\Pi_{\mathrm{bft}}$ is unsafe, or $\Pi_{\mathrm{lc}}$ suffers a rollback longer than $\sigma$ blocks). In that case we will initially not be able to spend outputs from the old snapshot in the new chain. But eventually for some node $i$ that sees the header $H$ at the tip of its best chain at time $t$, $\textsf{final-bft}(H)$ will be such that from then on (i.e. at time $t' \geq t$), $\mathsf{LOG}_{\mathrm{fin},i}^{t'}$ includes the output that we want to spend. This assumes *liveness* of $\Pi_{\mathrm{lc}}$ and *safety* of $\Pi_{\mathrm{bft}}$.
+Now suppose that, in a Snap‑and‑Chat protocol, the BFT consensus finalizes a $\Pi_{\lc}$ snapshot that does not extend the snapshot in the previous block (which can happen if either $\Pi_{\bft}$ is unsafe, or $\Pi_{\lc}$ suffers a rollback longer than $\sigma$ blocks). In that case we will initially not be able to spend outputs from the old snapshot in the new chain. But eventually for some node $i$ that sees the header $H$ at the tip of its best chain at <span style="white-space: nowrap">time $t$,</span> $\LF(H)$ will be such that from then on (i.e. at <span style="white-space: nowrap">time $u \geq t$),</span> $\LOG_{\fin,i}^u$ includes the output that we want to spend. This assumes *liveness* of $\Pi_{\lc}$ and *safety* <span style="white-space: nowrap">of $\Pi_{\bft}$.</span>
 
-That is, including a reference to a recent final BFT block in  $\Pi_{\mathrm{lc}}$ block headers both incentivizes nodes to propagate this information, *and* can be used to solve the "spending finalized outputs" problem.
+That is, including a reference to a recent final BFT block in $\Pi_{\lc}$ block headers both incentivizes nodes to propagate this information, *and* can be used to solve the “spending finalized outputs” problem.
 
-Optionally, we could incentivize the block producer to include the latest information it has, for example by burning part of the block reward or by giving the producer some limited mining advantage that depends on how many $\Pi_{\mathrm{lc}}$ blocks back the finalization information is.
+Optionally, we could incentivize the block producer to include the latest information it has, for example by burning part of the block reward or by giving the producer some limited mining advantage that depends on how many $\Pi_{\lc}$ blocks back the finalization information is.
 
-This raises the question of how we measure how far ahead a given block is relative to the finalization information it provides. As we said before, $\mathsf{LOG}_{\mathrm{fin},i}^t$ is a sequence of transactions, not blocks. The transactions will in general be in a different order, and also some transactions from $\mathsf{ch}_i^t$ may have been omitted from $\mathsf{LOG}_{\mathrm{fin},i}^t$ (and even $\mathsf{LOG}_{\mathrm{da},i}^t$) because they were not contextually valid.
+This raises the question of how we measure how far ahead a given block is relative to the finalization information it provides. As we said before, $\LOG_{\fin,i}^t$ is a sequence of transactions, not blocks. The transactions will in general be in a different order, and also some transactions from $\ch_i^t$ may have been omitted from $\LOG_{\fin,i}^t$ (and even $\LOG_{\da,i}^t$) because they were not contextually valid.
 
-It turns out there *is* a good way to measure this. Assume that a block unambiguously specifies its ancestor chain. For a block $H$, define:$$
-\mathsf{tailhead}(H) := \textsf{last-common-ancestor}(\mathsf{snapshot}(\textsf{final-bft}(H)), H) \\
-\textsf{finality-depth}(H) := \mathsf{height}(H) - \mathsf{height}(\mathsf{tailhead}(H))
+```admonish info
+In [Crosslink 2](./construction.md), we will sidestep this problem by avoiding the need for sanitization — that is, $\LOG_{\fin,i}^t$ will correspond exactly to a chain of blocks that is a prefix of $\ch_i^t$. Actually we use the notation $\localfin_i^t$ to reflect the fact that it is a bc‑chain, not a sequence of bc‑transactions. This invariant is maintained statefully on each node $i$: any rollback past $\localfin_i^t$ will be ignored. If a new $\localfin_i^t$ would conflict with the old one, the node will refuse to use it. This allows each node to straightforwardly measure how many blocks $\ch_i^t$ is ahead of $\localfin_i^t$ as the difference in heights. Since this document is intended to explain the development of Crosslink from Snap‑and‑Chat, here we describe the more complicated approach that we originally came up with for Crosslink 1 — which also serves to motivate the simplification in Crosslink 2.
+```
+
+Assume that a block unambiguously specifies its ancestor chain. For a block $H$, define:$$
+\tailhead(H) := \lastcommonancestor(\snapshotlf{H}, H) \\
+\finalitydepth(H) := \height(H) - \height(\tailhead(H))
 $$
 
-Here $\textsf{final-bft}(H)$ is the BFT block we are providing information for, and $\mathsf{snapshot}(\textsf{final-bft}(H))$ is the corresponding $\Pi_{\mathrm{lc}}$ snapshot. For a node $i$ that sees $\textsf{final-bft}(H)$ as the most recent final BFT block at time $t$, $\mathsf{LOG}_{\mathrm{fin},i}^t$ will definitely contain transactions from blocks up to $\mathsf{tailhead}(H)$, but usually will not contain subsequent transactions on $H$'s fork.
+Here $\LF(H)$ is the BFT block we are providing information for, and $\snapshotlf{H}$ is the corresponding $\Pi_{\lc}$ snapshot. For a node $i$ that sees $\LF(H)$ as the most recent final BFT block at time $t$, $\LOG_{\fin,i}^t$ will definitely contain transactions from blocks up to $\tailhead(H)$, but usually will not contain subsequent transactions on $H$’s fork.
 
 ```admonish info
 Strictly speaking, it is possible that a previous BFT block took a snapshot $H'$ that is between $\tailhead(H)$ and $H$. This can only happen if there have been at least two rollbacks longer than $\sigma$ blocks (i.e. we went more than $\sigma$ blocks down $H$’s fork from $\tailhead(H)$, then reorged to more than $\sigma$ blocks down $\snapshotlf{H}$’s fork, then reorged again to $H$’s fork). In that case, the finalized ledger would already have the non-conflicting transactions from blocks between $\tailhead(H)$ and $H'$ — and it could be argued that the correct definition of finality depth in such cases is the depth of $H'$ relative to $H$, not of $\tailhead(H)$ relative to $H$.
 
 However,
 * The definition above is simpler and easier to compute.
-* The effect of overestimating the finality depth in such corner cases would only cause us to enforce Safety Mode slightly sooner, which seems fine (and even desirable) in any situation where there have been at least two rollbacks longer than $\sigma$ blocks.
+* The effect of overestimating the finality depth in such corner cases would only cause us to enforce Stalled Mode slightly sooner, which seems fine (and even desirable) in any situation where there have been at least two rollbacks longer than $\sigma$ blocks.
 
 By the way, the “tailhead” of a tailed animal is the area where the posterior of the tail joins the rump (also called the “dock” in some animals).
 ```
 
-We could alternatively just rely on the fact that some proportion of block producers are honest and will include the latest information they have. However, it turns out that having a definition of finality depth will also be useful to enforce going into Safety Mode.
+We could alternatively just rely on the fact that some proportion of block producers are honest and will include the latest information they have. However, it turns out that having a definition of finality depth will also be useful to enforce going into Stalled Mode.
 
 Specifically, if we accept the above definition of finality depth, then the security property we want is
 
@@ -146,7 +160,7 @@ In any case, if $\finalitydepth$ sometimes overestimates the depth, that cannot 
 
 Note that a node that is validating a chain $\ch_i^t$ must fetch all the chains referenced by BFT blocks reachable from it (back to an ancestor that it has seen before). In theory, there could be a partition that causes there to be multiple disjoint snapshots that get added to the BFT chain in quick succession. However, in practice we expect such long rollbacks to be rare if $\Pi_{\lc}$ is meeting its security goals.
 
-Going into Safety Mode if there is a long finalization stall helps to reduce the cost of validation when the stall resolves. That is, if there is a partition and nodes build on several long chains, then in unmodified Snap‑and‑Chat, it could be necessary to validate an arbitrary number of transactions on each chain when the stall resolves. Having only coinbase transactions after a certain point in each chain would significantly reduce the concrete validation costs in this situation.
+Going into Stalled Mode if there is a long finalization stall helps to reduce the cost of validation when the stall resolves. That is, if there is a partition and nodes build on several long chains, then in unmodified Snap‑and‑Chat, it could be necessary to validate an arbitrary number of transactions on each chain when the stall resolves. Having only coinbase transactions after a certain point in each chain would significantly reduce the concrete validation costs in this situation.
 
 Nodes should not simply trust that the BFT blocks are correct; they should check validator signatures (or aggregate signatures) and finalization rules. Similarly, $\Pi_{\lc}$ snapshots should not be trusted just because they are referenced by BFT blocks; they should be fully validated, including the proofs-of-work.
 
@@ -160,13 +174,13 @@ Note that [[NTT2020]](https://eprint.iacr.org/2020/1091.pdf) (bottom of right co
 We claim that, while this may be a reasonable assumption to make for parts of the security analysis, in practice we should always require any adversary to do the relevant amount of Proof‑of‑Work to construct block headers that are plausibly confirmed. This is useful even though we cannot require, for every possible attack, that it had those headers at the time they should originally have appeared.
 ```
 
-## Enforcing Finalization Availability and Safety Mode
+## Enforcing Finalization Availability and Stalled Mode
 
-The following idea for enforcing finalization availability *and* a bound on the finality gap was originally conceived before I had switched to advocating the Safety Mode approach. It's simpler to explain first in that variant; bear with me.
+The following idea for enforcing finalization availability *and* a bound on the finality gap was originally conceived before we had switched to advocating the Stalled Mode approach. It’s simpler to explain first in that variant.
 
 Suppose that for an <span style="white-space: nowrap">$L$-block availability bound,</span> we required each block header to include the information necessary for a node to finalize to <span style="white-space: nowrap">$L$ blocks back.</span> This would automatically enforce a chain stall after the availability bound without any further explicit check, because it would be impossible to produce a block after the bound.
 
-Note that if full nodes have access to the BFT chain, knowing $\textsf{final-bft}(H)$ is sufficient to tell whether the correct version of any given BFT block in $\textsf{final-bft}(H)$'s ancestor chain has been obtained.
+Note that if full nodes have access to the BFT chain, knowing $\LF(H)$ is sufficient to tell whether the correct version of any given BFT block in $\LF(H)$’s ancestor chain has been obtained.
 
 Suppose that the finality gap bound is <span style="white-space: nowrap">$L$ blocks.</span> Having already defined $\finalitydepth$, the necessary $\Pi_{\lc}$ consensus rule is attractively simple:
 
@@ -174,10 +188,10 @@ Suppose that the finality gap bound is <span style="white-space: nowrap">$L$ blo
 For every $\Pi_{\lc}$ block $H$, $\finalitydepth(H) \leq L$.
 ```
 
-To adapt this approach to enforce Safety Mode instead of stalling the chain, we can allow the alternative of producing a block that follows the Safety Mode restrictions:
+To adapt this approach to enforce Stalled Mode instead of stalling the chain, we can allow the alternative of producing a block that follows the Stalled Mode restrictions:
 
 ```admonish success "Consensus rule"
-For every $\Pi_{\mathrm{lc}}$ block $H$, <font color="blue">either</font> $\textsf{finality-depth}(H) \leq L$<font color="blue">, or $H$ follows the Safety Mode restrictions</font>.
+For every $\Pi_{\lc}$ block $H$, <font color="#4040f0">either</font> $\finalitydepth(H) \leq L$<font color="#4040f0">, or $H$ follows the Stalled Mode restrictions</font>.
 ```
 
 Note that Stalled Mode will be exited automatically as soon as the finalization point catches up to within $L$ blocks (if it does without an intentional rollback). Typically, after recovery from whatever was causing the finalization stall, the validators will be able to obtain consensus on the same chain as $\LOG_{\da}$, and so there will be no rollback (or at least not a long one) of $\LOG_{\da}$.

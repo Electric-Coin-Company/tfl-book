@@ -1,6 +1,11 @@
 # Potential Changes to Crosslink
 
-This page documents suggestions that have not had the same attention to security analysis as the [baseline Crosslink construction](./construction.md). Some of them are broken. Some of them also increase the complexity of the protocol (while some simplify it or have a mixed effect on complexity), and so we need to consider the security/complexity trade‑off of each suggestion before we could include it.
+This page documents suggestions that have not had the same attention to security analysis as the [Crosslink 2 construction](./construction.md). Some of them are broken. Some of them also increase the complexity of the protocol (while some simplify it or have a mixed effect on complexity), and so we need to consider the security/complexity trade‑off of each suggestion before we could include it.
+
+```admonish warning "This page is out-of-date"
+
+This page has not yet been updated for the changes from Crosslink 1 to Crosslink 2.
+```
 
 ## Attempts to improve safety or to simplify the protocol
 
@@ -30,7 +35,7 @@ We could instead require the score of $\tip(B) = B\dot\headersbc[\sigma-1]$ to i
 
 Pros:
 * This more directly reflects the fork‑choice rule in $\Pi_{\bc}$.
-* In baseline Crosslink, an [honest bft-proposer](./construction.md#%CE%A0bft-honest-proposal) uses its bc‑best‑chain tip with the highest score *provided that* it is consistent with the **Increasing Snapshot Score rule**. This change removes the caveat, simplifying honest bft‑proposer behaviour.
+* In Crosslink 1, an [honest bft‑proposer](./construction.md#%CE%A0bft-honest-proposal) uses its bc‑best‑chain tip with the highest score *provided that* it is consistent with the **Increasing Snapshot Score rule**. This change removes the caveat, simplifying honest bft‑proposer behaviour.
 * As a result of removing that caveat, we always know about an honest bft‑proposer’s bc‑best‑chain.
 
 Con:
@@ -42,6 +47,8 @@ Apart from the above con, the original motivations for the **Increasing Snapsho
 * it still limits the extent of disruption an adversary can feasibly cause to $\LOG_{\bda}}$;
 * it still always allows a proposal to be made, which may be needed to preserve liveness of $\Pi_{\bft}$ relative to $\Pi_{\origbft}$;
 * it still prevents potential validation cost DoS attacks due to switching between snapshots with the same score.
+
+If we switch to using the Increasing Tip Score rule, then it would be more consistent for block producers to also change the tie‑breaking rule for choosing $\contextbft$ to use the tip score, <span style="white-space: nowrap">i.e. $\score(\tip(\bftlastfinal(C)))$.</span>
 
 A variation on this suggestion effectively keeps both the **Increasing Snapshot Score rule** and the **Increasing Tip Score rule**:
 
@@ -55,7 +62,7 @@ This variation does not simplify honest bft‑proposer behaviour.
 
 Basic idea: Detect the case where the bc‑snapshot is rolling back, and impose a longer confirmation depth to switch to the new bc‑chain. Also temporarily stall finalization of the existing bc‑chain until the conflict has been resolved.
 
-Let $\mathsf{baseline\_snapshot}$ be the baseline Crosslink definition of $\mathsf{snapshot}$, i.e. $$
+Let $\mathsf{baseline\_snapshot}$ be the Crosslink 1 definition of $\snapshot$, i.e. $$
 \mathsf{baseline\_snapshot}(B) = \begin{cases}
   \Origin_{\bc},&\text{if } B\dot\headersbc = \null \\
   B\dot\headersbc[0] \trunc_{\bc}^1,&\text{otherwise.}
@@ -64,10 +71,10 @@ $$
 
 When $\snapshot(B \trunc_{\bft}^1) \;{\not\preceq}_{\bc}\; \mathsf{baseline\_snapshot}(B)$, we want to go into a mode where we require a longer confirmation <span style="white-space: nowrap">depth $\Sigma$,</span> <span style="white-space: nowrap">say $2\sigma$.</span> Because we don’t know in this situation whether the old bc‑chain or the new bc‑chain will win, we stop finalizing both until a winner is clear.
 
-The simplest option is to record the state saying that we are in this mode explicitly, and add a consensus rule requiring it to be correct. That is, add an $\mathsf{bc\_is\_forked}$ field to bft‑proposals and bft‑blocks, and add a bft‑proposal and bft‑block validity rule as follows:
+The simplest option is to record the state saying that we are in this mode explicitly, and add a consensus rule requiring it to be correct. That is, add an $\bcisforked$ field to bft‑proposals and bft‑blocks, and add a bft‑proposal and bft‑block validity rule as follows:
 
 * **Is Forked rule:**
-  $B\mathsf{.bc\_is\_forked} = (\mathsf{enter\_forked}(B)$ or $B \lceil_{\mathrm{bft}}^1\mathsf{.bc\_is\_forked})$ and not $\mathsf{exit\_forked}(B)$
+  $B\dot\bcisforked = (\mathsf{enter\_forked}(B)$ or $B \trunc_{\bft}^1\dot\bcisforked)$ and not $\mathsf{exit\_forked}(B)$
 
 where:
 * $\mathsf{enter\_forked}(B) := \snapshot(B \trunc_{\bft}^1) \;{\not\preceq}_{\bc}\; \mathsf{baseline\_snapshot}(B)$
@@ -147,7 +154,7 @@ Note that this rule is really quite constraining for a potential adversary, espe
 
 ### [Broken] Adjusting the last snapshot definition
 
-The current Crosslink design imposes a finalization latency of at least <span style="white-space: nowrap">$2\sigma + 1$ block times.</span> Intuitively, this is because in $$
+The Crosslink 1 design imposes a finalization latency of at least <span style="white-space: nowrap">$2\sigma + 1$ block times.</span> Intuitively, this is because in $$
 \fin(H) := [\snapshot(B) \text{ for } B \preceq_{\bft} \bftlastfinal(H \trunc_{\bc}^\sigma\dot\contextbft)],
 $$ $\snapshot(\bftlastfinal(H \trunc_{\bc}^\sigma\dot\contextbft))$ is at least <span style="white-space: nowrap">$\sigma+1$ blocks</span> back <span style="white-space: nowrap">from $H \trunc_{\bc}^\sigma$</span> (as argued in [Questions about Crosslink 1](./questions.md#Why-don%E2%80%99t-we-have-a-bc-block-validity-rule-snapshotfinal-bftH-%E2%AA%AFbc-H-)), and therefore <span style="white-space: nowrap">$2\sigma+1$ blocks</span> back <span style="white-space: nowrap">from $H$.</span> So the total finalization latency is <span style="white-space: nowrap">$\sigma$ block times + BFT overhead + $(\sigma + 1)$ block times + snapshot overhead.</span>
 
@@ -174,7 +181,7 @@ Pros:
 
 Cons:
 * $\LOG_{\opt}}$ is *not* dynamically available in any sense. It just has lower latency and different security characteristics.
-* Even under optimistic conditions, $\mathsf{LOG}_{\mathrm{opt}}$ will lag slightly behind where it would be for the original Crosslink design, because $H \lceil_{\mathrm{bc}}^\sigma$ will necessarily be ahead of <span style="white-space: nowrap">$\mathsf{tip}(\mathsf{LF}(H \lceil_{\mathrm{bc}}^\sigma))$.</span>
+* Even under optimistic conditions, $\LOG_{\opt}}$ will lag slightly behind where it would be for the Crosslink 1 design, because $H \trunc_{\bc}^\sigma$ will necessarily be ahead of <span style="white-space: nowrap">$\tip(\LF(H \trunc_{\bc}^\sigma))$.</span>
 
 ### [Broken] Using snapshots from the last‑seen bft‑chain when it is consistent with the bc‑best‑chain
 
@@ -188,11 +195,11 @@ We have two potential sources of information about blocks that could plausibly b
 We cannot rely only on 1. because we want assured finalization even under partition.
 We cannot rely only on 2. because if $\Pi_{\bft}$ has been subverted, then the chain of final bft‑blocks could fork.
 
-But intuitively, if we combine these sources of information, using them over the baseline Crosslink finalization only when they are consistent, the resulting protocol should still be as safe as the safer of $\Pi_{\mathrm{bft}}$ <span style="white-space: nowrap">and $\Pi_{\mathrm{bc}}$.</span> In particular, 2. will not roll back *unless* $\Pi_{\mathrm{bft}}$ has been subverted.
+But intuitively, if we combine these sources of information, using them over the Crosslink 1 finalization only when they are consistent, the resulting protocol should still be as safe as the safer of $\Pi_{\bft}$ <span style="white-space: nowrap">and $\Pi_{\bc}$.</span> In particular, 2. will not roll back *unless* $\Pi_{\bft}$ has been subverted.
 
 If this idea were to pan out, it could improve the latency of finalization by <span style="white-space: nowrap">$\sigma$ block times.</span>
 
-This approach is essentially a hybrid of Snap‑and‑Chat and Crosslink:
+This approach is essentially a hybrid of Snap‑and‑Chat and Crosslink 1:
 * the Snap‑and‑Chat construction gives a finalized ledger under the assumption that $\Pi_{\bft}$ has not been subverted;
 * the main crosslink idea is used to make sure that outputs from all finalized transactions are *eventually* spendable;
 * safety is still only dependent on the stronger of the safety of $\Pi_{\bft}$ <span style="white-space: nowrap">and $\Pi_{\bc}$,</span> because we use the additional information from snapshots in final bft‑blocks only up to the point at which they agree with the best confirmed bc‑block.
@@ -227,7 +234,7 @@ H \trunc_{\bc}^\sigma, &\text{if } \snapshotlf{H \trunc_{\bc}^\sigma} \preceq_{\
 
 ## What about making the bc‑block‑producer the bft‑proposer?
 
-The answer given for this question at [The Crosslink Construction](./construction.md#%CE%A0bft-proposal-and-block-validity) is:
+The answer given for this question at [The Crosslink 2 Construction](./construction.md#%CE%A0bft-proposal-and-block-validity) is:
 > If this were enforced, it could be an alternative way of ensuring that every bft‑proposal snapshots a new bc‑block with a higher score than previous snapshots, potentially making the **Increasing Score rule** redundant. However, it would require merging bc‑block‑producers and bft‑proposers, which could have concerning knock‑on effects (such as concentrating security into fewer participants).
 
 This may have been too hasty. It is not clear that merging bc‑block‑producers and bft‑proposers actually does “concentrate security into fewer participants” in a way that can have any harmful effect.
@@ -290,7 +297,7 @@ If the arguments in [[DKT2021]](https://arxiv.org/pdf/2010.08154.pdf) about the 
 
 Building on the previous idea, we can try to eliminate the explicit bft‑chain by piggybacking the information it would hold onto a bc‑block (in the header and/or the block contents). In the previous section we merged the concepts of a bft‑proposal and a bc‑block; the $\mathsf{parent}_{\bft}(P)$ and <span style="white-space: nowrap">$P\dot\contextbft$ fields</span> of a bft‑proposal were moved into the $H\dot\mathsf{parent\_bft}$ and <span style="white-space: nowrap">$H\dot\contextbft$ fields</span> of a bc‑header respectively. <span style="white-space: nowrap">A field $H\dot\mathsf{pubkey}$</span> was also added to hold the producer’s public key, so that the producer can sign the bft‑block constructed from it using the corresponding private key.
 
-This left the concept of a bft‑block intact. Recall that in baseline Crosslink, a <span style="white-space: nowrap">bft‑block $B$</span> consists of $(P, \mathsf{proof}_P)$ signed by the proposer. So in "Crosslink with proposer = producer", a bft‑block consists of $(H, \mathsf{proof}_H)$ signed by the producer.
+This left the concept of a bft‑block intact. Recall that in Crosslink 1, a <span style="white-space: nowrap">bft‑block $B$</span> consists of $(P, \proof_P)$ signed by the proposer. So in “Crosslink with proposer = producer”, a bft‑block consists of $(H, \proof_H)$ signed by the producer.
 
 What if a <span style="white-space: nowrap">bc‑block $H$</span> were to “inline” its parent and context bft‑blocks rather than referring to them? <span style="white-space: nowrap">I.e. a bc‑block $H$</span> with $H\dot\mathsf{parent\_bft}$ *referring to* <span style="white-space: nowrap">$(H', \proof_{H'})$ signed for $H'\dot\mathsf{pubkey}$,</span> would instead <span style="white-space: nowrap">*literally include*</span> (either in the header or the coinbase transaction) $(H', \proof_{H'})$ signed <span style="white-space: nowrap">for $H'\dot\mathsf{pubkey}$ —</span> and similarly <span style="white-space: nowrap">for $H\dot\contextbft$.</span>
 
@@ -309,3 +316,56 @@ Pros:
 Con:
 * Additional complexity of the variable-length overflow mechanism suggested above, if it is used.
 * Assumes that notarization proofs are not too large.
+
+## Linearity and Last Final Snapshot rules
+
+A potential simplification can be obtained by combining the following two ideas:
+* Str4d suggested that the snapshot of each bft‑block should descend from the snapshot of its parent bft‑block.
+* Nate suggested that each bc‑block $H$ should descend from $\snapshotlf{H}$.
+
+Str4d’s suggestion can be written as:
+
+**Linearity rule:** $\snapshot(B \trunc_{\bft}^1) \preceq_{\bc} \snapshot(B)$.
+
+Notice that this implies the existing **Increasing Score rule** in Crosslink 1, because score necessarily increases within a bc‑valid‑chain. Therefore it would in practice be a replacement for the **Increasing Score rule**. It does not imply the **Increasing Tip Score rule** discussed [above](#changing-the-increasing-score-rule-to-require-the-score-of-the-tip-rather-than-the-score-of-the-snapshot-to-increase), and in fact it could make sense to enforce both the [**Linearity rule**](#linearity-rule) and the **Increasing Tip Score rule**.
+
+The [**Linearity rule**](#linearity-rule) implies that it is no longer possible for a bft‑valid‑chain to snapshot a bc‑chain that rolls back relative to the previous snapshot. This makes it unnecessary to sanitize $\mathsf{LOG_{fin}}$: the sequence of snapshots considered by $\textsf{san-ctx}$ is linear, and so the “sanitization” would just return the transactions in the last snapshot.
+
+To remove the need to sanitize $\mathsf{LOG_{bda}}$ as well, we need a further modification to $\Pi_{\bc}$. Recall that in Crosslink 1 we define: $$
+\begin{array}{rcl}
+\fin(H) &:=& [\snapshot(B) \text{ for } B \preceq_{\bft} \LF(H \trunc_{\bc}^\sigma)] \\
+\textsf{bda-ctx}(H, \mu) &:=& \textsf{san-ctx}(\fin(H) \,||\, [H \trunc_{\bc}^\mu]).
+\end{array}
+$$
+The [**Linearity rule**](#linearity-rule) ensures that $\fin(H)$ is a linear sequence of snapshots, but for $\fin(H) \,||\, [H \trunc_{\bc}^\mu]$ to be linear, we also need $\mathsf{last}(\fin(H)) = \snapshotlf{H \trunc_{\bc}^\sigma} \preceq_{\bc} H \trunc_{\bc}^\mu$. In order for this to hold for any choice of $\mu$ with $0 \leq \mu \leq \sigma$, we require the strongest version of this condition with $\mu = \sigma$, i.e. $\snapshotlf{H \trunc_{\bc}^\sigma} \preceq_{\bc} H \trunc_{\bc}^\sigma$.
+
+Since we can only enforce that this holds for $H \trunc_{\bc}^\sigma$ by enforcing that it holds for an arbitrary bc‑valid‑block $H$, the rule becomes:
+
+**Last Final Snapshot rule:** $\snapshotlf{H} \preceq_{\bc} H$.
+
+This is exactly Nate’s suggestion discussed in [Questions about Crosslink](questions.html). In that document we argued against this rule, but that argument was made in the context of a protocol without the [**Linearity rule**](./construction.md##linearity-rule) (and originally, even without the **Increasing Score rule**).
+
+Combining the [**Linearity rule**](./construction.md#linearity-rule) and [**Last Final Snapshot rule**](./construction.md#last-final-snapshot-rule), on the other hand, completely eliminates the need for sanitization. This could be a huge simplification — and potentially safer, since it would avoid breaking assumptions that may be made by existing Zcash node implementations and other consumers of the Zcash block chain.
+
+To spell out the resulting simplifications to the definitions of $\LOG^t_{\fin,i}$ and $\LOG^t_{\bda,\mu,i}$, we would just have: $$
+\begin{array}{rcl}
+\LOG_{\fin,i}^t &:=& \snapshotlf{\ch_i^t \trunc_{\bc}^\sigma} \\
+\LOG_{\bda,\mu,i}^t &:=& \ch_i^t \trunc_{\bc}^\mu
+\end{array}
+$$
+
+Here it is no longer necessary to define $\LOG^t_{\fin,i}$ and $\LOG^t_{\bda,\mu,i}$ as sequences of transactions, since the final and bounded-available chains are both just bc‑valid‑chains.
+
+The definition of $\finalitydepth$ in the [**Finality depth rule**](./construction.md#finality-depth-rule) becomes much simpler: $$
+\finalitydepth(H) := \height(H) - \height(\snapshotlf{H \trunc_{\bc}^\sigma})
+$$ As before, either $\finalitydepth(H) \leq L$ or <span style="white-space: nowrap">$\isstalledblock(H)$.</span>
+
+Avoiding sanitization also means that the bug we described in Snap‑and‑Chat, that could prevent spending outputs from a snapshotted chain after a <span style="white-space: nowrap">$\sigma$-block</span> rollback, cannot occur by construction. That is, the changes in [$\Pi_{\bc}$ contexual validity](./construction.md#Πbc-contextual-validity) relative to $\Pi_{\origbc}$ are not needed any more.
+
+This almost seems too simple, and indeed we should be skeptical, because the security analysis essentially has to be redone. The reason why Snap‑and‑Chat didn’t take this approach is that it requires a more complicated argument to show that it is reasonable to believe in the safety assumptions of $\Pi_{\bc}$ whenever it is reasonable to believe in the corresponding assumptions for $\Pi_{\origbc}$. This is because the ... We will need to do some work to show that the changes are benign.
+
+### Security Analysis
+
+The key observation needed for this analysis is that neither the [**Linearity rule**](#linearity-rule) nor the **Last Final Snapshot rule** affect the evolution of $\Pi_{\bc}$ *unless* we are in a situation where its **Prefix Consistency** or **Prefix Agreement** properties would be violated.
+
+This implies that any safety property that we can prove given **Prefix Consistency** plus ****.

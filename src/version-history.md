@@ -1,5 +1,9 @@
 # Version History
 
+## 0.2.0 - Crosslink 2
+
+This version updated the [Crosslink construction](./design/crosslink/construction.md) and its [security analysis](./design/crosslink/security-analysis.md) to version 2.
+
 ## 0.1.0 - Introducing Crosslink
 
 [Issue Tracking](https://github.com/Electric-Coin-Company/tfl-book/milestone/1?closed=1)

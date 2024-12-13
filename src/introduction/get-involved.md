@@ -6,11 +6,11 @@ There are a variety of ways to contribute to this project:
 
 ## GitHub
 
-If you have a GitHub account, you can get hands-on via [the GitHub repository](https://github.com/nathan-at-least/tfl-book) for this book, including:
+If you have a GitHub account, you can get hands-on via [the GitHub repository](https://github.com/Electric-Coin-Company/tfl-book) for this book, including:
 
-- [Ask a Question](https://github.com/nathan-at-least/tfl-book/issues/new?assignees=nathan-at-least&labels=question&projects=&template=question.yml) - all questions welcome from basics to in-depth.
-- [Suggest an Improvement](https://github.com/nathan-at-least/tfl-book/issues/new?assignees=nathan-at-least&labels=improvement&projects=&template=improvement.yml) to the content: anything from typo fixes to major design change proposals.
-- [Report Rendering / Infrastructure Issues](https://github.com/nathan-at-least/tfl-book/issues/new?assignees=nathan-at-least&labels=infrastructure&projects=&template=infrastructure.yml) in case you're having trouble reading the content, viewing diagrams, rendering on your own computer, etc…
+- [Ask a Question](https://github.com/Electric-Coin-Company/tfl-book/issues/new?labels=question&projects=&template=question.yml) - all questions welcome from basics to in-depth.
+- [Suggest an Improvement](https://github.com/Electric-Coin-Company/tfl-book/issues/new?labels=improvement&projects=&template=improvement.yml) to the content: anything from typo fixes to major design change proposals.
+- [Report Rendering / Infrastructure Issues](https://github.com/Electric-Coin-Company/tfl-book/issues/new?labels=infrastructure&projects=&template=infrastructure.yml) in case you're having trouble reading the content, viewing diagrams, rendering on your own computer, etc…
 
 ## Zcash Forum
 
