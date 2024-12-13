@@ -7,22 +7,22 @@ This document analyses the security of Crosslink in terms of liveness and safety
 First note that Crosslink *intentionally* sacrifices **availability** if there is a long finalization stall.
 
 ```admonish info
-This is technically independent of the other changes; you can omit the **Finality depth rule** and the protocol would still have security advantages over Snap‑and‑Chat, as well as solving its "spending from finalized outputs" issue. In that case the incentives to "pull" the finalization point forward to include new final bft‑blocks would be weaker, but honest bc‑block‑producers would still do it.
+This is technically independent of the other changes; you can omit the [**Finality depth rule**](./construction.md#finality-depth-rule) and the protocol would still have security advantages over Snap‑and‑Chat, as well as being much simpler and solving its “spending from finalized outputs” issue. In that case the incentives to “pull” the finalization point forward to include new final bft‑blocks would be weaker, but honest bc‑block‑producers would still do it.
 ```
 
-It would still be a bug if there were any situation in which $\Pi_{\mathrm{bc}}$ failed to be **live**, though, because that would allow tail‑thrashing attacks.
+It would still be a bug if there were any situation in which $\Pi_{\bc}$ failed to be **live**, though, because that would allow [tail‑thrashing attacks](./the-arguments-for-bounded-availability-and-finality-overrides.md#tail-thrashing-attacks).
 
 Crosslink involves a bidirectional dependence between $\Pi_{\mathsf{bft}}$ and $\Pi_{\mathsf{bc}}$. The Ebb‑and‑Flow paper [[NTT2020]](https://eprint.iacr.org/2020/1091.pdf) argues in Appendix E ("Bouncing Attack on Casper FFG") that it can be more difficult to reason about liveness given a bidirectional dependence between protocols:
 
-> To ensure consistency among the two tiers [of Casper FFG], the fork choice rule of the blockchain is modified to always respect ‘the justified checkpoint of the greatest height [*]’ [[22]](https://arxiv.org/abs/1710.09437). There is thus a bidirectional interaction between the block proposal and the finalization layer: blocks proposed by the blockchain are input to finalization, while justified checkpoints constrain future block proposals. This bidirectional interaction is intricate to reason about and a gateway for liveness attacks.
+> To ensure consistency among the two tiers [of Casper FFG], the fork choice rule of the blockchain is modified to always respect ‘the justified checkpoint of the greatest <span style="white-space: nowrap">height [*]’ [[22]](https://arxiv.org/abs/1710.09437).</span> There is thus a bidirectional interaction between the block proposal and the finalization layer: blocks proposed by the blockchain are input to finalization, while justified checkpoints constrain future block proposals. This bidirectional interaction is intricate to reason about and a gateway for liveness attacks.
 
 ```admonish info
-[*] The quotation changes this to "[depth]", but our terminology is consistent with Ethereum here and not with [NTT2020]'s idiosyncratic use of "depth" to mean "block height".
+[*] The quotation changes this to “[depth]”, but our terminology is consistent with Ethereum here and not with [NTT2020]’s idiosyncratic use of “depth” to mean “block height”.
 ```
 
 The argument is correct as far as it goes. The main reason why this does not present any great difficulty to proving liveness of Crosslink, is due to a fundamental difference from Casper FFG: in Crosslink the fork‑choice rule of $\Pi_{\mathrm{bc}}$ is not modified.
 
-Let $\mathcal{S}$ be the subset of bc‑blocks $\{ B : \textsf{is-coinbase-only-block}(B) \text{ and } \textsf{is-safety-block}(B) \}$. Assume that $\mathcal{S}$ is such that a bc‑block‑producer can always produce a block in $\mathcal{S}$.
+Let $\mathcal{S}$ be the subset of bc‑blocks $\{ B : \iscoinbaseonlyblock(B) \text{ and } \isstalledblock(B) \}$. Assume that $\mathcal{S}$ is such that a bc‑block‑producer can always produce a block in $\mathcal{S}$.
 
 In that case it is straightforward to convince ourselves that the additional bc‑block‑validity rules are never an obstacle to producing a new bc‑block in $\mathcal{S}$:
   * The changes to the definition of contextual validity do not interfere with liveness, since they do not affect coinbase transactions, and therefore do not affect blocks in $\mathcal{S}$. That is, the bc‑block‑producer can always just omit non‑coinbase transactions that are contextually invalid.
@@ -30,7 +30,7 @@ In that case it is straightforward to convince ourselves that the additional bc�
   * The **Valid context rule** and **Extension rule** are always satisfiable by referencing the same context bft‑block as the parent bc‑block.
   * The **Finality depth rule** always allows the option of producing a safety block, and therefore does not affect blocks in $\mathcal{S}$.
 
-The instructions to an honest bc‑block‑producer allow it to produce a block in $\mathcal{S}$. Therefore, $\Pi_{\mathrm{bc}}$ remains live under the same conditions as $\Pi_{\mathrm{origbc}}$.
+The instructions to an honest bc‑block‑producer allow it to produce a block in $\mathcal{S}$. Therefore, $\Pi_{\bc}$ remains live under the same conditions as $\Pi_{\origbc}$.
 
 The additional bft‑proposal‑validity, bft‑block‑validity, bft‑finality, and honest voting rules are also not an obstacle to making, voting for, or finalizing bft‑proposals:
 
@@ -55,27 +55,29 @@ Finally, we need to show that Safety Mode is only triggered when it should be; t
 
 The **Extension rule** ensures that, informally, if a given node $i$'s view of its bc‑best‑chain at a depth of $\sigma$ blocks does not roll back, then neither does its view of the bft‑final block referenced by its bc‑best‑chain, and therefore neither does its view of $\mathsf{LOG}_{\mathrm{fin},i}^t$.
 
-This does *not* by itself imply that all nodes are seeing the "same" confirmed bc‑best‑chain (up to propagation timing), or the same $\mathsf{LOG}_{\mathrm{fin},i}^t$. If the network is partitioned *and* $\Pi_{\mathrm{bft}}$ is subverted, it could be that the nodes on each side of the partition follow a different fork, and the adversary arranges for each node's view of the last final bft‑block to be consistent with the fork it is on. It can potentially do this if it has more than one third of validators, because if the validators are partitioned in the same way as other nodes, it can vote with an additional one third of them on each side of the fork.
+This does *not* by itself imply that all nodes are seeing the “same” confirmed bc‑best‑chain (up to propagation timing), or the same $\LOG_{\fin,i}^t$. If the network is partitioned *and* $\Pi_{\bft}$ is subverted, it could be that the nodes on each side of the partition follow a different fork, and the adversary arranges for each node’s view of the last final bft‑block to be consistent with the fork it is on. It can potentially do this if it has more than one third of validators, because if the validators are partitioned in the same way as other nodes, it can vote with an additional one third of them on each side of the fork.
 
-This is, if you think about it, unavoidable. $\Pi_{\mathrm{bc}}$ doesn't include the mechanisms needed to maintain finality under partition; it takes a different position on the CAP trilemma. In order to maintain finality under partition, we need $\Pi_{\mathrm{bft}}$ not to be subverted (and to actually work!)
+This is, if you think about it, unavoidable. $\Pi_{\bc}$ doesn’t include the mechanisms needed to maintain finality under partition; it takes a different position on the CAP trilemma. In order to maintain finality under partition, we need $\Pi_{\bft}$ not to be subverted (and to actually work!)
 
-So what is the strongest security property we can realistically get? It is stronger than what Snap‑and‑Chat provides. Snap‑and‑Chat is unsafe *even without a partition* if $\Pi_{\mathrm{bft}}$ is subverted. Ideally we would have a protocol with safety that is *only* limited by attacks "like" the unavoidable attack described above --- which also applies to $\Pi_{\mathrm{bc}}$ used on its own.
+So what is the strongest security property we can realistically get? It is stronger than what Snap‑and‑Chat provides. Snap‑and‑Chat is unsafe *even without a partition* if $\Pi_{\bft}$ is subverted. Ideally we would have a protocol with safety that is *only* limited by attacks “like” the unavoidable attack described above — which also applies to $\Pi_{\bc}$ used on its own.
 
 ### Proof of safety for LOG<sub>fin</sub>
 
-In order to capture the intuition that it is hard in practice to cause a consistent partition of the kind described in the previous section, we will need to assume that the [**Prefix Agreement**](./construction.md#admonition-definition-prefix-agreement) safety property holds for the relevant executions of $\Pi_{\mathrm{bc}}$. The structural and consensus modifications to $\Pi_{\mathrm{bc}}$ relative to $\Pi_{\mathrm{origbc}}$ seem unlikely to have any significant effect on this property, given that we proved above that they do not affect liveness. ==TODO: that is a handwave; we should be able to do better, as we do for $\Pi_{\mathrm{bft}}$ below.== So, to the extent that it is reasonable to assume that [**Prefix Agreement**](./construction.md#admonition-definition-prefix-agreement) holds for executions of $\Pi_{\mathrm{origbc}}$ under some conditions, it should also be reasonable to assume it holds for executions of $\Pi_{\mathrm{bc}}$ under the same conditions.
+In order to capture the intuition that it is hard in practice to cause a consistent partition of the kind described in the previous section, we will need to assume that the [**Prefix Agreement**](./construction.md#prefix-agreement) safety property holds for the relevant executions of $\Pi_{\bc}$. The structural and consensus modifications to $\Pi_{\bc}$ relative to $\Pi_{\origbc}$ seem unlikely to have any significant effect on this property, given that we proved above that they do not affect liveness. ==TODO: that is a handwave; we should be able to do better, as we do for $\Pi_{\bft}$ below.== So, to the extent that it is reasonable to assume that [**Prefix Agreement**](./construction.md#prefix-agreement) holds for executions of $\Pi_{\origbc}$ under some conditions, it should also be reasonable to assume it holds for executions of $\Pi_{\bc}$ under the same conditions.
 
-Recall that $\mathsf{LF}(H) := \textsf{bft-last-final}(H\mathsf{.context\_bft})$.
+Recall that $\LF(H) := \bftlastfinal(H\dot\contextbft)$.
 
-```admonish success "Prefix Lemma"
-If $H_1$, $H_2$ are bc‑valid blocks with $H_1 \preceq_{\mathrm{bc}} H_2$, then $\mathsf{LF}(H_1) \preceq_{\mathrm{bft}} \mathsf{LF}(H_2)$.
+<span id="prefix-lemma"></span>
+```admonish success "Prefix Lemma"
+If $H_1$, $H_2$ are bc‑valid blocks with $H_1 \preceq_{\bc} H_2$, then $\LF(H_1) \preceq_{\bft} \LF(H_2)$.
 
-Proof: Using the **Extension rule**, by induction on the distance between $H_1$ and $H_2$.
+Proof: Using the **Extension rule**, by induction on the distance between $H_1$ and $H_2$.
 ```
 
-Using the **Prefix Lemma** once for each direction, we can transfer the [**Prefix Agreement**](./construction.md#admonition-definition-prefix-agreement) property to the referenced bft‑blocks:
+Using the **Prefix Lemma** once for each direction, we can transfer the [**Prefix Agreement**](./construction.md#prefix-agreement) property to the referenced bft‑blocks:
 
-```admonish success "Prefix Agreement Lemma"
+<span id="prefix-agreement-lemma"></span>
+```admonish success "Prefix Agreement Lemma"
 In an execution of $\Pi_{\mathrm{bc}}$ that has [**Prefix Agreement**](./construction.md#admonition-definition-prefix-agreement) at confirmation <span style="white-space: nowrap">depth $\sigma$,</span> <span style="white-space: nowrap">for all times $t$, $t'$</span> and <span style="white-space: nowrap">all nodes $i$, $j$</span> (potentially the same) such that <span style="white-space: nowrap">$i$ is honest</span> at <span style="white-space: nowrap">time $t$</span> and <span style="white-space: nowrap">$j$ is honest</span> at <span style="white-space: nowrap">time $t'$,</span> we have <span style="white-space: nowrap">$\mathsf{LF}(\mathsf{ch}_i^t \lceil_{\mathrm{bc}}^\sigma) \preceq\hspace{-0.5em}\succeq_{\mathrm{bft}} \mathsf{LF}(\mathsf{ch}_j^{t'} \lceil_{\mathrm{bc}}^\sigma)$.</span>
 ```
 
@@ -83,7 +85,7 @@ In an execution of $\Pi_{\mathrm{bc}}$ that has [**Prefix Agreement**](./constru
 
 Recall that $$
 \begin{array}{rcl}
-\textsf{san-ctx} &::& [\textsf{bc-chain}] \to \textsf{bc-context} \\
+\textsf{san-ctx} &\typecolon& [\bcchain] \to \textsf{bc-context} \\
 \textsf{san-ctx}(S) &:=& \mathsf{sanitize}(\mathsf{concat}([\textsf{chain-txns}(C) \text{ for } C \text{ in } S])) \\
 \mathsf{LF}(H) &:=& \textsf{bft-last-final}(H\mathsf{.context\_bft}) \\
 \textsf{fin} &::& \textsf{bc-block} \to [\textsf{bc-chain}] \\
@@ -95,35 +97,35 @@ Recall that $$
 \end{array}
 $$
 
-Because $\mathsf{fin}$ takes the form <span style="white-space: nowrap">$\mathsf{fin}(H) := [f(X) \text{ for } X \preceq_{\mathrm{bft}} g(H)]$,</span> we have that <span style="white-space: nowrap">$g(H) \preceq_{\mathrm{bft}} g(H') \implies \mathsf{fin}(H) \preceq \mathsf{fin}(H')$.</span> (This would be true for any well‑typed <span style="white-space: nowrap">$f$ and $g$.)</span>
+Because $\fin$ takes the form <span style="white-space: nowrap">$\fin(H) := [f(X) \text{ for } X \preceq_{\bft} g(H)]$,</span> we have that <span style="white-space: nowrap">$g(H) \preceq_{\bft} g(H') \implies \fin(H) \preceq \fin(H')$.</span> (This would be true for any well‑typed <span style="white-space: nowrap">$f$ and $g$.)</span>
 
 By this observation and the **Prefix Agreement Lemma**, we also have that, in an execution of Crosslink where $\Pi_{\mathrm{bc}}$ has the [**Prefix Agreement**](./construction.md#admonition-definition-prefix-agreement) safety property at confirmation depth <span style="white-space: nowrap">$\sigma$,</span> <span style="white-space: nowrap">for all times $t$, $t'$</span> and <span style="white-space: nowrap">all nodes $i$, $j$</span> (potentially the same) such that <span style="white-space: nowrap">$i$ is honest</span> at <span style="white-space: nowrap">time $t$</span> and <span style="white-space: nowrap">$j$ is honest</span> at <span style="white-space: nowrap">time $t'$,</span> <span style="white-space: nowrap">$\mathsf{fin}(\mathsf{ch}_i^t) \preceq\hspace{-0.5em}\succeq \mathsf{fin}(\mathsf{ch}_j^{t'})$.</span>
 
 Because $\mathsf{sanitize}$ only considers previous state, $\textsf{context-txns}$ ∘ $\textsf{san-ctx}$ must be a prefix-preserving map; that is, <span style="white-space: nowrap">if $S_1 \preceq S_2$ then $\textsf{context-txns}(\textsf{san-ctx}(S_1)) \preceq \textsf{context-txns}(\textsf{san-ctx}(S_2))$.</span> Therefore:
 
-```admonish success "Theorem: LOG<sub>fin</sub> Safety (from Prefix Agreement of Π<sub>bc</sub>)"
+```admonish success "Theorem: LOG<sub>fin</sub> Safety (from Prefix Agreement of Π<sub>bc</sub>)"
 In an execution of Crosslink where $\Pi_{\mathrm{bc}}$ has [**Prefix Agreement**](./construction.md#admonition-definition-prefix-agreement) at confirmation depth $\sigma$, <span style="white-space: nowrap">for all times $t$, $t'$</span> and <span style="white-space: nowrap">all nodes $i$, $j$</span> (potentially the same) such that <span style="white-space: nowrap">$i$ is honest</span> at <span style="white-space: nowrap">time $t$</span> and <span style="white-space: nowrap">$j$ is honest</span> at <span style="white-space: nowrap">time $t'$,</span> <span style="white-space: nowrap">$\mathsf{LOG}_{\mathrm{fin},i}^t \preceq\hspace{-0.5em}\succeq \mathsf{LOG}_{\mathrm{fin},j}^{t'}\,$.</span>
 ```
 
-Notice that this does not depend on any safety property of $\Pi_{\mathrm{bft}}$, and is an elementary proof. ([[NTT2020](https://eprint.iacr.org/2020/1091.pdf), Theorem 2] is a much more complicated proof that takes nearly 3 pages, not counting the reliance on results from [[PS2017]](https://eprint.iacr.org/2016/918.pdf).)
+Notice that this does not depend on any safety property of $\Pi_{\bft}$, and is an elementary proof. ([[NTT2020](https://eprint.iacr.org/2020/1091.pdf), Theorem 2] is a much more complicated proof that takes nearly 3 pages, not counting the reliance on results from [[PS2017]](https://eprint.iacr.org/2016/918.pdf).)
 
-*In addition,* just as in Snap‑and‑Chat, safety of $\mathsf{LOG}_{\mathrm{fin}}$ can be inferred from safety of <span style="white-space: nowrap">$\Pi_{\mathrm{bft}}$,</span> which follows from safety of <span style="white-space: nowrap">$\Pi_{\mathrm{origbft}}$.</span> We prove this based on the [**Final Agreement**](./construction.md#admonition-definition-final-agreement) property for executions of <span style="white-space: nowrap">$\Pi_{\mathrm{origbft}}$:</span>
+*In addition,* just as in Snap‑and‑Chat, safety of $\LOG_{\fin}$ can be inferred from safety of <span style="white-space: nowrap">$\Pi_{\bft}$,</span> which follows from safety of <span style="white-space: nowrap">$\Pi_{\origbft}$.</span> We prove this based on the [**Final Agreement**](./construction.md#final-agreement) property for executions of <span style="white-space: nowrap">$\Pi_{\origbft}$:</span>
 
-```admonish success "Definition: Final Agreement"
-An execution of $\Pi_{\mathrm{origbft}}$ has the [**Final Agreement**](./construction.md#admonition-definition-final-agreement) safety property iff for all origbft‑valid <span style="white-space: nowrap">blocks $C$</span> in honest view at <span style="white-space: nowrap">time $t$</span> and $C'$ in honest view at <span style="white-space: nowrap">time $t'$,</span> we have <span style="white-space: nowrap">$\textsf{origbft-last-final}(C) \preceq\hspace{-0.5em}\succeq_{\mathrm{origbft}} \textsf{origbft-last-final}(C')\,$.</span>
+```admonish success "Definition: Final Agreement"
+An execution of $\Pi_{\origbft}$ has the [**Final Agreement**](./construction.md#final-agreement) safety property iff for all origbft‑valid <span style="white-space: nowrap">blocks $C$</span> [in honest view](#in-honest-view) at <span style="white-space: nowrap">time $t$</span> and $C'$ in honest view at <span style="white-space: nowrap">time $t'$,</span> we have <span style="white-space: nowrap">$\origbftlastfinal(C) \agrees_{\origbft} \origbftlastfinal(C')\,$.</span>
 ```
 
-The changes in $\Pi_{\mathrm{bft}}$ relative to $\Pi_{\mathrm{origbft}}$ only add structural components and tighten bft‑block‑validity and bft‑proposal‑validity rules. So for any legal execution of $\Pi_{\mathrm{bft}}$ there is a corresponding legal execution of $\Pi_{\mathrm{origbft}}$, with the structural additions erased and with the same nodes honest at any given time. A safety property, by definition, only asserts that executions not satisfying the property do not occur. Safety properties of $\Pi_{\mathrm{origbft}}$ necessarily do not refer to the added structural components in $\Pi_{\mathrm{bft}}$. Therefore, for any safety property of $\Pi_{\mathrm{origbft}}$, including [**Final Agreement**](./construction.md#admonition-definition-final-agreement), the corresponding safety property holds for $\Pi_{\mathrm{bft}}$.
+The changes in $\Pi_{\bft}$ relative to $\Pi_{\origbft}$ only add structural components and tighten bft‑block‑validity and bft‑proposal‑validity rules. So for any legal execution of $\Pi_{\bft}$ there is a corresponding legal execution of $\Pi_{\origbft}$, with the structural additions erased and with the same nodes honest at any given time. A safety property, by definition, only asserts that executions not satisfying the property do not occur. Safety properties of $\Pi_{\origbft}$ necessarily do not refer to the added structural components in $\Pi_{\bft}$. Therefore, for any safety property of $\Pi_{\origbft}$, including [**Final Agreement**](./construction.md#final-agreement), the corresponding safety property holds for $\Pi_{\bft}$.
 
 By the definition of $\mathsf{fin}$ as above, in an execution of Crosslink where $\Pi_{\mathrm{bft}}$ has [**Final Agreement**](./construction.md#admonition-definition-final-agreement), <span style="white-space: nowrap">for all times $t$, $t'$</span> and <span style="white-space: nowrap">all nodes $i$, $j$</span> (potentially the same) such that <span style="white-space: nowrap">$i$ is honest</span> at <span style="white-space: nowrap">time $t$</span> and <span style="white-space: nowrap">$j$ is honest</span> at <span style="white-space: nowrap">time $t'$,</span> <span style="white-space: nowrap">$\mathsf{fin}(\mathsf{ch}_i^t) \preceq\hspace{-0.5em}\succeq \mathsf{fin}(\mathsf{ch}_j^{t'})\,$.</span> Therefore, by an argument similar to the one above using the fact that $\textsf{context-txns}$ ∘ $\textsf{san-ctx}$ is a prefix-preserving map:
 
-```admonish success "Theorem: LOG<sub>fin</sub> Safety (from Final Agreement of Π<sub>bft</sub> or Π<sub>origbft</sub>)"
+```admonish success "Theorem: LOG<sub>fin</sub> Safety (from Final Agreement of Π<sub>bft</sub> or Π<sub>origbft</sub>)"
 In an execution of Crosslink where $\Pi_{\mathrm{bft}}$ has [**Final Agreement**](./construction.md#admonition-definition-final-agreement), <span style="white-space: nowrap">for all times $t$, $t'$</span> and <span style="white-space: nowrap">all nodes $i$, $j$</span> (potentially the same) such that <span style="white-space: nowrap">$i$ is honest</span> at <span style="white-space: nowrap">time $t$</span> and <span style="white-space: nowrap">$j$ is honest</span> at <span style="white-space: nowrap">time $t'$,</span> <span style="white-space: nowrap">$\mathsf{LOG}_{\mathrm{fin},i}^t \preceq\hspace{-0.5em}\succeq \mathsf{LOG}_{\mathrm{fin},j}^{t'}\,$.</span>
 ```
 
 ### Proof of safety for LOG<sub>bda</sub>
 
-From the two $\mathsf{LOG}_{\mathrm{fin}}$ Safety theorems and the [**Ledger prefix property**](./construction.md#admonition-theorem-ledger-prefix-property), we immediately have:
+From the two $\LOG_{\fin}$ Safety theorems and the [**Ledger prefix property**](./construction.md#admonition-theorem-ledger-prefix-property), we immediately have:
 
 ```admonish success "Theorem: LOG<sub>bda</sub> does not roll back past the agreed LOG<sub>fin</sub>"
 Let $\mu_i$ be an arbitrary choice of $\mathsf{LOG}_{\mathrm{bda}}$ confirmation depth for each node $i$. Consider an execution of Crosslink where either $\Pi_{\mathrm{bc}}$ has [**Prefix Agreement**](./construction.md#admonition-definition-prefix-agreement) at confirmation depth $\sigma$ or $\Pi_{\mathrm{bft}}$ has [**Final Agreement**](./construction.md#admonition-definition-final-agreement).
@@ -137,39 +139,41 @@ The above property is not as strong as we would like for practical uses of $\mat
 
 As documented in the [Model for BFT protocols](./construction.md#model-for-bft-protocols-Πorigbftbft) section of [The Crosslink Construction](./construction.md)):
 
-> For each epoch, there is a fixed number of voting units distributed between the players, which they use to vote for a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal.</span> We say that a voting unit has been cast for a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal $P$</span> at a given time in a <span style="white-space: nowrap">$\mathrm{*}$bft‑execution,</span> <span style="white-space: nowrap">if and only if</span> <span style="white-space: nowrap">$P$ is $\mathrm{*}$bft‑proposal‑valid</span> and a ballot <span style="white-space: nowrap">for $P$</span> authenticated by the holder of the voting unit exists at that time.
+> For each epoch, there is a fixed number of voting units distributed between the players, which they use to vote for a <span style="white-space: nowrap">$\star$bft‑proposal.</span> We say that a voting unit has been cast for a <span style="white-space: nowrap">$\star$bft‑proposal $P$</span> at a given time in a <span style="white-space: nowrap">$\star$bft‑execution,</span> <span style="white-space: nowrap">if and only if</span> <span style="white-space: nowrap">$P$ is $\star$bft‑proposal‑valid</span> and a ballot <span style="white-space: nowrap">for $P$</span> authenticated by the holder of the voting unit exists at that time.
 >
-> Using knowledge of ballots cast for a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal $P$</span> that collectively satisfy a notarization rule at a given time in a <span style="white-space: nowrap">$\mathrm{*}$bft‑execution,</span> and only with such knowledge, it is possible to obtain a valid <span style="white-space: nowrap">$\mathrm{*}$bft‑notarization‑proof $\mathsf{proof}_P$.</span> The notarization rule must require at least a two‑thirds absolute supermajority of voting units <span style="white-space: nowrap">in $P$’s epoch</span> to have been cast <span style="white-space: nowrap">for $P$.</span> It may also require other conditions.
+> Using knowledge of ballots cast for a <span style="white-space: nowrap">$\star$bft‑proposal $P$</span> that collectively satisfy a notarization rule at a given time in a <span style="white-space: nowrap">$\star$bft‑execution,</span> and only with such knowledge, it is possible to obtain a valid <span style="white-space: nowrap">$\star$bft‑notarization‑proof $\proof_P$.</span> The notarization rule must require at least a two‑thirds absolute supermajority of voting units <span style="white-space: nowrap">in $P$’s epoch</span> to have been cast <span style="white-space: nowrap">for $P$.</span> It may also require other conditions.
 >
 > A voting unit is cast non‑honestly for an epoch’s proposal iff:
 > * it is cast other than by the holder of the unit (due to key compromise or any flaw in the voting protocol, for example); or
 > * it is double‑cast (i.e. there are two ballots casting it for distinct proposals); or
-> * the holder of the unit following the conditions for honest voting <span style="white-space: nowrap">in $\Pi_{\mathrm{*bft}}$,</span> according to its view, should not have cast that vote.
+> * the holder of the unit following the conditions for honest voting <span style="white-space: nowrap">in $\Pi_{\starbft}$,</span> according to its view, should not have cast that vote.
 
+<span id="one-third-bound"></span>
 ```admonish success "Definition: One‑third bound on non‑honest voting"
-An execution of $\Pi_{\mathrm{bft}}$ has the **one‑third bound on non‑honest voting** property iff for every epoch, *strictly* fewer than one third of the total voting units for that epoch are ever cast non‑honestly.
+An execution of $\Pi_{\bft}$ has the **one‑third bound on non‑honest voting** property iff for every epoch, *strictly* fewer than one third of the total voting units for that epoch are ever cast non‑honestly.
 ```
 
-```admonish success "Theorem: On bft‑valid blocks for a given epoch in honest view"
+<span id="theorem-on-bft-valid-blocks"></span>
+```admonish success "Theorem: On bft‑valid blocks for a given epoch in honest view"
 By a well known argument often used to prove safety of BFT protocols, in an execution of Crosslink where $\Pi_{\mathrm{bft}}$ has the **one‑third bound on non‑honest voting** property (and assuming soundness of notarization proofs), any bft‑valid block for a given epoch in honest view must commit to the same proposal.
 
-Proof (adapted from [[CS2020](https://eprint.iacr.org/2020/088.pdf), Lemma 1]): Suppose there are two bft‑proposals $P$ and $P'$, both for <span style="white-space: nowrap">epoch $e$,</span> such that <span style="white-space: nowrap">$P$ is</span> committed to by some bft‑block‑valid <span style="white-space: nowrap">block $B$,</span> and <span style="white-space: nowrap">$P'$ is</span> committed to by some bft‑block‑valid <span style="white-space: nowrap">block $B'$.</span> This implies that $B$ and $B'$ have valid notarization proofs. Let the number of voting units for <span style="white-space: nowrap">epoch $e$</span> <span style="white-space: nowrap">be $n_e$.</span> Assuming soundness of the notarization proofs, it must be that at least $2n_e/3$ voting units for <span style="white-space: nowrap">epoch $e$,</span> denoted as the <span style="white-space: nowrap">set $S$,</span> were cast <span style="white-space: nowrap">for $P$,</span> and at least $2n_e/3$ voting units for <span style="white-space: nowrap">epoch $e$,</span> denoted as the <span style="white-space: nowrap">set $S'$,</span> were cast <span style="white-space: nowrap">for $P'$.</span> Since there are $n_e$ voting units for <span style="white-space: nowrap">epoch $e$,</span> $S \cap S'$ must have size at least <span style="white-space: nowrap">$n_e/3$.</span> In an execution of Crosslink where $\Pi_{\mathrm{bft}}$ has the **one‑third bound on non‑honest voting** property, $S \cap S'$ must therefore include at least one voting unit that was cast honestly. Since a voting unit for epoch $e$ that is cast honestly is not double-cast, it must be <span style="white-space: nowrap">that $P = P'$.</span>
+Proof (adapted from [[CS2020](https://eprint.iacr.org/2020/088.pdf), Lemma 1]): Suppose there are two bft‑proposals $P$ and $P'$, both for <span style="white-space: nowrap">epoch $e$,</span> such that <span style="white-space: nowrap">$P$ is</span> committed to by some bft‑block‑valid <span style="white-space: nowrap">block $B$,</span> and <span style="white-space: nowrap">$P'$ is</span> committed to by some bft‑block‑valid <span style="white-space: nowrap">block $B'$.</span> This implies that $B$ and $B'$ have valid notarization proofs. Let the number of voting units for <span style="white-space: nowrap">epoch $e$</span> <span style="white-space: nowrap">be $n_e$.</span> Assuming soundness of the notarization proofs, it must be that at least $2n_e/3$ voting units for <span style="white-space: nowrap">epoch $e$,</span> denoted as the <span style="white-space: nowrap">set $S$,</span> were cast <span style="white-space: nowrap">for $P$,</span> and at least $2n_e/3$ voting units for <span style="white-space: nowrap">epoch $e$,</span> denoted as the <span style="white-space: nowrap">set $S'$,</span> were cast <span style="white-space: nowrap">for $P'$.</span> Since there are $n_e$ voting units for <span style="white-space: nowrap">epoch $e$,</span> $S \intersection S'$ must have size at least <span style="white-space: nowrap">$n_e/3$.</span> In an execution of Crosslink 2 where $\Pi_{\bft}$ has the **one‑third bound on non‑honest voting** property, $S \intersection S'$ must therefore include at least one voting unit that was cast honestly. Since a voting unit for epoch $e$ that is cast honestly is not double-cast, it must be <span style="white-space: nowrap">that $P = P'$.</span>
 ```
 
 ```admonish info
 In the case of a network partition, votes may not be seen on both/all sides of the partition. Therefore, it is not necessarily the case that honest nodes can directly see double‑voting. The above argument does not depend on being able to do so.
 ```
 
-Therefore, in an execution of Crosslink for which $\Pi_{\mathrm{bft}}$ has the **one‑third bound on non‑honest voting** property, for each <span style="white-space: nowrap">epoch $e$</span> there will be at most one bft‑proposal‑valid <span style="white-space: nowrap">proposal $P_e$,</span> and at least one third of honestly cast voting units must have been cast for it. Let $\mathcal{I}_e$ be the (necessarily nonempty) set of nodes that cast these honest votes; then, $\mathsf{snapshot}(P_e) \preceq_{\mathrm{bc}} \mathsf{ch}_i^{t_{e,i}} \lceil_{\mathrm{bc}}^\sigma$ for <span style="white-space: nowrap">all $i \in \mathcal{I}_e$</span> at the <span style="white-space: nowrap">times $t_{e,i}$</span> of their votes in epoch $e$. <span style="white-space: nowrap">(For simplicity,</span> we assume that for each honest <span style="white-space: nowrap">node $i$</span> there is only one <span style="white-space: nowrap">time $t_{e,i}$</span> at which it obtains a successful check for the voting condition in <span style="white-space: nowrap">epoch $e$,</span> which it uses for any votes that it casts in that epoch.)
+Therefore, in an execution of Crosslink 2 for which $\Pi_{\bft}$ has the **one‑third bound on non‑honest voting** property, for each <span style="white-space: nowrap">epoch $e$</span> there will be at most one bft‑proposal‑valid <span style="white-space: nowrap">proposal $P_e$,</span> and at least one third of honestly cast voting units must have been cast for it. Let $\mathcal{I}_e$ be the (necessarily nonempty) set of nodes that cast these honest votes; then, $\snapshot(P_e) \preceq_{\bc} \ch_i^{t_{e,i}} \trunc_{\bc}^\sigma$ for <span style="white-space: nowrap">all $i \in \mathcal{I}_e$</span> at the <span style="white-space: nowrap">times $t_{e,i}$</span> of their votes in epoch $e$. <span style="white-space: nowrap">(For simplicity,</span> we assume that for each honest <span style="white-space: nowrap">node $i$</span> there is only one <span style="white-space: nowrap">time $t_{e,i}$</span> at which it obtains a successful check for the voting condition in <span style="white-space: nowrap">epoch $e$,</span> which it uses for any votes that it casts in that epoch.)
 
-Let $B$ be any bft‑block for <span style="white-space: nowrap">epoch $e$</span> such that <span style="white-space: nowrap">$B \preceq_{\mathrm{bft}} \textsf{bft-last-final}(C)$,</span> where $C$ is some bft‑block‑valid block. <span style="white-space: nowrap">Since $B \preceq_{\mathrm{bft}} C$,</span> <span style="white-space: nowrap">$B$ is bft‑block‑valid.</span> So by the argument above, $B$ commits to the only bft‑proposal‑valid <span style="white-space: nowrap">proposal $P_e$</span> for <span style="white-space: nowrap">epoch $e$,</span> and $\mathsf{snapshot}(B) = \mathsf{snapshot}(P_e)$ was voted for in that epoch by a nonempty subset of honest <span style="white-space: nowrap">nodes $\mathcal{I}_e$.</span>
+Let $B$ be any bft‑block for <span style="white-space: nowrap">epoch $e$</span> such that <span style="white-space: nowrap">$B \preceq_{\bft} \bftlastfinal(C)$,</span> where $C$ is some bft‑block‑valid block. <span style="white-space: nowrap">Since $B \preceq_{\bft} C$,</span> <span style="white-space: nowrap">$B$ is bft‑block‑valid.</span> So by the argument above, $B$ commits to the only bft‑proposal‑valid <span style="white-space: nowrap">proposal $P_e$</span> for <span style="white-space: nowrap">epoch $e$,</span> and $\snapshot(B) = \snapshot(P_e)$ was voted for in that epoch by a nonempty subset of honest <span style="white-space: nowrap">nodes $\mathcal{I}_e$.</span>
 
 Let $H$ be any bc‑valid block. We have by definition: $$
 \begin{array}{rcl}
-\mathsf{fin}(H) &\!\!=\!\!& [\mathsf{snapshot}(B) \text{ for } B \preceq_{\mathrm{bft}} \mathsf{LF}(H \lceil_{\mathrm{bc}}^\sigma)] \\
-&\!\!=\!\!& [\mathsf{snapshot}(B) \text{ for } B \preceq_{\mathrm{bft}} \textsf{bft-last-final}(H \lceil_{\mathrm{bc}}^\sigma\mathsf{.context\_bft})]
+\fin(H) &\!\!=\!\!& [\snapshot(B) \text{ for } B \preceq_{\bft} \LF(H \trunc_{\bc}^\sigma)] \\
+&\!\!=\!\!& [\snapshot(B) \text{ for } B \preceq_{\bft} \bftlastfinal(H \trunc_{\bc}^\sigma\dot\contextbft)]
 \end{array}
-$$ So, taking $C = H \lceil_{\mathrm{bc}}^\sigma\mathsf{.context\_bft}$, each $\mathsf{snapshot}(B)$ for $B$ of epoch $e$ in the result of $\mathsf{fin}(H)$ satisfies $\mathsf{snapshot}(B) \preceq_{\mathrm{bc}} \mathsf{ch}_i^{t_{e,i}} \lceil_{\mathrm{bc}}^\sigma$ for all $i$ in some nonempty honest set of nodes $\mathcal{I}_e$.
+$$ So, taking $C = H \trunc_{\bc}^\sigma\dot\contextbft$, each $\snapshot(B)$ for $B$ of epoch $e$ in the result of $\fin(H)$ satisfies $\snapshot(B) \preceq_{\bc} \ch_i^{t_{e,i}} \trunc_{\bc}^\sigma$ for all $i$ in some nonempty honest set of nodes $\mathcal{I}_e$.
 
 For an execution of Crosslink in which $\Pi_{\mathrm{bc}}$ has the [**Prefix Consistency**](./construction.md#admonition-definition-prefix-consistency) property at confirmation depth $\sigma$, for every epoch $e$, for every such $(i, t_{e,i})$, for every node $j$ that is honest at any time $t' \geq t_{e,i}$, we have $\mathsf{ch}_i^{t_{e,i}} \lceil_{\mathrm{bc}}^\sigma \preceq_{\mathrm{bc}} \mathsf{ch}_j^{t'}$. Let $t_e = \min \{ t_{e,i} : i \in \mathcal{I}_e \}$. Then, by transitivity of $\preceq_{\mathrm{bc}}$:
 
@@ -188,7 +192,7 @@ $$
 
 So in an execution of Crosslink where $\Pi_{\mathrm{bc}}$ has the [**Prefix Consistency**](./construction.md#admonition-definition-prefix-consistency) property at confirmation <span style="white-space: nowrap">depth $\mu$,</span> <span style="white-space: nowrap">if node $i$</span> is honest <span style="white-space: nowrap">at time $t$</span> then $H \lceil_{\mathrm{bc}}^\mu$ is also, <span style="white-space: nowrap">at any time $t' \geq t$,</span> in the bc‑best‑chain of <span style="white-space: nowrap">every node $j$</span> that is honest <span style="white-space: nowrap">at time $t'$.</span>
 
-If an execution of $\Pi_{\mathrm{bc}}$ has the [**Prefix Consistency**](./construction.md#admonition-definition-prefix-consistency) property at confirmation <span style="white-space: nowrap">depth $\mu \leq \sigma$,</span> then it necessarily also has it at confirmation <span style="white-space: nowrap">depth $\sigma$.</span> Therefore we have:
+If an execution of $\Pi_{\bc}$ has the [**Prefix Consistency**](./construction.md#prefix-consistency) property at confirmation <span style="white-space: nowrap">depth $\mu \leq \sigma$,</span> then it necessarily also has it at confirmation <span style="white-space: nowrap">depth $\sigma$.</span> Therefore we have:
 
 ```admonish success "Theorem: On snapshots in LOG<sub>bda</sub>"
 In an execution of Crosslink where $\Pi_{\mathrm{bft}}$ has the **one‑third bound on non‑honest voting** property and $\Pi_{\mathrm{bc}}$ has the [**Prefix Consistency**](./construction.md#admonition-definition-prefix-consistency) property at confirmation <span style="white-space: nowrap">depth $\mu \leq \sigma$,</span> every bc‑chain snapshot in $\mathsf{fin}(\mathsf{ch}_i^t) \,||\, [\mathsf{ch}_i^t \lceil_{\mathrm{bc}}^\mu]$ (and therefore every snapshot that contributes to <span style="white-space: nowrap">$\mathsf{LOG}_{\mathrm{bda},i,\mu}^t$)</span> is, <span style="white-space: nowrap">at any time $t' \geq t$,</span> in the bc‑best‑chain of <span style="white-space: nowrap">every node $j$</span> that is honest <span style="white-space: nowrap">at time $t'$.</span>
@@ -208,9 +212,9 @@ Unlike Snap‑and‑Chat, Crosslink requires structural and consensus rule chang
 
 ### Finalization latency
 
-For a given choice of $\sigma$, the finalization latency is higher. The snapshot of the BFT chain used to obtain $\mathsf{LOG}_{\mathrm{fin},i,\mu}^t$ is obtained from the block at depth $\mu$ on node $i$'s best $\Pi_{\mathrm{bc}}$ chain, which will on average lead to a finalized view that is about $\mu + 1 + \sigma$ blocks back (in $\Pi_{\mathrm{bc}}$), rather than $\sigma_{\mathrm{sac}}$ blocks in Snap‑and‑Chat. This is essentially the cost of ensuring that safety is given by the stronger of the safety of $\Pi_{\mathrm{bc}}$ (at $\mu$ confirmations) and the safety of $\Pi_{\mathrm{bft}}$.
+For a given choice of $\sigma$, the finalization latency is higher. The snapshot of the BFT chain used to obtain $\LOG_{\fin,\mu,i}^t$ is obtained from the block at depth $\mu$ on node $i$’s best $\Pi_{\bc}$ chain, which will on average lead to a finalized view that is about $\mu + 1 + \sigma$ blocks back (in $\Pi_{\bc}$), rather than $\sigma_{\sac}}$ blocks in Snap‑and‑Chat. This is essentially the cost of ensuring that safety is given by the stronger of the safety of $\Pi_{\bc}$ (at $\mu$ confirmations) and the safety of $\Pi_{\bft}$.
 
-On the other hand, the relative increase in expected finalization latency is only $\frac{\mu + 1 + \sigma}{\sigma_{\mathrm{sac}}},$ i.e. at most slightly more than a factor of 2 for the case $\mu = \sigma = \sigma_{\mathrm{sac}}$.
+On the other hand, the relative increase in expected finalization latency is only $\frac{\mu + 1 + \sigma}{\sigma_{\sac}}},$ i.e. at most slightly more than a factor of 2 for the case $\mu = \sigma = \sigma_{\sac}}$.
 
 ### More involved liveness argument
 

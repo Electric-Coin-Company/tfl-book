@@ -4,22 +4,22 @@ We are now ready to give a description of a variant of Snap‑and‑Chat that ta
 
 ## Conventions
 
-“$\mathrm{*}$” is a metavariable for the name of a protocol. We also use it as a wildcard in protocol names of a particular type, for example <span style="white-space: nowrap">“$\mathrm{*}$bc”</span> for the name of some best‑chain protocol.
+“$\star$” is a metavariable for the name of a protocol. We also use it as a wildcard in protocol names of a particular type, for example <span style="white-space: nowrap">“$\star$bc”</span> for the name of some best‑chain protocol.
 
-Protocols are referred to as $\Pi_{\mathrm{*}}$ for a <span style="white-space: nowrap">name “$\mathrm{*}$”.</span> Where it is useful to avoid ambiguity, when referring to a concept defined by $\Pi_{\mathrm{*}}$ we prefix it with <span style="white-space: nowrap">“$\mathrm{*}$‑”.</span>
+Protocols are referred to as $\Pi_{\star}$ for a <span style="white-space: nowrap">name “$\star$”.</span> Where it is useful to avoid ambiguity, when referring to a concept defined by $\Pi_{\star}$ we prefix it with <span style="white-space: nowrap">“$\star$‑”.</span>
 
 We do not take synchrony or partial synchrony as an implicit assumption of the communication model; that is, *unless otherwise specified*, messages between protocol participants can be arbitrarily delayed or dropped. A given message is received at most once, and messages are nonmalleably authenticated as originating from a given sender whenever needed by the applicable protocol. Particular subprotocols may require a stronger model.
 
 ```admonish info "Background"
-For an overview of communication models used to analyse distributed protocols, see [this blog post by Ittai Abraham](https://decentralizedthoughts.github.io/2019-06-01-2019-5-31-models/).
+For an overview of communication models used to analyze distributed protocols, see [this blog post by Ittai Abraham](https://decentralizedthoughts.github.io/2019-06-01-2019-5-31-models/).
 ```
 
 ```admonish info collapsible=true title="Discussion of incorrect applications of the GST formalization of partial synchrony to continuously operating protocols. (You’re doing it wrong!)"
-The original context for the definition of the partially synchronous model in [[DLS1988]](https://groups.csail.mit.edu/tds/papers/Lynch/jacm88.pdf) was for “one‑shot” Byzantine Agreement &mdash; called “the consensus problem” in that paper. The following argument is used to justify assuming that all messages from the Global Stabilization Time onward are delivered within the <span style="white-space: nowrap">upper time bound $\Delta$:</span>
+The original context for the definition of the partially synchronous model in [[DLS1988]](https://groups.csail.mit.edu/tds/papers/Lynch/jacm88.pdf) was for “one‑shot” Byzantine Agreement — called “the consensus problem” in that paper. The following argument is used to justify assuming that all messages from the Global Stabilization Time onward are delivered within the <span style="white-space: nowrap">upper time bound $\Delta$:</span>
 
-> Therefore, we impose an additional constraint: For each execution there is a global stabilization time (GST), unknown to the processors, such that the message system respects the upper bound $\Delta$ from time GST onward.
+> Therefore, we impose an additional constraint: For each execution there is a global stabilization time (GST), unknown to the processors, such that the message system respects the upper bound $\Delta$ from time GST onward.
 >
-> This constraint might at first seem too strong: In realistic situations, the upper bound cannot reasonably be expected to hold forever after GST, but perhaps only for a limited time. However, any good solution to the consensus problem in this model would have an upper bound $L$ on the amount of time after GST required for consensus to be reached; in this case it is not really necessary that the bound $\Delta$ hold forever after time GST, but only up to time GST $+\; L$. We find it technically convenient to avoid explicit mention of the interval length $L$ in the model, but will instead present the appropriate upper bounds on time for each of our algorithms.
+> This constraint might at first seem too strong: In realistic situations, the upper bound cannot reasonably be expected to hold forever after GST, but perhaps only for a limited time. However, any good solution to the consensus problem in this model would have an <span style="white-space: nowrap">upper bound $L$</span> on the amount of time after GST required for consensus to be reached; in this case it is not really necessary that the bound $\Delta$ hold forever after time GST, but only up to <span style="white-space: nowrap">time GST $+\; L$.</span> We find it technically convenient to avoid explicit mention of the interval length $L$ in the model, but will instead present the appropriate upper bounds on time for each of our algorithms.
 
 Several subsequent authors applying the partially synchronous model to block chains appear to have forgotten this context. In particular, the argument depends on the protocol completing soon after GST. Obviously a block-chain protocol does not satisfy this assumption; it is not a <span style="white-space: nowrap">“one‑shot”</span> consensus problem.
 
@@ -29,7 +29,8 @@ This assumption could be removed, but some authors of papers about block-chain p
 
 This argument is correct as stated, i.e. for the one-shot consensus problem. Subtly, essentially the same argument can be adapted to protocols with *safety* properties that need to be satisfied continuously. However, it cannot correctly be applied to *liveness* properties of non-terminating protocols. The authors (Cynthia Dwork, Nancy Lynch, and Larry Stockmeyer) would certainly have known this: notice how they carefully distinguish “the GST model” from “partial synchrony”. They cannot plausibly have intended this GST formalization to be applied unmodified to analyze liveness in such protocols, which seems to be common in the block-chain literature, including in the Ebb-and-Flow paper [[NTT2020]](https://eprint.iacr.org/2020/1091.pdf) and the Streamlet paper [[CS2020]](https://eprint.iacr.org/2020/088.pdf). (The latter does refer to “periods of synchrony” which indicates awareness of the issue, but then it uses the unmodified GST model in the proofs.)
 
-This provides further motivation to avoid taking the GST formalization of partial synchrony as a basic assumption.
+This provides further motivation to avoid taking the GST formalization of partial synchrony as a basic assumption.
+
 ```
 
 For simplicity, we assume that all events occur at global times in a total ordering. This assumption is not realistic in an asynchronous communication model, but it is not essential to the design or analysis and could be removed (essentially: replace times with events and use a partial happens-before ordering on events, in place of a total ordering on times).
@@ -50,8 +51,9 @@ The block at <span style="white-space: nowrap">depth $k \in \mathbb{N}^+$</span>
 Our usage of “depth” is different from [[NTT2020]](https://eprint.iacr.org/2020/1091.pdf), which uses “depth” to refer to what Bitcoin and Zcash call “height”. It also differs by $1$ from the convention for confirmation depths in `zcashd`, where the tip is considered to be at <span style="white-space: nowrap">depth $1$,</span> rather <span style="white-space: nowrap">than $0$.</span>
 ```
 
-For <span style="white-space: nowrap">$\mathrm{*}$‑blocks $B$ and $C$,</span>
-* the notation $B \preceq_{\mathrm{*}} C$ means that the <span style="white-space: nowrap">$\mathrm{*}$‑chain</span> with <span style="white-space: nowrap">tip $B$</span> is a prefix of the one with <span style="white-space: nowrap">tip $C$.</span> This includes the <span style="white-space: nowrap">case $B = C$.</span>
+<span id="notation"></span>
+For <span style="white-space: nowrap">$\star$‑blocks $B$ and $C$:</span>
+* The notation $B \preceq_{\star} C$ means that the <span style="white-space: nowrap">$\star$‑chain</span> with <span style="white-space: nowrap">tip $B$</span> is a prefix of the one with <span style="white-space: nowrap">tip $C$.</span> This includes the <span style="white-space: nowrap">case $B = C$.</span>
 * the notation $B \preceq\hspace{-0.5em}\succeq_{\mathrm{*}} C$ means that <span style="white-space: nowrap">either $B \preceq_{\mathrm{*}} C$ or $C \preceq_{\mathrm{*}} B$.</span> That is, <span style="white-space: nowrap">“one of $B$ and $C$</span> is a prefix of the other”.
 
 We also use $\mathsf{log} \preceq \mathsf{log}'$ (without a subscript <span style="white-space: nowrap">on $\preceq$)</span> to mean that the transaction ledger $\mathsf{log}$ is a prefix <span style="white-space: nowrap">of $\mathsf{log}'$.</span> Similarly to $\preceq\hspace{-0.5em}\succeq_{\mathrm{*}}$ above, $\mathsf{log} \preceq\hspace{-0.5em}\succeq \mathsf{log}'$ means that either <span style="white-space: nowrap">$\mathsf{log} \preceq \mathsf{log}'$ or $\mathsf{log}' \preceq \mathsf{log}$;</span> that is, <span style="white-space: nowrap">“one of $\mathsf{log}$ and $\mathsf{log}'$</span> is a prefix of the other”.
@@ -60,10 +62,10 @@ The notation $[f(X) \text{ for } X \preceq_{\mathrm{*}} Y]$ means the sequence o
 
 ## Subprotocols
 
-As in Snap‑and‑Chat, we depend on a <span style="white-space: nowrap">BFT protocol $\Pi_{\mathrm{origbft}}$,</span> and a <span style="white-space: nowrap">best‑chain protocol $\Pi_{\mathrm{origbc}}$.</span>
+As in Snap‑and‑Chat, we depend on a <span style="white-space: nowrap">BFT protocol $\Pi_{\origbft}$,</span> and a <span style="white-space: nowrap">best‑chain protocol $\Pi_{\origbc}$.</span>
 
 ```admonish info
-See [this terminology note](./the-arguments-for-bounded-availability-and-finality-overrides.md#terminology-note) for why we do not call $\Pi_{\mathrm{origbc}}$ a “longest‑chain” protocol.
+See [this terminology note](./the-arguments-for-bounded-availability-and-finality-overrides.md#terminology-note) for why we do not call $\Pi_{\origbc}$ a “longest‑chain” protocol.
 ```
 
 We modify $\Pi_{\mathrm{origbft}}$ <span style="white-space: nowrap">(resp. $\Pi_{\mathrm{origbc}}$)</span> to give $\Pi_{\mathrm{bft}}$ <span style="white-space: nowrap">(resp. $\Pi_{\mathrm{bc}}$)</span> by adding structural elements, changing validity rules, and potentially changing the specified behaviour of honest nodes.
@@ -72,87 +74,93 @@ A Crosslink node must participate in <span style="white-space: nowrap">both $\Pi
 
 ### Model for BFT protocols (Π<sub>{origbft,bft}</sub>)
 
-A player’s view in $\Pi_{\mathrm{*bft}}$ includes a set of <span style="white-space: nowrap">$\mathrm{*}$bft‑block chains</span> each rooted at a fixed genesis <span style="white-space: nowrap">$\mathrm{*}$bft‑block $\mathcal{O}_{\mathrm{*bft}}$.</span> There is a <span style="white-space: nowrap">$\mathrm{*}$bft‑block‑validity</span> rule (specified below), which depends only on the content of the block and its ancestors. A non‑genesis block can only be <span style="white-space: nowrap">$\mathrm{*}$bft‑block‑valid</span> if its parent is $\mathrm{*}$bft‑block‑valid. <span style="white-space: nowrap">A $\mathrm{*}$bft‑valid‑chain</span> is a chain of <span style="white-space: nowrap">$\mathrm{*}$bft‑block‑valid</span> blocks.
+<span style="white-space: nowrap">A $\star$bft‑node’s view</span> includes a set of <span style="white-space: nowrap">$\star$bft‑block chains</span> each rooted at a fixed genesis <span style="white-space: nowrap">$\star$bft‑block $\Origin_{\starbft}$.</span> There is a <span style="white-space: nowrap">$\star$bft‑block‑validity</span> rule (specified below), which depends only on the content of the block and its ancestors. A non‑genesis block can only be <span style="white-space: nowrap">$\star$bft‑block‑valid</span> if its parent is $\star$bft‑block‑valid. <span style="white-space: nowrap">A $\star$bft‑valid‑chain</span> is a chain of <span style="white-space: nowrap">$\star$bft‑block‑valid</span> blocks.
 
-Execution proceeds in a sequence of epochs. In each epoch, an honest proposer for that epoch may make a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal</span>.
+Execution proceeds in a sequence of epochs. In each epoch, an honest proposer for that epoch may make a <span style="white-space: nowrap">$\star$bft‑proposal</span>.
 
-A <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal</span> refers to a parent <span style="white-space: nowrap">$\mathrm{*}$bft‑block,</span> and specifies the proposal’s epoch. The content of a proposal is signed by the proposer using a strongly unforgeable signature scheme. We consider the proposal to include this signature. There is a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal‑validity</span> rule, depending only on the content of the proposal and its parent block, and the validity of the proposer’s signature.
+A <span style="white-space: nowrap">$\star$bft‑proposal</span> refers to a parent <span style="white-space: nowrap">$\star$bft‑block,</span> and specifies the proposal’s epoch. The content of a proposal is signed by the proposer using a strongly unforgeable signature scheme. We consider the proposal to include this signature. There is a <span style="white-space: nowrap">$\star$bft‑proposal‑validity</span> rule, depending only on the content of the proposal and its parent block, and the validity of the proposer’s signature.
 
-```admonish info
-We will shorten <span style="white-space: nowrap">“$\mathrm{*}$bft‑block‑valid $\mathrm{*}$bft‑block”</span> to <span style="white-space: nowrap">“$\mathrm{*}$bft‑valid‑block”,</span> and <span style="white-space: nowrap">“$\mathrm{*}$bft‑proposal‑valid $\mathrm{*}$bft‑proposal”</span> to <span style="white-space: nowrap">“$\mathrm{*}$bft‑valid‑proposal”.</span>
+```admonish info "Terminology"
+We will shorten <span style="white-space: nowrap">“$\star$bft‑block‑valid $\star$bft‑block”</span> to <span style="white-space: nowrap">“$\star$bft‑valid‑block”,</span> and <span style="white-space: nowrap">“$\star$bft‑proposal‑valid $\star$bft‑proposal”</span> to <span style="white-space: nowrap">“$\star$bft‑valid‑proposal”.</span>
 ```
 
-For each epoch, there is a fixed number of voting units distributed between the players, which they use to vote for a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal.</span> We say that a voting unit has been cast for a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal $P$</span> at a given time in a <span style="white-space: nowrap">$\mathrm{*}$bft‑execution,</span> <span style="white-space: nowrap">if and only if</span> <span style="white-space: nowrap">$P$ is $\mathrm{*}$bft‑proposal‑valid</span> and a ballot <span style="white-space: nowrap">for $P$</span> authenticated by the holder of the voting unit exists at that time.
+For each epoch, there is a fixed number of voting units distributed between the <span style="white-space: nowrap">$\star$bft‑nodes,</span> which they use to vote for a <span style="white-space: nowrap">$\star$bft‑proposal.</span> We say that a voting unit has been cast for a <span style="white-space: nowrap">$\star$bft‑proposal $P$</span> at a given time in a <span style="white-space: nowrap">$\star$bft‑execution,</span> <span style="white-space: nowrap">if and only if</span> <span style="white-space: nowrap">$P$ is $\star$bft‑proposal‑valid</span> and a ballot <span style="white-space: nowrap">for $P$</span> authenticated by the holder of the voting unit exists at that time.
 
-Using knowledge of ballots cast for a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal $P$</span> that collectively satisfy a notarization rule at a given time in a <span style="white-space: nowrap">$\mathrm{*}$bft‑execution,</span> and only with such knowledge, it is possible to obtain a valid <span style="white-space: nowrap">$\mathrm{*}$bft‑notarization‑proof $\mathsf{proof}_P$.</span> The notarization rule must require at least a two‑thirds absolute supermajority of voting units <span style="white-space: nowrap">in $P$’s epoch</span> to have been cast <span style="white-space: nowrap">for $P$.</span> It may also require other conditions.
+Using knowledge of ballots cast for a <span style="white-space: nowrap">$\star$bft‑proposal $P$</span> that collectively satisfy a notarization rule at a given time in a <span style="white-space: nowrap">$\star$bft‑execution,</span> and only with such knowledge, it is possible to obtain a valid <span style="white-space: nowrap">$\star$bft‑notarization‑proof $\proof_P$.</span> The notarization rule must require at least a two‑thirds absolute supermajority of voting units <span style="white-space: nowrap">in $P$’s epoch</span> to have been cast <span style="white-space: nowrap">for $P$.</span> It may also require other conditions.
 
 A voting unit is cast non‑honestly for an epoch’s proposal iff:
 * it is cast other than by the holder of the unit (due to key compromise or any flaw in the voting protocol, for example); or
 * it is double‑cast (i.e. there are at least two ballots casting it for distinct proposals); or
-* the holder of the unit following the conditions for honest voting <span style="white-space: nowrap">in $\Pi_{\mathrm{*bft}}$,</span> according to its view, should not have cast that vote.
+* the holder of the unit following the conditions for honest voting <span style="white-space: nowrap">in $\Pi_{\starbft}$,</span> according to its view, should not have cast that vote.
 
+<span id="one-third-bound"></span>
 ```admonish success "Definition: One‑third bound on non‑honest voting"
-An execution of $\Pi_{\mathrm{bft}}$ has the **one‑third bound on non‑honest voting** property iff for every epoch, *strictly* fewer than one third of the total voting units for that epoch are ever cast non‑honestly.
+An execution of $\Pi_{\bft}$ has the **one‑third bound on non‑honest voting** property iff for every epoch, *strictly* fewer than one third of the total voting units for that epoch are ever cast non‑honestly.
 ```
 
 ```admonish info
-It may be the case that a ballot cast for $P$ is not in honest view when it is used to create a notarisation proof for $P$. Since we are not assuming synchrony, it may also be the case that such a ballot is in honest view but that any given node has not received it (and perhaps will never receive it).
+It may be the case that a ballot cast for $P$ is not [in honest view](#in-honest-view) when it is used to create a notarization proof for $P$. Since we are not assuming synchrony, it may also be the case that such a ballot is in honest view but that any given node has not received it (and perhaps will never receive it).
 
 There may be multiple distinct ballots or distinct ballot messages attempting to cast a given voting unit for the same proposal; this is undesirable for bandwidth usage, but it is not necessary to consider it to be non‑honest behaviour for the purpose of security analysis, as long as such ballots are not double‑counted toward the two‑thirds threshold.
 ```
 
+<span id="one-third-bound-caveat"></span>
 ```admonish warning "Security caveat"
 The **one‑third bound on non‑honest voting** property considers all ballots cast in the entire execution. In particular, it is possible that a validator’s key is compromised and then used to cast its voting units for a proposal of an epoch long finished. If the number of voting units cast non-honestly for any epoch *ever* reaches one third of the total voting units for that epoch during an execution, then the **one‑third bound on non‑honest voting** property is violated for that execution.
 
 Therefore, validator keys of honest nodes must remain secret indefinitely. Whenever a key is rotated, the old key must be securely deleted. For further discussion and potential improvements, see [tfl-book issue #140](https://github.com/Electric-Coin-Company/tfl-book/issues/140).
 ```
 
-A <span style="white-space: nowrap">$\mathrm{*}$bft‑block</span> consists <span style="white-space: nowrap">of $(P, \mathsf{proof}_P)$</span> re‑signed by the same proposer using a strongly unforgeable signature scheme. It is <span style="white-space: nowrap">$\mathrm{*}$bft‑block‑valid</span> iff:
-* $P$ is <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal‑valid</span>; and
-* $\mathsf{proof}_P$ is a valid proof that some subset of ballots cast for $P$ are sufficient to satisfy the notarization rule; and
-* the proposer’s outer signature <span style="white-space: nowrap">on $(P, \mathsf{proof}_P)$</span> is valid.
+A <span style="white-space: nowrap">$\star$bft‑block</span> consists <span style="white-space: nowrap">of $(P, \proof_P)$</span> re‑signed by the same proposer using a strongly unforgeable signature scheme. It is <span style="white-space: nowrap">$\star$bft‑block‑valid</span> iff:
+* $P$ is <span style="white-space: nowrap">$\star$bft‑proposal‑valid</span>; and
+* $\proof_P$ is a valid proof that some subset of ballots cast for $P$ are sufficient to satisfy the notarization rule; and
+* the proposer’s outer signature <span style="white-space: nowrap">on $(P, \proof_P)$</span> is valid.
 
-<span style="white-space: nowrap">A $\mathrm{*}$bft‑proposal’s</span> parent reference hashes the entire <span style="white-space: nowrap">parent $\mathrm{*}$bft‑block,</span> i.e. proposal, proof, and outer signature.
+<span style="white-space: nowrap">A $\star$bft‑proposal’s</span> parent reference hashes the entire <span style="white-space: nowrap">parent $\star$bft‑block,</span> i.e. proposal, proof, and outer signature.
 
 ```admonish info
-Neither $\mathsf{proof}_P$ nor the proposer’s outer signature is unique for a <span style="white-space: nowrap">given $P$.</span> The proposer’s outer signature is however third‑party nonmalleable, by definition of a strongly unforgeable signature scheme. An <span style="white-space: nowrap">“honest $\mathrm{*}$bft‑proposal”</span> is a <span style="white-space: nowrap">$\mathrm{*}$bft‑proposal</span> made for a given epoch by a proposer who is honest in that epoch. Such a proposer will only create one proposal and only sign at most once for each epoch, and so there will be at most one <span style="white-space: nowrap">“honestly submitted”</span> <span style="white-space: nowrap">$\mathrm{*}$bft‑block</span> for each epoch.
+Neither $\proof_P$ nor the proposer’s outer signature is unique for a <span style="white-space: nowrap">given $P$.</span> The proposer’s outer signature is however third‑party nonmalleable, by definition of a strongly unforgeable signature scheme. An <span style="white-space: nowrap">“honest $\star$bft‑proposal”</span> is a <span style="white-space: nowrap">$\star$bft‑proposal</span> made for a given epoch by a proposer who is honest in that epoch. Such a proposer will only create one proposal and only sign at most once for each epoch, and so there will be at most one <span style="white-space: nowrap">“honestly submitted”</span> <span style="white-space: nowrap">$\star$bft‑block</span> for each epoch.
 
-It is possible for there to be multiple <span style="white-space: nowrap">$\mathrm{*}$bft‑valid‑blocks</span> for the same proposal, with different notarization proofs and/or outer signatures, if the proposer is not honest. However, the property that there will be at most one <span style="white-space: nowrap">“honestly submitted”</span> <span style="white-space: nowrap">$\mathrm{*}$bft‑block</span> for each epoch is important for liveness, even though we cannot guarantee that any particular proposer for an epoch is honest. ==TODO check that we are correctly using this in the liveness analysis.==
+It is possible for there to be multiple <span style="white-space: nowrap">$\star$bft‑valid‑blocks</span> for the same proposal, with different notarization proofs and/or outer signatures, if the proposer is not honest. However, the property that there will be at most one <span style="white-space: nowrap">“honestly submitted”</span> <span style="white-space: nowrap">$\star$bft‑block</span> for each epoch is important for liveness, even though we cannot guarantee that any particular proposer for an epoch is honest.
+
+$\TODO$ check that we are correctly using this in the liveness analysis.
 ```
 
-There is an efficiently computable function <span style="white-space: nowrap">$\mathrm{*}\textsf{bft‑last‑final} :: \mathrm{*}\textsf{bft‑block} \to \mathrm{*}\textsf{bft‑block} \cup \{\bot\}$.</span> <span style="white-space: nowrap">For a $\mathrm{*}$bft‑block‑valid</span> input <span style="white-space: nowrap">block $C$,</span> this function outputs the last ancestor of $C$ that is final in the <span style="white-space: nowrap">context of $C$.</span>
+There is an efficiently computable function <span style="white-space: nowrap">$\star\bftlastfinal \typecolon \star\bftblock \to \star\bftblock \union \{\bot\}$.</span> <span style="white-space: nowrap">For a $\star$bft‑block‑valid</span> input <span style="white-space: nowrap">block $C$,</span> this function outputs the last ancestor of $C$ that is final in the <span style="white-space: nowrap">context of $C$.</span>
 
 ```admonish info
-The chain of ancestors is unambiguously determined because a <span style="white-space: nowrap"> $\mathrm{*}$bft‑proposal’s</span> parent reference hashes the entire parent <span style="white-space: nowrap">$\mathrm{*}$bft‑block;</span> each <span style="white-space: nowrap">$\mathrm{*}$bft‑block</span> commits to a proposal; and the parent hashes are collision-resistant. This holds despite the caveat mentioned above that there may be multiple <span style="white-space: nowrap">$\mathrm{*}$bft‑valid‑blocks</span> for the same proposal.
+The chain of ancestors is unambiguously determined because a <span style="white-space: nowrap">$\star$bft‑proposal’s</span> parent reference hashes the entire parent <span style="white-space: nowrap">$\star$bft‑block;</span> each <span style="white-space: nowrap">$\star$bft‑block</span> commits to a proposal; and the parent hashes are collision‑resistant. This holds despite the caveat mentioned above that there may be multiple <span style="white-space: nowrap">$\star$bft‑valid‑blocks</span> for the same proposal.
 ```
 
-<span style="white-space: nowrap">$\mathrm{*}\textsf{bft‑last‑final}$</span> must satisfy all of the following:
+<span style="white-space: nowrap">$\star\bftlastfinal$</span> must satisfy all of the following:
 
-* $\mathrm{*}\textsf{bft-last-final}(C) = \bot \iff C$ is not $\mathrm{*}$bft‑block‑valid.
-* If $C$ is $\mathrm{*}$bft‑block‑valid, then:
-  * $\mathrm{*}\textsf{bft-last-final}(C) \preceq_{\mathrm{*bft}} C$ (and therefore it must also be <span style="white-space: nowrap">$\mathrm{*}$bft‑block‑valid);</span>
-  * for all <span style="white-space: nowrap">$\mathrm{*}$bft‑valid‑blocks</span> $D$ such that <span style="white-space: nowrap">$C \preceq_{\mathrm{*bft}} D$,</span> <span style="white-space: nowrap">$\mathrm{*}\textsf{bft-last-final}(C) \preceq_{\mathrm{*bft}} \mathrm{*}\textsf{bft-last-final}(D)$.</span>
-* $\mathrm{*}\textsf{bft-last-final}(\mathcal{O}_{\mathrm{*bft}}) = \mathcal{O}_{\mathrm{*bft}}$.
+* $\star\bftlastfinal(C) = \bot \iff C$ is not $\star$bft‑block‑valid.
+* If $C$ is $\star$bft‑block‑valid, then:
+  * $\star\bftlastfinal(C) \preceq_{\starbft} C$ (and therefore it must also be <span style="white-space: nowrap">$\star$bft‑block‑valid);</span>
+  * for all <span style="white-space: nowrap">$\star$bft‑valid‑blocks</span> $D$ such that <span style="white-space: nowrap">$C \preceq_{\starbft} D$,</span> <span style="white-space: nowrap">$\star\bftlastfinal(C) \preceq_{\starbft} \star\bftlastfinal(D)$.</span>
+* $\star\bftlastfinal(\Origin_{\starbft}) = \Origin_{\starbft}$.
 
 ```admonish info
-It is correct to talk about the “last final block” of a given chain (that is, each <span style="white-space: nowrap">$\mathrm{*}$bft‑valid-block $C$</span> unambiguously determines a <span style="white-space: nowrap">$\mathrm{*}$bft‑valid-block</span> <span style="white-space: nowrap">$\mathrm{*}\textsf{bft-last-final}(C)$)</span>, but it is not correct to refer to a given <span style="white-space: nowrap">$\mathrm{*}$bft‑block</span> as objectively <span style="white-space: nowrap">“$\mathrm{*}$bft‑final”.</span>
+It is correct to talk about the “last final block” of a given chain (that is, each <span style="white-space: nowrap">$\star$bft‑valid-block $C$</span> unambiguously determines a <span style="white-space: nowrap">$\star$bft‑valid-block</span> <span style="white-space: nowrap">$\star\bftlastfinal(C)$)</span>, but it is not correct to refer to a given <span style="white-space: nowrap">$\star$bft‑block</span> as objectively <span style="white-space: nowrap">“$\star$bft‑final”.</span>
 ```
 
 A particular BFT protocol might need adaptations to fit it into this model <span style="white-space: nowrap">for $\Pi_{\mathrm{origbft}}$,</span> *before* we apply the Crosslink modifications to <span style="white-space: nowrap">obtain $\Pi_{\mathrm{bft}}$.</span> Any such adaptions are necessarily protocol-specific. In particular,
 * origbft‑proposal‑validity should correspond to the strongest property of an origbft‑proposal that is objectively and feasibly verifiable from the content of the proposal and its parent origbft‑block at the time the proposal is made. It must include verification of the proposer’s signature.
 * origbft‑block‑validity should correspond to the strongest property of an origbft‑block that is objectively and feasibly verifiable from the content of the block and its ancestors at the time the block is added to an origbft‑chain. It should typically include all of the relevant checks from origbft‑proposal‑validity that apply to the created block (or equivalent checks). It must also include verification of the notarization proof and the proposer’s outer signature.
-* If a node observes an origbft‑valid block $C$, then it should be infeasible for an adversary to cause a rollback in that node’s view <span style="white-space: nowrap">past $\textsf{origbft-last-final}(C)$,</span> and the view of the chain <span style="white-space: nowrap">up to $\textsf{origbft-last-final}(C)$</span> should agree with that of all other honest nodes. This is formalized in the next section.
+* If a node observes an origbft‑valid block $C$, then it should be infeasible for an adversary to cause a rollback in that node’s view <span style="white-space: nowrap">past $\origbftlastfinal(C)$,</span> and the view of the chain <span style="white-space: nowrap">up to $\origbftlastfinal(C)$</span> should agree with that of all other honest nodes. This is formalized in the next section.
 
-#### Safety of $\Pi_{\mathrm{*bft}}$
+#### Safety of $\Pi_{\starbft}$
 
 The intuition behind the following safety property is that:
-* For $\Pi_{\mathrm{*bft}}$ to be safe, it should never be the case that two honest nodes observe (at any time) <span style="white-space: nowrap">$\mathrm{*}$bft‑blocks $B$ and $B'$</span> respectively that they each consider final in some context, but <span style="white-space: nowrap">$B \preceq\hspace{-0.5em}\succeq_{\mathrm{*bft}} B'$</span> does not hold.
-* By definition, an honest node observes a <span style="white-space: nowrap">$\mathrm{*}$bft‑block</span> to be final in the context of another <span style="white-space: nowrap">$\mathrm{*}$bft‑block $C$,</span> <span style="white-space: nowrap">iff $B \preceq_{\mathrm{*bft}} \mathrm{*}\textsf{bft-last-final}(C)$.</span>
+* For $\Pi_{\starbft}$ to be safe, it should never be the case that two honest nodes observe (at any time) <span style="white-space: nowrap">$\star$bft‑blocks $B$ and $B'$</span> respectively that they each consider final in some context, but <span style="white-space: nowrap">$B \agrees_{\starbft} B'$</span> does not hold.
+* By definition, an honest node observes a <span style="white-space: nowrap">$\star$bft‑block</span> to be final in the context of another <span style="white-space: nowrap">$\star$bft‑block $C$,</span> <span style="white-space: nowrap">iff $B \preceq_{\starbft} \star\bftlastfinal(C)$.</span>
 
-We say that a <span style="white-space: nowrap">$\mathrm{*}$bft‑block</span> is <span style="white-space: nowrap">“in honest view”</span> if a party observes it at some time at which that party is honest.
+<span id="in-honest-view"></span>
+We say that a <span style="white-space: nowrap">$\star$bft‑block</span> is “in honest view” if a party observes it at some time at which that party is honest.
 
-```admonish success "Definition: Final Agreement"
-An execution of $\Pi_{\mathrm{*bft}}$ has **Final Agreement** iff for all <span style="white-space: nowrap">$\mathrm{*}$bft‑valid blocks $C$</span> in honest view at <span style="white-space: nowrap">time $t$</span> and <span style="white-space: nowrap">$C'$ in honest view</span> at <span style="white-space: nowrap">time $t'$,</span> we have <span style="white-space: nowrap">$\mathrm{*}\textsf{bft-last-final}(C) \preceq\hspace{-0.5em}\succeq_{\mathrm{*bft}} \mathrm{*}\textsf{bft-last-final}(C')$.</span>
+<span id="final-agreement"></span>
+```admonish success "Definition: Final Agreement"
+An execution of $\Pi_{\starbft}$ has **Final Agreement** iff for all <span style="white-space: nowrap">$\star$bft‑valid blocks $C$</span> in honest view at <span style="white-space: nowrap">time $t$</span> and <span style="white-space: nowrap">$C'$ in honest view</span> at <span style="white-space: nowrap">time $t'$,</span> we have <span style="white-space: nowrap">$\star\bftlastfinal(C) \agrees_{\starbft} \star\bftlastfinal(C')$.</span>
 ```
 
 Note that it is possible for this property to hold for an execution of a BFT protocol in an asynchronous communication model. The following caveat applies: if the **one‑third bound on non‑honest voting** property is *ever* broken at any time in an execution, then it may not be possible to maintain **Final Agreement** from that point on. This is an area of possible improvement in the design and analysis, left for future work.
@@ -163,7 +171,7 @@ Streamlet as described in [[CS2020]](https://eprint.iacr.org/2020/088.pdf) has t
 * “notarized” (but not final);
 * “final”.
 
-By “valid” the Streamlet paper means just that it satisfies the structural property of being part of a block chain with parent hashes. The role of <span style="white-space: nowrap">$\mathrm{*}$bft‑block‑validity</span> in our model corresponds roughly to Streamlet’s “notarized”. It turns out that with some straightforward changes relative to Streamlet, we can identify “origbft‑block‑valid” with “notarized” and consider an origbft‑valid‑chain to only consist of notarized blocks. This is not obvious, but is a useful simplification.
+By “valid” the Streamlet paper means just that it satisfies the structural property of being part of a block chain with parent hashes. The role of <span style="white-space: nowrap">$\star$bft‑block‑validity</span> in our model corresponds roughly to Streamlet’s “notarized”. It turns out that with some straightforward changes relative to Streamlet, we can identify “origbft‑block‑valid” with “notarized” and consider an origbft‑valid‑chain to only consist of notarized blocks. This is not obvious, but is a useful simplification.
 
 Here is how the paper defines “notarized”:
 
@@ -175,7 +183,7 @@ In unmodified Streamlet, the order in which a player sees signatures might cause
 
 In Crosslink, however, we need origbft‑block‑validity to be an objectively and feasibly verifiable property. We also would prefer reliable message delivery within bounded time not to be a basic assumption of our communication model. (This does not dictate what assumptions about message delivery are made for particular security analyses.) If we did not make a modification to the protocol to take this into account, then some Crosslink nodes might receive a two‑thirds absolute supermajority of voting messages and consider a BFT block to be notarized, while others might never receive enough of those messages.
 
-Obviously a *proposal* cannot include signatures on itself &mdash; but the block formed from it can include proofs about the proposal and signatures. We can therefore say that when a proposal gains a two‑thirds absolute supermajority of signatures, a block is created from it that contains a proof (such as an aggregate signature) that it had such a supermajority. For example, we can have the proposer itself make this proof once it has enough votes, sign the <span style="white-space: nowrap">resulting $(P, \mathsf{proof}_P)$</span> to create a block, then *submit* that block in a separate message. (The proposer has most incentive to do this in order to gain whatever reward attaches to a successful proposal; it can outsource the proving task if needed.) Then the origbft‑block‑validity rule can require a valid supermajority proof, which is objectively and feasibly verifiable. Players that see an origbft‑block‑valid block can immediately consider it notarized.
+Obviously a *proposal* cannot include signatures on itself — but the block formed from it can include proofs about the proposal and signatures. We can therefore say that when a proposal gains a two‑thirds absolute supermajority of signatures, a block is created from it that contains a proof (such as an aggregate signature) that it had such a supermajority. For example, we can have the proposer itself make this proof once it has enough votes, sign the <span style="white-space: nowrap">resulting $(P, \proof_P)$</span> to create a block, then *submit* that block in a separate message. (The proposer has most incentive to do this in order to gain whatever reward attaches to a successful proposal; it can outsource the proving task if needed.) Then the origbft‑block‑validity rule can require a valid supermajority proof, which is objectively and feasibly verifiable. Players that see an origbft‑valid‑block can immediately consider it notarized.
 
 Note that for the liveness analysis to be unaffected, we need to assume that the combined latency of messages, of collecting and aggregating signatures, and of block submission is such that all players will receive a notarized block corresponding to a given proposal (rather than just all of the votes for the proposal) within two epochs. Alternatively we could re‑do the timing analysis.
 
@@ -185,16 +193,16 @@ Streamlet’s finality rule is:
 
 > If in any notarized chain, there are three adjacent blocks with consecutive epoch numbers, the prefix of the chain up to the second of the three blocks is considered final. When a block becomes final, all of its prefix must be final too.
 
-We can straightforwardly express this as an $\textsf{origbft-last-final}$ function of a context block $C$, as required by the model:
+We can straightforwardly express this as an $\origbftlastfinal$ function of a context block $C$, as required by the model:
 
-For an origbft‑valid block $C$, $\textsf{origbft-last-final}(C)$ is the last origbft‑valid block $B \preceq_{\mathrm{origbft}} C$ such that either $B = \mathcal{O}_{\mathrm{origbft}}$ or $B$ is the second block of a group of three adjacent blocks with consecutive epoch numbers.
+For an origbft‑valid‑block $C$, $\origbftlastfinal(C)$ is the last origbft‑valid‑block $B \preceq_{\origbft} C$ such that either $B = \Origin_{\origbft}$ or $B$ is the second block of a group of three adjacent blocks with consecutive epoch numbers.
 
 Note that “When a block becomes final, all of its prefix must be final too.” is implicit in the model.
 ```
 
 ### Model for best-chain protocols (Π<sub>{origbc,bc}</sub>)
 
-A node’s view in $\Pi_{\mathrm{*bc}}$ includes a set of <span style="white-space: nowrap">$\mathrm{*}$bc‑block chains</span> each rooted at a fixed <span style="white-space: nowrap">genesis $\mathrm{*}$bc‑block $\mathcal{O}_{\mathrm{*bc}}$.</span> There is a <span style="white-space: nowrap">$\mathrm{*}$bc‑block‑validity rule</span> (often described as a collection of <span style="white-space: nowrap">“consensus rules”),</span> depending only on the content of the block and its ancestors. A non‑genesis block can only be <span style="white-space: nowrap">$\mathrm{*}$bc‑block‑valid</span> if its parent is <span style="white-space: nowrap">$\mathrm{*}$bc‑block‑valid.</span> <span style="white-space: nowrap">By “$\mathrm{*}$bc‑valid‑chain”</span> we mean a chain of <span style="white-space: nowrap">$\mathrm{*}$bc‑block‑valid blocks.</span>
+A node’s view in $\Pi_{\starbc}$ includes a set of <span style="white-space: nowrap">$\star$bc‑block chains</span> each rooted at a fixed <span style="white-space: nowrap">genesis $\star$bc‑block $\Origin_{\starbc}$.</span> There is a <span style="white-space: nowrap">$\star$bc‑block‑validity rule</span> (often described as a collection of <span style="white-space: nowrap">“consensus rules”),</span> depending only on the content of the block and its ancestors. A non‑genesis block can only be <span style="white-space: nowrap">$\star$bc‑block‑valid</span> if its parent is <span style="white-space: nowrap">$\star$bc‑block‑valid.</span> <span style="white-space: nowrap">By “$\star$bc‑valid‑chain”</span> we mean a chain of <span style="white-space: nowrap">$\star$bc‑block‑valid blocks.</span>
 
 The definition of <span style="white-space: nowrap">$\mathrm{*}$bc‑block‑validity</span> is such that it is hard for a block producer to extend a <span style="white-space: nowrap">$\mathrm{*}$bc‑valid‑chain</span> unless they are selected by a random process that chooses a block producer in proportion to their resources with an approximately known and consistent time distribution, subject to some assumption about the total proportion of resources held by honest nodes.
 
@@ -266,11 +274,11 @@ To achieve the intent, it is sufficient to change this rule to only allow coinba
 If we assume that coinbase block subsidies and fees, and the position of coinbase transactions as the first transaction in each block have already been checked as <span style="white-space: nowrap">$\mathrm{*}$bc‑block‑validity rules,</span> then the model is sufficient.
 ```
 
-A “coinbase transaction” is a <span style="white-space: nowrap">$\mathrm{*}$bc‑transaction</span> that only distributes newly issued funds and has no inputs.
+A “coinbase transaction” is a <span style="white-space: nowrap">$\star$bc‑transaction</span> that only distributes newly issued funds and has no inputs.
 
-Define $\textsf{is-coinbase-only-block} :: \mathrm{*}\textsf{bc-block} \to \mathsf{boolean}$ so that $\textsf{is-coinbase-only-block}(B) = \mathsf{true}$ iff $B$ has exactly one transaction that is a coinbase transaction.
+Define $\iscoinbaseonlyblock \typecolon \star\bcblock \to \boolean$ so that $\iscoinbaseonlyblock(B) = \true$ iff $B$ has exactly one transaction that is a coinbase transaction.
 
-Each <span style="white-space: nowrap">$\mathrm{*}$bc‑block</span> is summarized by a <span style="white-space: nowrap">$\mathrm{*}$bc‑header</span> that commits to the block. There is a notion of <span style="white-space: nowrap">$\mathrm{*}$bc‑header‑validity</span> that is necessary, but not sufficient, for validity of the block. We will only make the distinction between <span style="white-space: nowrap">$\mathrm{*}$bc‑headers</span> and <span style="white-space: nowrap">$\mathrm{*}$bc‑blocks</span> when it is necessary to avoid ambiguity.
+Each <span style="white-space: nowrap">$\star$bc‑block</span> is summarized by a <span style="white-space: nowrap">$\star$bc‑header</span> that commits to the block. There is a notion of <span style="white-space: nowrap">$\star$bc‑header‑validity</span> that is necessary, but not sufficient, for validity of the block. We will only make the distinction between <span style="white-space: nowrap">$\star$bc‑headers</span> and <span style="white-space: nowrap">$\star$bc‑blocks</span> when it is necessary to avoid ambiguity.
 
 ```admonish info collapsible=true title="Header validity for Proof‑of‑Work protocols."
 In a Proof‑of‑Work protocol, it is normally possible to check the Proof‑of‑Work of a block using only the header. There is a difficulty adjustment function that determines the target difficulty for a block based on its parent chain. So, checking that the correct difficulty target has been used relies on knowing that the header’s parent chain is valid.
@@ -280,9 +288,9 @@ Checking header validity before expending further resources on a purported block
 
 Typically, Bitcoin‑derived best chain protocols do not need much adaptation to fit into this model. The model still omits some details that would be important to implementing Crosslink, but distracting for this level of abstraction.
 
-#### Safety of $\Pi_{\mathrm{*bc}}$
+#### Safety of $\Pi_{\starbc}$
 
-We make an assumption on executions of $\Pi_{\mathrm{origbc}}$ that we will call **Prefix Consistency** (introduced in [[PSS2016](https://eprint.iacr.org/2016/454.pdf), section 3.3] as just “consistency”):
+We make an assumption on executions of $\Pi_{\origbc}$ that we will call **Prefix Consistency** (introduced in [[PSS2016](https://eprint.iacr.org/2016/454.pdf), section 3.3] as just “consistency”):
 
 ```admonish success "Definition: Prefix Consistency"
 An execution of $\Pi_{\mathrm{*bc}}$ has **Prefix Consistency** at confirmation depth $\sigma$, iff <span style="white-space: nowrap">for all times $t \leq t'$</span> and <span style="white-space: nowrap">all nodes $i$, $j$</span> (potentially the same) such that <span style="white-space: nowrap">$i$ is honest</span> at <span style="white-space: nowrap">time $t$</span> and <span style="white-space: nowrap">$j$ is honest</span> at <span style="white-space: nowrap">time $t'$,</span> we have that <span style="white-space: nowrap">$\mathsf{ch}_i^t \lceil_{\!\mathrm{*bc}}^\sigma\, \preceq_{\mathrm{*bc}} \mathsf{ch}_j^{t'}$.</span>
@@ -295,12 +303,14 @@ The literature uses the same name, <span style="white-space: nowrap">“common�
 
 > The common‑prefix property by Garay et al [[GKL2015]](https://link.springer.com/chapter/10.1007/978-3-662-46803-6_10), which was already considered and studied by Nakamoto [[Nakamoto2008]](https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.221.9986), requires that in any round $r$, the record chains of any two honest players $i$, $j$ agree on all, but potentially the last $T$, records. We note that this property (even in combination with the other two desiderata [of Chain Growth and Chain Quality]) provides quite weak guarantees: even if any two honest parties perfectly agree on the chains, the chain could be completely different on, say, even rounds and odd rounds. We here consider a stronger notion of consistency which additionally stipulates players should be consistent with their “future selves”.
 >
-> Let $\mathsf{consistent}^T(\mathsf{view}) = 1$ iff for <span style="white-space: nowrap">all rounds $r \leq r'$,</span> and <span style="white-space: nowrap">all players $i$, $j$</span> (potentially the same) such that <span style="white-space: nowrap">$i$ is honest at $\mathsf{view}^r$</span> and <span style="white-space: nowrap">$j$ is honest at $\mathsf{view}^{r'}$,</span> we have that the prefixes of $\mathcal{C}_i^r(\mathsf{view})$ and $\mathcal{C}_j^{r'}(\mathsf{view})$ consisting of the first $\ell = |\mathcal{C}_i^r(\mathsf{view})| - T$ records are identical.
+> Let $\consistent^T(\view) = 1$ iff for <span style="white-space: nowrap">all rounds $r \leq r'$,</span> and <span style="white-space: nowrap">all players $i$, $j$</span> (potentially the same) such that <span style="white-space: nowrap">$i$ is honest at $\view^r$</span> and <span style="white-space: nowrap">$j$ is honest at $\view^{r'}$,</span> we have that the prefixes of $\mathcal{C}_i^r(\view)$ and $\mathcal{C}_j^{r'}(\view)$ consisting of the first $\ell = |\mathcal{C}_i^r(\view)| - T$ records are identical.
 
-Unfortunately, [[GKL2020]](https://eprint.iacr.org/2014/765.pdf), which is a revised version of [[GKL2015]](https://link.springer.com/chapter/10.1007/978-3-662-46803-6_10), switches to the stronger variant without changing the name. (The [eprint version history](https://eprint.iacr.org/archive/versions/2014/765) may be useful; the change was made in [version 20181013:200033](https://eprint.iacr.org/archive/2014/765/20181013:200033), page 17.)
+Unfortunately, [[GKL2020]](https://eprint.iacr.org/2014/765.pdf), which is a revised version of [[GKL2015]](https://link.springer.com/chapter/10.1007/978-3-662-46803-6_10), switches to the stronger variant *without changing the name*.
+
+(The [eprint version history](https://eprint.iacr.org/archive/versions/2014/765) may be useful; the change was made in [version 20181013:200033](https://eprint.iacr.org/archive/2014/765/20181013:200033), page 17.)
 
 Note that [GKL2020] uses an adaptive‑corruption model, “meaning that the adversary is allowed to take control of parties on the fly”, and so their wording in Definition 3:
-> ... for any pair of <span style="white-space: nowrap">honest players $P_1$, $P_2$</span> adopting the <span style="white-space: nowrap">chains $\mathcal{C}_1$, $\mathcal{C}_2$</span> at rounds $r_1 \leq r_2$ in <span style="white-space: nowrap"><font style="font-variant: small-caps;">view</font>$^{t,n}_{\Pi,\mathcal{A},\mathcal{Z}}$</span> respectively, it holds that <span style="white-space: nowrap">$\mathcal{C}_1^{\lceil k} \preceq \mathcal{C}_2$.</span>
+> ... for any pair of <span style="white-space: nowrap">honest players $P_1$, $P_2$</span> adopting the <span style="white-space: nowrap">chains $\mathcal{C}_1$, $\mathcal{C}_2$</span> at rounds $r_1 \leq r_2$ in <span style="white-space: nowrap"><font style="font-variant: small-caps;">view</font>$^{t,n}_{\Pi,\mathcal{A},\mathcal{Z}}$</span> respectively, it holds that <span style="white-space: nowrap">$\mathcal{C}_1^{\trunc k} \preceq \mathcal{C}_2$.</span>
 
 is intended to mean the same as our
 
@@ -316,37 +326,37 @@ Incidentally, I cannot find any variant of this property in [[Nakamoto2008]](htt
 
 And yet, [[GKL2020]](https://eprint.iacr.org/2014/765.pdf) claims to *prove* this property from other assumptions. So we know that those assumptions must also rule out a long partition between honest nodes. In fact the required assumption is implicit in the communication model:
 * A synchronous network cannot be partitioned.
-* A partially synchronous network <span style="white-space: nowrap">&mdash;that is,</span> providing reliable delivery with bounded but <span style="white-space: nowrap">unknown delay&mdash;</span> cannot be partitioned for longer than the delay.
+* A partially synchronous network <span style="white-space: nowrap">—that is,</span> providing reliable delivery with bounded but <span style="white-space: nowrap">unknown delay—</span> cannot be partitioned for longer than the delay.
 
 We might be concerned that these implicit assumptions are stronger than we would like. In practice, the peer‑to‑peer network protocol of Bitcoin and Zcash attempts to flood blocks to all nodes. This protocol might have weaknesses, but it is not intended to (and plausibly does not) depend on all messages being received. (Incidentally, Streamlet also implicitly floods messages to all nodes.)
 
-Also, Streamlet and many other BFT protocols do *not* assume *for safety* that the network is not partitioned. That is, BFT protocols can be safe in a fully asynchronous communication model with unreliable messaging. That is why we avoid taking synchrony or partial synchrony as an implicit assumption of the communication model, or else we could end up with a protocol with weaker safety properties than $\Pi_{\mathrm{origbft}}$ alone.
+Also, Streamlet and many other BFT protocols do *not* assume *for safety* that the network is not partitioned. That is, BFT protocols can be safe in a fully asynchronous communication model with unreliable messaging. That is why we avoid taking synchrony or partial synchrony as an implicit assumption of the communication model, or else we could end up with a protocol with weaker safety properties than $\Pi_{\origbft}$ alone.
 
-This leaves the question of whether the **Prefix Consistency** property is still too strong, even if we do not rely on it for the analysis of safety when $\Pi_{\mathrm{bft}}$ has not been subverted. In particular, if a particular <span style="white-space: nowrap">node $h$</span> is not well-connected to the rest of the network, then that will inevitably affect <span style="white-space: nowrap">node $h$’s</span> security, but should not affect other honest nodes’ security.
+This leaves the question of whether the **Prefix Consistency** property is still too strong, even if we do not rely on it for the analysis of safety when $\Pi_{\bft}$ has not been subverted. In particular, if a particular <span style="white-space: nowrap">node $h$</span> is not well-connected to the rest of the network, then that will inevitably affect <span style="white-space: nowrap">node $h$’s</span> security, but should not affect other honest nodes’ security.
 
 Fortunately, it is not the case that disconnecting a single <span style="white-space: nowrap">node $h$</span> from the network causes the security assumption to be voided. The solution is to view $h$ as not honest in that case (even though it would follow the protocol if it could). This achieves the desired effect within the model, because other nodes can no longer rely on <span style="white-space: nowrap">$h$’s honest input.</span> Although viewing $h$ as potentially adversarial might seem conservative from the point of view of other nodes, bear in mind that an adversary could censor an arbitrary subset of incoming and outgoing messages from the node, and this may be best modelled by considering it to be effectively controlled by the adversary.
 ```
 
-Prefix Consistency compares the <span style="white-space: nowrap">$\sigma$-truncated chain</span> of <span style="white-space: nowrap">some node $i$</span> with the *untruncated* chain of <span style="white-space: nowrap">node $j$.</span> For our analysis of safety of the derived ledgers, we will also need to make an assumption on executions of $\Pi_{\mathrm{origbc}}$ that at <span style="white-space: nowrap">any given time $t$,</span> any two <span style="white-space: nowrap">honest nodes $i$ and $j$</span> **agree** on their confirmed <span style="white-space: nowrap">prefixes &mdash;</span> with only the caveat that one may have observed more of the chain than the other. <span style="white-space: nowrap">That is:</span>
+Prefix Consistency compares the <span style="white-space: nowrap">$\sigma$-truncated chain</span> of <span style="white-space: nowrap">some node $i$</span> with the *untruncated* chain of <span style="white-space: nowrap">node $j$.</span> For our analysis of safety of the derived ledgers, we will also need to make an assumption on executions of $\Pi_{\origbc}$ that at <span style="white-space: nowrap">any given time $t$,</span> any two <span style="white-space: nowrap">honest nodes $i$ and $j$</span> **agree** on their confirmed <span style="white-space: nowrap">prefixes —</span> with only the caveat that one may have observed more of the chain than the other. <span style="white-space: nowrap">That is:</span>
 
 ```admonish success "Definition: Prefix Agreement"
 An execution of $\Pi_{\mathrm{*bc}}$ has **Prefix Agreement** at confirmation <span style="white-space: nowrap">depth $\sigma$,</span> iff <span style="white-space: nowrap">for all times $t$, $t'$</span> and <span style="white-space: nowrap">all nodes $i$, $j$</span> (potentially the same) such that <span style="white-space: nowrap">$i$ is honest</span> at <span style="white-space: nowrap">time $t$</span> and <span style="white-space: nowrap">$j$ is honest</span> at <span style="white-space: nowrap">time $t'$,</span> we have <span style="white-space: nowrap">$\mathsf{ch}_i^t \lceil_{\!\mathrm{*bc}}^\sigma\, \preceq\hspace{-0.5em}\succeq_{\mathrm{*bc}} \mathsf{ch}_j^{t'} \lceil_{\!\mathrm{*bc}}^\sigma$.</span>
 ```
 
-```admonish info collapsible=true title="Why are this property, and Prefix Consistency above, stated as unconditional properties of protocol *executions*, rather than as probabilistic assumptions?"
-Our security arguments that depend on these properties will all be of the form “in an execution where (safety properties) are not violated, (undesirable thing) cannot happen”.
+```admonish info collapsible=true title="Why are this property, and Prefix Consistency above, stated as unconditional properties of protocol *executions*, rather than as probabilistic assumptions?"
+Our security arguments that depend on these properties will all be of the form “in an execution where ⟨safety properties⟩ are not violated, ⟨undesirable thing⟩ cannot happen”.
 
 It is not necessary to involve probability in arguments of this form. Any probabilistic reasoning can be done separately.
 
-In particular, if a statement of this form holds, and (safety properties) are violated with probability <span style="white-space: nowrap">at most $p$</span> under certain conditions, then it immediately follows that under those conditions (undesirable thing) happens with probability <span style="white-space: nowrap">at most $p$.</span> Furthermore, (undesirable thing) can only happen *after* (safety properties) have been violated, because the execution up to that point has been an execution in which (safety properties) are *not* violated.
+In particular, if a statement of this form holds, and ⟨safety properties⟩ are violated with probability <span style="white-space: nowrap">at most $p$</span> under certain conditions, then it immediately follows that under those conditions ⟨undesirable thing⟩ happens with probability <span style="white-space: nowrap">at most $p$.</span> Furthermore, ⟨undesirable thing⟩ can only happen *after* ⟨safety properties⟩ have been violated, because the execution up to that point has been an execution in which ⟨safety properties⟩ are *not* violated.
 
 With few exceptions, involving probability in a security argument is best done only to account for nondeterministic choices in the protocol itself. This is opinionated advice, but I think a lot of security proofs would be simpler if inherently probabilistic arguments were more distinctly separated from unconditional ones.
 
-In the case of the Prefix Agreement property, an alternative approach would be to prove that Prefix Agreement holds with some probability given Prefix Consistency and some other chain properties. This is what [[NTT2020]](https://eprint.iacr.org/2020/1091.pdf) does in its <span style="white-space: nowrap">Theorem 2,</span> which essentially says that under certain conditions Prefix Agreement holds except with <span style="white-space: nowrap">probability $e^{-\Omega(\sqrt{\sigma})}$.</span>
+In the case of the Prefix Agreement property, an alternative approach would be to prove that Prefix Agreement holds with some probability given Prefix Consistency and some other chain properties. This is what [[NTT2020]](https://eprint.iacr.org/2020/1091.pdf) does in its <span style="white-space: nowrap">Theorem 2,</span> which essentially says that under certain conditions Prefix Agreement holds except with <span style="white-space: nowrap">probability $e^{-\Omega(\sqrt{\sigma})}$.</span>
 
 The conclusions that can be obtained from this approach are necessarily probabilistic, and depending on the techniques used, the proof may not be tight; that is, the proof may obtain a bound on the probability of failure that is (either asymptotically or concretely) higher than needed. This is the case for <span>[[NTT2020](https://eprint.iacr.org/2020/1091.pdf), Theorem 2];</span> <span style="white-space: nowrap">footnote 10</span> in that paper points out that the expression for the probability can be asymptotically improved:
 
-> Using the recursive bootstrapping argument developed in <span>[[DKT+2020](https://eprint.iacr.org/2020/601.pdf), Section 4.2],</span> it is possible to bring the error <span style="white-space: nowrap">probability $e^{-\Omega(\sqrt{\sigma})}$</span> as close to an exponential decay as possible. In this context, <span style="white-space: nowrap">for any $\epsilon > 0$,</span> it is possible to find <span style="white-space: nowrap">constants $A_\epsilon$, $a_\epsilon$</span> such that $\Pi_{\mathrm{lc}}(p)$ is secure after <span style="white-space: nowrap">*C*$(\max(\mathsf{GST}, \mathsf{GAT}))$</span> with confirmation time $T_{\mathrm{confirm}} = \sigma$ except with <span style="white-space: nowrap">probability $A_\epsilon\, e^{-a_\epsilon\, \sigma^{1 - \epsilon}}$.</span>
+> Using the recursive bootstrapping argument developed in <span>[[DKT+2020](https://eprint.iacr.org/2020/601.pdf), Section 4.2],</span> it is possible to bring the error <span style="white-space: nowrap">probability $e^{-\Omega(\sqrt{\sigma})}$</span> as close to an exponential decay as possible. In this context, <span style="white-space: nowrap">for any $\epsilon > 0$,</span> it is possible to find <span style="white-space: nowrap">constants $A_\epsilon$, $a_\epsilon$</span> such that $\Pi_{\lc}(p)$ is secure after <span style="white-space: nowrap">*C*$(\max(\GST, \GAT))$</span> with confirmation time $T_{\confirm} = \sigma$ except with <span style="white-space: nowrap">probability $A_\epsilon\, e^{-a_\epsilon\, \sigma^{1 - \epsilon}}$.</span>
 
 (Here $p$ is the probability that any given node gets to produce a block in any given time slot.)
 
@@ -354,17 +364,17 @@ In fact none of the proofs of security properties for Snap‑and‑Chat depend o
 
 Talking about what is possible in particular executions has further advantages:
 * It sidesteps the issue of how to interpret results in the partially synchronous model, when we do not know what <span style="white-space: nowrap">*C*$(\max(\mathsf{GST}, \mathsf{GAT}))$ is.</span> See also the critique of applying the partially synchronous model to block-chain protocols under [“Discussion of [GKL2020]’s communication model and network partition”](#admonition-discussion-of-gkl2020s-communication-model-and-network-partition) above.
-* We do not require $\Pi_{\mathrm{bc}}$ to be a Nakamoto‑style Proof‑of‑Work block chain protocol. Some other kind of protocol could potentially satisfy Prefix Consistency and Prefix Agreement.
+* We do not require $\Pi_{\bc}$ to be a Nakamoto‑style Proof‑of‑Work block chain protocol. Some other kind of protocol could potentially satisfy Prefix Consistency and Prefix Agreement.
 * It is not clear whether a $e^{-\Omega(\sqrt{\sigma})}$ probability of failure would be concretely adequate. That would depend on the value of $\sigma$ and the constant hidden by the $\Omega$ notation. The asymptotic property using $\Omega$ tells us whether a sufficiently large $\sigma$ *could* be chosen, but we are more interested in what needs to be assumed for a given concrete choice of $\sigma$.
 * If a violation of a required safety property occurs *in a given execution*, then the safety argument for Crosslink that depended on the property fails for that execution, regardless of what the probability of that occurrence was. This approach therefore more precisely models the consequences of such violations.
 ```
 
-```admonish info collapsible=true title="Why, intuitively, should we believe that Prefix Agreement and Prefix Consistency for a large enough confirmation depth hold with high probability for executions of a PoW‑based best‑chain protocol?"
+```admonish info collapsible=true title="Why, intuitively, should we believe that Prefix Agreement and Prefix Consistency for a large enough confirmation depth hold with high probability for executions of a PoW‑based best‑chain protocol?"
 Roughly speaking, the intuition behind both properties is as follows:
 
-Honest nodes are collectively able to find blocks faster than an adversary, and communication between honest nodes is sufficiently reliable that they act as a combined network racing against that adversary. Then by the argument in [[Nakamoto2008]](https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.221.9986), modified by [[GP2020]](https://arxiv.org/pdf/1702.02867.pdf) to correct an error in the concrete analysis, a private mining attack that attempts to cause a <span style="white-space: nowrap">$\sigma$‑block</span> rollback will, with high probability, fail for <span style="white-space: nowrap">large enough $\sigma$.</span> A private mining attack is optimal by the argument in [[DKT+2020]](https://arxiv.org/pdf/2005.10484.pdf).
+Honest nodes are collectively able to find blocks faster than an adversary, and communication between honest nodes is sufficiently reliable that they act as a combined network racing against that adversary. Then by the argument in [[Nakamoto2008]](https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.221.9986), modified by [[GP2020]](https://arxiv.org/pdf/1702.02867.pdf) to correct an error in the concrete analysis, a private mining attack that attempts to cause a <span style="white-space: nowrap">$\sigma$‑block</span> rollback will, with high probability, fail for <span style="white-space: nowrap">large enough $\sigma$.</span> A private mining attack is optimal by the argument in [[DKT+2020]](https://arxiv.org/pdf/2005.10484.pdf).
 
-Any further analysis of the conditions under which these properties hold should be done in the context of a <span style="white-space: nowrap">particular $\Pi_{\mathrm{*bc}}$.</span>
+Any further analysis of the conditions under which these properties hold should be done in the context of a <span style="white-space: nowrap">particular $\Pi_{\starbc}$.</span>
 ```
 
 ```admonish info collapsible=true title="Why is the quantification over two *different* times *t* and *t′*?"
@@ -408,9 +418,9 @@ The definition of $\mathsf{LOG}_{\mathsf{bda},i,\mu}$ is also used internally to
 
 ## Structural additions
 
-1. Each bc‑header has, in addition to origbc‑header fields, a $\mathsf{context\_bft}$ field that commits to a bft‑block.
-2. Each bft‑proposal has, in addition to origbft‑proposal fields, a $\mathsf{headers\_bc}$ field containing a sequence of exactly <span style="white-space: nowrap">$\sigma$ bc‑headers</span> (zero‑indexed, deepest first).
-3. Each non‑genesis bft‑block has, in addition to origbft‑block fields, a $\mathsf{headers\_bc}$ field containing a sequence of exactly <span style="white-space: nowrap">$\sigma$ bc‑headers</span> (zero-indexed, deepest first). The genesis bft‑block has <span style="white-space: nowrap">$\mathsf{headers\_bc} = \varnothing$.</span>
+1. Each bc‑header has, in addition to origbc‑header fields, a $\contextbft$ field that commits to a bft‑block.
+2. Each bft‑proposal has, in addition to origbft‑proposal fields, a $\headersbc$ field containing a sequence of exactly <span style="white-space: nowrap">$\sigma$ bc‑headers</span> (zero‑indexed, deepest first).
+3. Each non‑genesis bft‑block has, in addition to origbft‑block fields, a $\headersbc$ field containing a sequence of exactly <span style="white-space: nowrap">$\sigma$ bc‑headers</span> (zero-indexed, deepest first). The genesis bft‑block has <span style="white-space: nowrap">$\headersbc = \null$.</span>
 4. Each bc‑transaction has, in addition to origbc‑transaction fields, a $\mathsf{block\_bc}$ field labelling it with the bc‑block that it comes from. (This is not used directly by Crosslink but it may be needed to check $\Pi_{\mathrm{bc}}$ consensus rules.)
 
 For a bft‑block or bft‑proposal $B$, define $$
@@ -657,11 +667,11 @@ By the way, the “tailhead” of a tailed animal is the area where the posterio
 
 An honest producer of a <span style="white-space: nowrap">bc‑block $H$</span> must follow the consensus rules under [$\Pi_{\mathrm{bc}}$ block validity](#Πbc-block-validity) above. In particular, it must produce a safety block if required to do so by the **Finality depth rule**. It also must only include transactions that are valid in the context specified under [$\Pi_{\mathrm{bc}}$ contextual validity change](#Πbc-contextual-validity-change) above.
 
-To <span style="white-space: nowrap">choose $H\mathsf{.context\_bft}$,</span> the producer considers a subset of the tips of bft‑valid‑chains in its view: $$
-\{ T : T \text{ is bft‑block‑valid and } \mathsf{LF}(H \lceil_{\mathrm{bc}}^1) \preceq_{\mathrm{bft}} \textsf{bft-last-final}(T) \}
+To <span style="white-space: nowrap">choose $H\dot\contextbft$,</span> the producer considers a subset of the tips of bft‑valid‑chains in its view: $$
+\{ T : T \text{ is bft‑block‑valid and } \LF(H \trunc_{\bc}^1) \preceq_{\bft} \bftlastfinal(T) \}
 $$ It chooses one of the longest of these chains, $C$, breaking ties by maximizing <span style="white-space: nowrap">$\mathsf{score}(\mathsf{snapshot}(\textsf{bft-last-final}(C)))$.</span> If there is still a tie then it is broken arbitrarily.
 
-The honest block producer then sets <span style="white-space: nowrap">$H\mathsf{.context\_bft} := C$.</span>
+The honest block producer then sets <span style="white-space: nowrap">$H\dot\contextbft$ to $C$.</span>
 
 ```admonish info collapsible=true title="Why not choose *T*  such that *H* ⌈<sup>1</sup><sub>bc</sub> . context_bft  ⪯<sub>bft</sub>  bft‑last‑final(*T* )?"
 The effect of this would be to tend to more often follow the last bft‑block seen by the producer of the parent bc‑block, if there is a choice. It is not always possible to do so, though: the resulting set of candidates <span style="white-space: nowrap">for $C$</span> might be empty.
@@ -670,7 +680,7 @@ Also, it is not clear that giving the parent bc‑block‑producer the chance to
 ```
 
 ```admonish info collapsible=true title="Why choose the longest *C*, rather than the longest bft‑last‑final(*C* )?"
-We could have instead chosen $C$ to maximize the length <span style="white-space: nowrap">of $\textsf{bft-last-final}(C)$.</span> The rule we chose follows Streamlet, which builds on the longest notarized chain, not the longest finalized chain. This may call for more analysis specific to the chosen BFT protocol.
+We could have instead chosen $C$ to maximize the length <span style="white-space: nowrap">of $\bftlastfinal(C)$.</span> The rule we chose follows Streamlet, which builds on the longest notarized chain, not the longest finalized chain. This may call for more analysis specific to the chosen BFT protocol.
 ```
 
 ```admonish info collapsible=true title="Why this tie‑breaking rule?"

@@ -1,6 +1,6 @@
 # Design Overview
 
-This design augments the existing Zcash Proof-of-Work (PoW) network with a new consensus layer which provides *trailing finality*, called the *Trailing Finality Layer (TFL)*.
+This design augments the existing Zcash Proof‑of‑Work (PoW) network with a new consensus layer which provides *trailing finality*, called the *Trailing Finality Layer (TFL)*.
 
 This layer enables blocks produced via PoW to become *final* which ensures they may never be rolled back. This enables safer and simpler wallets and other infrastructure, and aids trust-minimized cross-chain bridges.
 

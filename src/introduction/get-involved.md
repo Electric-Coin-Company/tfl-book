@@ -4,7 +4,7 @@ We welcome contributions!
 
 There are a variety of ways to contribute to this project:
 
-## Github
+## GitHub
 
 If you have a GitHub account, you can get hands-on via [the GitHub repository](https://github.com/nathan-at-least/tfl-book) for this book, including:
 

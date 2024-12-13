@@ -12,7 +12,7 @@
   - [Design Goals](./design/goals.md)
   - [Crosslink](./design/crosslink.md)
     - [The Arguments for Bounded Availability and Finality Overrides](./design/crosslink/the-arguments-for-bounded-availability-and-finality-overrides.md)
-    - [Notes On Snap And Chat](./design/crosslink/notes-on-snap-and-chat.md)
+    - [Notes On Snap‑and‑Chat](./design/crosslink/notes-on-snap-and-chat.md)
     - [The Crosslink Construction](./design/crosslink/construction.md)
     - [Security Analysis of Crosslink](./design/crosslink/security-analysis.md)
     - [Questions About Crosslink](./design/crosslink/questions.md)
