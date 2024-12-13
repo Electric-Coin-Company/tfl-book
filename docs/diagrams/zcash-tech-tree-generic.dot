@@ -1,0 +1,39 @@
+digraph ZcashTechTreeGeneric {
+    rankdir = RL
+    color = "lightgrey"
+
+    node [ shape=box ]
+
+    nu6 [ label = "NU6 Protocol" ]
+
+    a [ label = "Feature A"]
+    a -> nu6
+
+    b [ label = "Feature B"]
+    b -> a
+
+    c [ label = "Feature C"]
+    c -> nu6
+
+    d [ label = "Feature D"]
+    d -> c
+    d -> a
+
+    e [ label = "Feature E"]
+    e -> pos2
+    e -> d
+
+    pos1 [ label = "PoS Step 1"]
+    pos1 -> nu6
+
+    subgraph cluster_pos {
+        label = "PoS Transition"
+
+        pos2 [ label = "PoS Step 2"]
+        pos2 -> pos1
+
+        pos3 [ label = "PoS Step 3"]
+        pos3 -> pos2
+    }
+}
+
